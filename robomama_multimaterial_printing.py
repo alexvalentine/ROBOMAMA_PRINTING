@@ -5,18 +5,35 @@ import numpy as np
 from aerotech_automator import AerotechAutomator
 
 #Location of written GCode file generated from this script
-
-outfile = r"C:\Users\Lewis Group\Desktop\Valentine\MY_PRINT_NOT_YOURS.pgm"
-
+<<<<<<< HEAD
+outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\MY_PRINT_NOT_YOURS.pgm"
+=======
+outfile = r"C:\Users\Lewis Group\Documents\GitHub\AFRL-printing\MY_PRINT_NOT_YOURS.pgm"
+>>>>>>> master
 
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
+<<<<<<< HEAD
             'B',
-           # 'C', 
-          #  'D'
+<<<<<<< HEAD
+<<<<<<< HEAD
+            'C', 
+            'D'
+            ]
+ 
+=======
+            #'C', 
+=======
+            'C', 
+>>>>>>> master
+=======
+           # 'B',
+            #'C', 
+>>>>>>> master
+            #'D'
             ]
 
-
+>>>>>>> master
 #Defining positions of axes
 AXES_DATA = {
     'A': {
@@ -44,7 +61,11 @@ SUBSTRATES = {
         'origin': (204.47,127.68),    # <- double check location of substrtate#
         'size': 'auto',
         'profile': True,
+<<<<<<< HEAD
         'profile-spacing': (50,50),
+=======
+        'profile-spacing': (5,5),
+>>>>>>> master
     },
 }
 #Defining profilometry parameters
@@ -61,7 +82,7 @@ g = G(
     outfile=outfile,
     header=None,
     footer=None,
-    print_lines=True,
+    print_lines=False,
     )
 
 #---------------- VARIABLE AND PARAMTER DEFINITIONS ----------------#
@@ -69,18 +90,27 @@ g = G(
 
 zA  = zB = zC = zD =0
 
+<<<<<<< HEAD
+
+=======
 pressure_box = 4       # COM port of pressure box    
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 silver_pressure = 20        #pressure for Ag-TPU syringe
 
 tpu_pressure = 0.3           #pressure for TPU syringe
-
-pressure_250 = 17        #pressure for Ag-TPU syringe (250 micron tip)
+>>>>>>> master
+=======
+silver_pressure = 17        #pressure for Ag-TPU syringe
+>>>>>>> master
+=======
+silver_pressure_250 = 17        #pressure for Ag-TPU syringe (250 micron tip)
 silver_pressure_50 = 25        #pressure for Ag-TPU syringe (50 micron tip)
 silver_pressure_100 = 0.3               #pressure for Ag-TPU syringe (100 micron tip)
 silver_pressure_30 = 5               #pressure for Ag-TPU syringe (30 micron tip)
 
-
+>>>>>>> master
 
 tpu_pressure = 4.5           #pressure for TPU syringe
 
@@ -94,11 +124,10 @@ pad_positions=((0.1,0.38+0.28*0),(.1,0.38+0.28*1),(.1,0.38+0.28*2),(.1,0.38+0.28
 #coordinates of the center of all contact pads, in a dummy die starting in LL corner 
 #and going clockwise 24 pads, 6 on each side
 
-pyramid_positions=((0,0),(0,19.4-6),(0,38.8-12),(-19.4+6,19.4-6),(19.4-6,19.4-6))
-
 
 #-------------------- FUNCTION DEFINITIONS -------------------------#
-    
+
+
 def set_home_in_z():
     g.write('POSOFFSET CLEAR A B C D')
     g.feed(25)
@@ -159,7 +188,7 @@ def nozzle_change(nozzles = 'ab'):
     else:
         g.write('; ---------- input a real nozzle change input...ya idiot--------')
 
-
+<<<<<<< HEAD
 
 
 
@@ -197,7 +226,7 @@ def MGH_sensor(nozzle):
 
 
 #------------------PRINT ME SOME SACRIFICIAL LAYERS
-
+=======
 def pressure_purge(delay, valve = None):
     g.toggle_pressure(pressure_box)
     g.write('$DO6.0=1')
@@ -559,288 +588,9 @@ def print_die_wiring():
                         g.move(x=3,y=(j+1)-3)
 
 
-def pyramids():
-
-    for i in np.arange(10):
-        if i%2==0:
-            start1='LL'
-            num=-1            
-        else:
-            start1='UR'
-            num=1
-        g.meander(4.4-(i*0.2),4.4-(i*0.2),0.1,start=start1)
-        g.move(x=0.1*num,y=0.1*num,z=0.1)
-
-    g.move(x=-3.6,y=3.4,z=2)
-    g.abs_move(x=pyramid_positions[1][0],y=pyramid_positions[1][1])
-    g.move(z=-3)
-    
-    for i in np.arange(10):
-        if i%2==0:
-            start1='LL'
-            num=-1            
-        else:
-            start1='UR'
-            num=1
-        g.meander(4.4-(i*0.2),4.4-(i*0.2),0.1,start=start1)
-        g.move(x=0.1*num,y=0.1*num,z=0.1)
-    
-    g.move(x=-3.6,y=3.4,z=2)
-    g.abs_move(x=pyramid_positions[2][0],y=pyramid_positions[2][1])
-    g.move(z=-3)
-    
-    for i in np.arange(10):
-        if i%2==0:
-            start1='LL'
-            num=-1            
-        else:
-            start1='UR'
-            num=1
-        g.meander(4.4-(i*0.2),4.4-(i*0.2),0.1,start=start1)
-        g.move(x=0.1*num,y=0.1*num,z=0.1)
-    
-    g.move(x=-3.6,y=3.4,z=2)
-    g.abs_move(x=pyramid_positions[3][0],y=pyramid_positions[3][1])
-    g.move(z=-3)
-
-    for i in np.arange(10):
-        if i%2==0:
-            start1='LL'
-            num=-1            
-        else:
-            start1='UR'
-            num=1
-        g.meander(4.4-(i*0.2),4.4-(i*0.2),0.1,start=start1)
-        g.move(x=0.1*num,y=0.1*num,z=0.1)
-
-    g.move(x=-3.6,y=3.4,z=2)
-    g.abs_move(x=pyramid_positions[4][0],y=pyramid_positions[4][1])
-    g.move(z=-3)
-
-    for i in np.arange(10):
-        if i%2==0:
-            start1='LL'
-            num=-1            
-        else:
-            start1='UR'
-            num=1
-        g.meander(4.4-(i*0.2),4.4-(i*0.2),0.1,start=start1)
-        g.move(x=0.1*num,y=0.1*num,z=0.1)
-
-    g.move(x=-3.6,y=3.4,z=2)
-
-def serp_wires_pyramids():
-    g.abs_move(x=1.55,y=3.2)
-    g.move(z=-2.05)
-    g.move(y=0.3)
-    g.move(y=0.95,z=-0.95)
-    
-    g.move(y=0.45)
-    
-    for i in np.arange(20):
-        if i%2==0:
-            dir='CW'
-        else:
-            dir='CCW'
-        g.arc(x=0,y=0.4,radius=-0.3,direction=dir)
-    g.move(y=0.45)
-    g.move(y=0.95,z=0.95)
-    g.move(y=0.3)
-    g.move(z=2.05)
-   
-    g.move(x=1.3)
-    g.move(z=-2.05)
-    g.move(y=-0.3)
-    g.move(y=-0.95,z=-0.95)
-    
-    g.move(y=-0.45)
-    
-    for i in np.arange(20):
-        if i%2==0:
-            dir='CW'
-        else:
-            dir='CCW'
-        g.arc(x=0,y=-0.4,radius=-0.3,direction=dir)
-    g.move(y=-0.45)
-    g.move(y=-0.95,z=0.95)
-    g.move(y=-0.3)
-    g.move(z=2.05)
-
-    g.abs_move(x=pyramid_positions[3][0],y=pyramid_positions[3][1])
-    g.move(x=3.2,y=1.55)
-    g.move(z=-2.05)
-
-    g.move(x=0.3)
-    g.move(x=0.95,z=-0.95)
-
-    g.move(x=0.45)
-    
-    for i in np.arange(20):
-        if i%2==0:
-            dir='CW'
-        else:
-            dir='CCW'
-        g.arc(x=0.4,y=0,radius=-0.3,direction=dir)
-    g.move(x=0.45)
-    g.move(x=0.95,z=0.95)
-    g.move(x=0.3)
-    g.move(z=2.05)
-   
-    g.move(y=1.3)
-    g.move(z=-2.05)
-    g.move(x=-0.3)
-    g.move(x=-0.95,z=-0.95)
-    
-    g.move(x=-0.45)
-    
-    for i in np.arange(20):
-        if i%2==0:
-            dir='CW'
-        else:
-            dir='CCW'
-        g.arc(x=-0.4,y=0,radius=-0.3,direction=dir)
-    g.move(x=-0.45)
-    g.move(x=-0.95,z=0.95)
-    g.move(x=-0.3)
-    g.move(z=2.05)
-
-    g.abs_move(x=pyramid_positions[1][0],y=pyramid_positions[1][1])
-    g.move(x=1.55,y=3.2)
-    g.move(z=-2.05)
-    g.move(y=0.3)
-    g.move(y=0.95,z=-0.95)
-    
-    g.move(y=0.45)
-    
-    for i in np.arange(20):
-        if i%2==0:
-            dir='CW'
-        else:
-            dir='CCW'
-        g.arc(x=0,y=0.4,radius=-0.3,direction=dir)
-    g.move(y=0.45)
-    g.move(y=0.95,z=0.95)
-    g.move(y=0.3)
-    g.move(z=2.05)
-   
-    g.move(x=1.3)
-    g.move(z=-2.05)
-    g.move(y=-0.3)
-    g.move(y=-0.95,z=-0.95)
-    
-    g.move(y=-0.45)
-    
-    for i in np.arange(20):
-        if i%2==0:
-            dir='CW'
-        else:
-            dir='CCW'
-        g.arc(x=0,y=-0.4,radius=-0.3,direction=dir)
-    g.move(y=-0.45)
-    g.move(y=-0.95,z=0.95)
-    g.move(y=-0.3)
-    g.move(z=2.05)
-
-
-    g.abs_move(x=pyramid_positions[1][0],y=pyramid_positions[1][1])
-    g.move(x=3.2,y=1.55)
-    g.move(z=-2.05)
-
-    g.move(x=0.3)
-    g.move(x=0.95,z=-0.95)
-
-    g.move(x=0.45)
-    
-    for i in np.arange(20):
-        if i%2==0:
-            dir='CW'
-        else:
-            dir='CCW'
-        g.arc(x=0.4,y=0,radius=-0.3,direction=dir)
-    g.move(x=0.45)
-    g.move(x=0.95,z=0.95)
-    g.move(x=0.3)
-    g.move(z=2.05)
-   
-    g.move(y=1.3)
-    g.move(z=-2.05)
-    g.move(x=-0.3)
-    g.move(x=-0.95,z=-0.95)
-    
-    g.move(x=-0.45)
-    
-    for i in np.arange(20):
-        if i%2==0:
-            dir='CW'
-        else:
-            dir='CCW'
-        g.arc(x=-0.4,y=0,radius=-0.3,direction=dir)
-    g.move(x=-0.45)
-    g.move(x=-0.95,z=0.95)
-    g.move(x=-0.3)
-    g.move(z=2.05)
-
-
-
-    g.move(x=20,y=20)
-
-
-    
-
-
-def serpentine_encaps_pdms(nozzle,valve,pressure,speed,height):
-    g.feed(25)
-    g.set_pressure(pressure_box, pressure)
-    g.abs_move(x=5,y=5)
-    g.abs_move(**{nozzle:height})  
-    if valve is not None:
-        g.set_valve(num = valve, value = 1)
-    g.feed(speed)
-    g.dwell(0.8)
-    g.meander(x=10,y=12,spacing=0.35,start='LL',orientation='y')
-    g.move(y=6)
-    g.move(x=2)
-    g.feed(speed/2)
-    for i in np.arange(10):
-        if i%2==0:
-            direc='CW'
-        else:
-            direc='CCW'
-        g.arc(y=0,x=2.5,radius=-1.7,direction=direc)
-    g.feed(speed)
-    g.move(x=2)
-    g.move(y=6)
-    g.meander(x=10,y=-12,spacing=0.35,start='LL',orientation='y')
-    g.set_valve(num = valve, value = 0)
-    g.clip(axis=nozzle, direction='-y', height=20)
-      
-def serpentine_encaps_wire(nozzle,valve,pressure,speed,height):    
-    g.feed(25)
-    g.set_pressure(pressure_box, pressure)
-    g.abs_move(x=10,y=10)
-    g.abs_move(**{nozzle:height})  
-    if valve is not None:
-        g.set_valve(num = valve, value = 1)
-    g.feed(speed)
-    g.dwell(0.3)
-    g.meander(x=2,y=2,spacing=0.08,start='LL',orientation='y')
-    g.move(y=1)
-    g.move(x=5)
-    for i in np.arange(10):
-        if i%2==0:
-            direc='CW'
-        else:
-            direc='CCW'
-        g.arc(x=2.5,y=0,radius=-1.7,direction=direc)
-    g.move(x=5)
-    g.move(y=-1)
-    g.meander(x=2,y=2,spacing=0.08,start='LL',orientation='y')
-
-
-
 #---------------- PRINTING - ALL FUNCTIONS CALLED HERE --------------------#
 reference_nozzle = 'A' 
-z_ref = -90.496567
+z_ref = -74.5939
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
 
@@ -855,6 +605,7 @@ if 'C' in AXES_USED:
 if 'D' in AXES_USED:
     zD = automator.home_positions['D'][2] - substrate_dif  
     
+print zA
     
 #------------------PRINT ME SILVER ELECTRODE PADS
 #set_home_in_z()
@@ -897,17 +648,19 @@ if 'D' in AXES_USED:
 
 
 #------------------PRINT ME TPU COVER
-
+>>>>>>> master
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
 #g.set_home(x=0, y=0)
 #
 #g.abs_move(x=0, y=0)
+<<<<<<< HEAD
 #nozzle_change(nozzles = 'ac')
 #g.set_home(x=0, y=0)
 #
 #print_sacrificial_rect(trace_speed = 5, height = -0.015, over = 0.75, nozzle = 'C', overhang = 0)
 
+=======
 #nozzle_change(nozzles = 'ab')
 #g.set_home(x=-10, y=-10)
 #
@@ -934,51 +687,22 @@ if 'D' in AXES_USED:
 #g.toggle_pressure(pressure_box)
 
 #------------------PRINT ME SILVER TPU DUMMY DIE
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
-#g.set_home(x=-10, y=-10)
-##
-###g.abs_move(x=0, y=0)
-###nozzle_change(nozzles = 'ac')
-###g.set_home(x=-10, y=-10)
-##
-#g.toggle_pressure(pressure_box)   
-##
-#print_die(valve='1',nozzle='A',height=0.008,speed=0.4,dwell=0.5)
-##
-#g.toggle_pressure(pressure_box)
-
-
-#------------------PRINT ME ENCAPS SERPENTINE TEST (top)
 set_home_in_z()
 g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-
-g.set_home(x=0, y=0)
-
-g.abs_move(x=0, y=0)
-nozzle_change(nozzles = 'ab')
-g.set_home(x=0, y=0)
-
+g.set_home(x=-10, y=-10)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ac')
+##g.set_home(x=-10, y=-10)
+#
 g.toggle_pressure(pressure_box)   
-serpentine_encaps_pdms(nozzle='B',valve='2',pressure=20,speed=9,height=0.4)
+#
+print_die(valve='1',nozzle='A',height=0.008,speed=0.4,dwell=0.5)
+#
 g.toggle_pressure(pressure_box)
 
-#------------------PRINT ME ENCAPS SERPENTINE TEST (wire)
 
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-#
-#
-#g.set_home(x=0, y=0)
-#
-#
-#g.toggle_pressure(pressure_box)   
-#serpentine_encaps_wire(nozzle='A',valve='1',pressure=15,speed=4,height=0.05)
-#
-#g.view(backend='matplotlib')
-#
-#g.teardown()
+g.view(backend='matplotlib')
 
+g.teardown()
+>>>>>>> master
