@@ -6,7 +6,7 @@ from aerotech_automator import AerotechAutomator
 
 #Location of written GCode file generated from this script
 
-outfile = r"C:\Users\Lewis Group\Desktop\Valentine\MY_PRINT_NOT_YOURzxczxzcS.pgm"
+outfile = r"C:\Users\Lewis Group\Desktop\Valentine\MY_PRINT_NOT_YOURS.pgm"
 
 
 #List of axes used for printing - comment out the axes not being used
@@ -841,7 +841,7 @@ def serpentine_encaps_wire(nozzle,valve,pressure,speed,height):
 
 #---------------- PRINTING - ALL FUNCTIONS CALLED HERE --------------------#
 reference_nozzle = 'A' 
-z_ref = -90.496567
+z_ref = -81.352239
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
 
@@ -981,5 +981,5 @@ g.toggle_pressure(pressure_box)
 #
 #g.view(backend='matplotlib')
 #
-#g.teardown()
+g.teardown()
 
