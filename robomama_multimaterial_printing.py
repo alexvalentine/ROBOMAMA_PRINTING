@@ -1253,6 +1253,114 @@ def LONG_serpentine_encaps_wire(nozzle,valve,pressure,speed,height):
     g.clip(axis=nozzle, direction='-y', height=20)
 
 
+def bacteria_electrodes(nozzle,spacing):#valve,nozzle,height,speed,dwell,pressure
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    #Print start
+    if spacing=='400':    
+        top_electrode_connection=20.4
+        bottom_electrode_connection=0
+        for i in range(25):
+            #g.abs_move(**{nozzle:height}) 
+            #if valve is not None:
+            #    g.set_valve(num = valve, value = 1)
+            g.abs_move(y=top_electrode_connection)
+            #g.set_valve(num = valve, value = 0)
+            g.clip(axis=nozzle, height=2, direction='+y')
+            g.move(x=0.4,y=-0.4)
+            #g.abs_move(**{nozzle:height})
+            #if valve is not None:
+            #    g.set_valve(num = valve, value = 1)
+            g.abs_move(y=bottom_electrode_connection)
+            #g.set_valve(num = valve, value = 0)
+            g.clip(axis=nozzle, height=2, direction='-y')
+            if i<24:
+                g.move(x=0.4,y=0.4)
+            #g.abs_move(**{nozzle:height})
+        g.abs_move(x=0,y=0)
+        #g.abs_move(**{nozzle:height}) 
+        #if valve is not None:
+        #    g.set_valve(num = valve, value = 1)
+        g.abs_move(x=22.4,y=0)
+        g.arc(x=1.,y=0,radius=0.5)
+        g.arc(x=-1.,y=0,radius=0.5)
+        g.move(x=0.2)
+        g.arc(x=0.6,y=0,radius=0.3)
+        g.arc(x=-0.6,y=0,radius=0.3)
+        g.move(x=0.2)
+        g.arc(x=0.2,y=0,radius=0.1)
+        g.arc(x=-0.2,y=0,radius=0.1)
+        #g.set_valve(num = valve, value = 0)
+        g.clip(axis=nozzle, height=2, direction='-y')
+
+        g.abs_move(x=0,y=20.4)
+        #g.abs_move(**{nozzle:height}) 
+        #if valve is not None:
+        #    g.set_valve(num = valve, value = 1)
+        g.abs_move(x=22.4)
+        g.arc(x=1.,y=0,radius=0.5)
+        g.arc(x=-1.,y=0,radius=0.5)
+        g.move(x=0.2)
+        g.arc(x=0.6,y=0,radius=0.3)
+        g.arc(x=-0.6,y=0,radius=0.3)
+        g.move(x=0.2)
+        g.arc(x=0.2,y=0,radius=0.1)
+        g.arc(x=-0.2,y=0,radius=0.1)
+        #g.set_valve(num = valve, value = 0)
+        g.clip(axis=nozzle, height=2, direction='-y')
+        
+    elif spacing=='200':
+        top_electrode_connection=20.4
+        bottom_electrode_connection=0
+        for i in range(50):
+            #g.abs_move(**{nozzle:height}) 
+            #if valve is not None:
+            #    g.set_valve(num = valve, value = 1)
+            g.abs_move(y=top_electrode_connection)
+            #g.set_valve(num = valve, value = 0)
+            g.clip(axis=nozzle, height=2, direction='+y')
+            g.move(x=0.2,y=-0.4)
+            #g.abs_move(**{nozzle:height})
+            #if valve is not None:
+            #    g.set_valve(num = valve, value = 1)
+            g.abs_move(y=bottom_electrode_connection)
+            #g.set_valve(num = valve, value = 0)
+            g.clip(axis=nozzle, height=2, direction='-y')
+            if i<49:
+                g.move(x=0.2,y=0.4)
+            #g.abs_move(**{nozzle:height})
+        g.abs_move(x=0,y=0)
+        #g.abs_move(**{nozzle:height}) 
+        #if valve is not None:
+        #    g.set_valve(num = valve, value = 1)
+        g.abs_move(x=22.4,y=0)
+        g.arc(x=1.,y=0,radius=0.5)
+        g.arc(x=-1.,y=0,radius=0.5)
+        g.move(x=0.2)
+        g.arc(x=0.6,y=0,radius=0.3)
+        g.arc(x=-0.6,y=0,radius=0.3)
+        g.move(x=0.2)
+        g.arc(x=0.2,y=0,radius=0.1)
+        g.arc(x=-0.2,y=0,radius=0.1)
+        #g.set_valve(num = valve, value = 0)
+        g.clip(axis=nozzle, height=2, direction='-y')
+
+        g.abs_move(x=0,y=20.4)
+        #g.abs_move(**{nozzle:height}) 
+        #if valve is not None:
+        #    g.set_valve(num = valve, value = 1)
+        g.abs_move(x=22.4)
+        g.arc(x=1.,y=0,radius=0.5)
+        g.arc(x=-1.,y=0,radius=0.5)
+        g.move(x=0.2)
+        g.arc(x=0.6,y=0,radius=0.3)
+        g.arc(x=-0.6,y=0,radius=0.3)
+        g.move(x=0.2)
+        g.arc(x=0.2,y=0,radius=0.1)
+        g.arc(x=-0.2,y=0,radius=0.1)
+        #g.set_valve(num = valve, value = 0)
+        g.clip(axis=nozzle, height=2, direction='-y')
+    
 
 
 
@@ -1327,6 +1435,12 @@ g.toggle_pressure(pressure_box)
 #print_die_wiring(valve='1',nozzle='A',height=0.015,speed=0.6,dwell=0.7,pressure=16)
 #
 #g.toggle_pressure(pressure_box)
+
+
+bacteria_electrodes(nozzle='A',spacing='200')
+
+
+
 
 
 g.view(backend='matplotlib')
