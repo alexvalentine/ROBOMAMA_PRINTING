@@ -8,7 +8,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
-             'B',
+             #'B',
            #'C', 
          #   'D'
             ]
@@ -36,10 +36,10 @@ AXES_DATA = {
 #Defining substrate location and profilometry mesh size
 SUBSTRATES = {
     'slide1': {
-        'origin': (140,100),
+        'origin': (110,110),
         'size': 'auto',
         'profile': True,
-        'profile-spacing': (40,40),
+        'profile-spacing': (5,5),
     },
     #'slide2': {
     #    'origin': (144,90),
