@@ -8,7 +8,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\alexs_prin
 
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
-            'B',
+            #'B',
             #'C', 
             #'D'
             ]
@@ -676,8 +676,9 @@ def print_electrodes(valve, nozzle):
 def print_die(valve,nozzle,height,speed,dwell,pressure):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
+    
     #test line
-    g.abs_move(x=30,y=5.5)
+    g.abs_move(x=30,y=4)
     pressure_purge(delay = 2)
     g.abs_move(**{nozzle:height})
     if valve is not None:
@@ -975,9 +976,9 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
     #g.feed(25)
     #g.set_pressure(pressure_box, pressure)
     
-    g.abs_move(x=22-.5492-0.1,y=22+0.168)
-    g.set_home(x=0,y=0)
-    #pressure_purge(delay = 2)
+    #g.abs_move(x=22,y=22)
+    #g.set_home(x=0,y=0)
+    pressure_purge(delay = 2)
     for i in np.arange(2):        
         for j in np.arange(6):
                 if i==0:
@@ -987,8 +988,10 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                     if valve is not None:
                         g.set_valve(num = valve, value = 1)
                     g.dwell(dwell)
+                    g.feed(speed/2)
+                    g.move(y=-0.4)
                     g.feed(speed)
-                    g.move(y=-4)
+                    g.move(y=-3.6)
                     if j<3:
                         g.abs_move(x=external_pad_positions[23-j][0],y=external_pad_positions[23-j][1])
                         g.feed(speed*0.2)
@@ -1026,8 +1029,10 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                     if valve is not None:
                         g.set_valve(num = valve, value = 1)
                     g.dwell(dwell)
+                    g.feed(speed/2)
+                    g.move(y=0.4)
                     g.feed(speed)
-                    g.move(y=4)                    
+                    g.move(y=3.6)                    
                     if j<3:
                         g.abs_move(x=external_pad_positions[6+j][0],y=external_pad_positions[6+j][1])
                         g.feed(speed*0.2)
@@ -1067,8 +1072,10 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                     if valve is not None:
                         g.set_valve(num = valve, value = 1)
                     g.dwell(dwell)
+                    g.feed(speed/2)
+                    g.move(x=-0.4)
                     g.feed(speed)
-                    g.move(x=-4)
+                    g.move(x=-3.6)
                     if j<3:
                         g.abs_move(x=external_pad_positions[j][0],y=external_pad_positions[j][1])
                         g.feed(speed*0.2)
@@ -1106,8 +1113,10 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                     if valve is not None:
                         g.set_valve(num = valve, value = 1)
                     g.dwell(dwell)
+                    g.feed(speed/2)
+                    g.move(x=0.4)
                     g.feed(speed)
-                    g.move(x=4)                  
+                    g.move(x=3.6)                  
                     if j<3:
                         g.abs_move(x=external_pad_positions[17-j][0],y=external_pad_positions[17-j][1])
                         g.feed(speed*0.2)
@@ -1738,29 +1747,29 @@ def tpu_square(valve,nozzle,height,speed,dwell,pressure):
     g.dwell(5)
     
     #########test line
-    g.abs_move(x=2,y=2)
-    pressure_purge(delay = 2)
+    g.move(x=1,y=2)
+    #pressure_purge(delay = 2)
     g.abs_move(**{nozzle:height})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
     g.feed(speed)
     g.move(y=20)
-    g.move(x=0.13)
+    g.move(x=0.2)
     g.move(y=-20)
-    g.move(x=0.13)
+    g.move(x=0.2)
     g.move(y=20)
     g.feed(20)
     g.clip(axis=nozzle, height=6, direction='-x')
     g.set_pressure(pressure_box, pressure)
     
-    g.abs_move(8, 0.7)    
+    g.abs_move(9, 11)    
     g.abs_move(**{nozzle:height}) 
     g.feed(speed)
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
-    g.meander(x=23.8,y=22,spacing=0.13,start='LL')
+    g.meander(x=23,y=23,spacing=0.2,start='LL',orientation='y')
 
     g.set_valve(num = valve, value = 0)
     g.clip(axis=nozzle, height=10, direction='-y')
@@ -1777,7 +1786,7 @@ def print_sacrificial(trace_speed, height, nozzle):
     g.feed(15)
     g.abs_move(x=10, y=10)
     g.abs_move(**{nozzle:height})
-    g.meander(x=25,y=25,spacing=0.75,start='LL')
+    g.meander(x=25,y=25,spacing=0.5,start='LL')
     g.feed(20)
     g.move(**{nozzle:10})
 
@@ -1790,7 +1799,7 @@ def print_sacrificial(trace_speed, height, nozzle):
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
 active_slide = 'slide1'
-z_ref = -87.10984
+z_ref = -87.677589
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
 
@@ -1841,51 +1850,53 @@ if 'D' in AXES_USED:
 ###########PRINT ME SOME SACRIFICIAL LAYERS
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0] - 1.7, y=automator.substrate_origins[active_slide]['A'][1] - 1)
+#
+#g.set_home(x=0, y=0)
+#
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
+#
+#print_sacrificial(trace_speed = 5, height = -0.07, nozzle = 'B')
+
+
+###########------------------PRINT ME TPU COVER
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
 #g.set_home(x=0, y=0)
 #
 #g.abs_move(x=0, y=0)
 #nozzle_change(nozzles = 'ac')
 #g.set_home(x=0, y=0)
 #
-#print_sacrificial(trace_speed = 5, height = -0.05, nozzle = 'C')
-
-
-###########------------------PRINT ME TPU COVER
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-g.abs_move(x=0, y=0)
-nozzle_change(nozzles = 'ab')
-g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)
-tpu_square(valve='2',nozzle='B',height=0.7,speed=16,dwell=0.2,pressure=50)
-
-g.toggle_pressure(pressure_box)
+#g.toggle_pressure(pressure_box)
+#tpu_square(valve='3',nozzle='C',height=0.05,speed=23,dwell=0.2,pressure=2)
+#
+#g.toggle_pressure(pressure_box)
 
 
 
 
 ##------------------PRINT ME DIE AND WIRING
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-#
-##g.abs_move(x=0, y=0)
-##nozzle_change(nozzles = 'ab')
-#g.set_home(x=0, y=0)
-#
-#g.toggle_pressure(pressure_box)
-##test_line(valve='1',nozzle='A',height=0.00,speed=0.6,dwell=3,pressure=21)
-##g.dwell(5)
-##print_die(valve='1',nozzle='A',height=0.03,speed=0.8,dwell=0.5,pressure=11)
-##print_die_wiring_PET_old(valve='1',nozzle='A',height=0.02,speed=0.5,dwell=0.3,pressure=26)
-#print_die_wiring(valve='1',nozzle='A',height=0.04,speed=0.9,dwell=1,pressure=10)
-#
-#g.toggle_pressure(pressure_box)
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+g.set_home(x=0, y=0)
+
+g.toggle_pressure(pressure_box)
+#test_line(valve='1',nozzle='A',height=0.00,speed=0.6,dwell=3,pressure=21)
+#g.dwell(5)
+print_die(valve='1',nozzle='A',height=0.035,speed=1,dwell=0.5,pressure=24)
+
+#print_die_wiring_PET_old(valve='1',nozzle='A',height=0.02,speed=0.5,dwell=0.3,pressure=26)
+print_die_wiring(valve='1',nozzle='A',height=0.04,speed=0.6,dwell=0.8,pressure=28)
+
+g.toggle_pressure(pressure_box)
 
 #------------------PRINT ME BACTERIA ELECTRODES
 #set_home_in_z()
