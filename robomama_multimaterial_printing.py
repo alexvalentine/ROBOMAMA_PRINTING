@@ -1942,6 +1942,254 @@ def print_sacrificial(trace_speed, height, nozzle):
     g.feed(20)
     g.move(**{nozzle:10})
 
+def stretchy_matrix_circle(valve,nozzle,height,speed,dwell,pressure,nozzle_diameter,dye,stiffness):#
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    
+    filament_diameter = nozzle_diameter*1.3
+    global count
+
+    if stiffness=='hard':
+        if dye == 'yes':
+            count=0                    
+            g.abs_move(x=34,y=25)
+            g.abs_move(**{nozzle:height})
+            g.feed(speed)
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.set_valve(num = valve, value = 0)
+            g.feed(25)
+            g.abs_move(**{nozzle:5})
+            count=1
+            for i in range(3):            
+                g.move(x=2*filament_diameter)
+                g.abs_move(**{nozzle:height})
+                g.feed(speed)
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.arc(x=0,y=0.0001,radius=-((2*filament_diameter)*(i+1)),direction='CW')
+                g.set_valve(num = valve, value = 0)
+                g.feed(25)
+                g.abs_move(**{nozzle:5}) 
+                count+=1          
+            g.feed(25)
+            g.clip(axis=nozzle, height=6, direction='-x')
+            g.set_pressure(pressure_box, pressure)
+    
+        else:
+            g.abs_move(x=34,y=25)
+            g.abs_move(**{nozzle:5})
+            g.move(x=filament_diameter)
+            g.abs_move(**{nozzle:height})
+            g.feed(speed)
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.arc(x=0,y=0.0001,radius=-((filament_diameter)),direction='CW')
+            g.set_valve(num = valve, value = 0)
+            g.feed(25)
+            g.abs_move(**{nozzle:5}) 
+            count+=1
+            for i in range(1,7,2):            
+                g.move(x=2*filament_diameter)            
+                g.abs_move(**{nozzle:height})
+                g.feed(speed)
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.arc(x=0,y=0.0001,radius=-((filament_diameter)*(i+2)),direction='CW')
+                g.set_valve(num = valve, value = 0)
+                g.feed(25)
+                g.abs_move(**{nozzle:5}) 
+                count+=1
+            g.feed(25)
+            g.clip(axis=nozzle, height=6, direction='-x')
+            g.set_pressure(pressure_box, pressure)
+    
+    else:
+        if dye == 'yes':
+            g.abs_move(x=34,y=25)
+            g.abs_move(**{nozzle:5})
+            g.move(x=count*filament_diameter)
+            g.abs_move(**{nozzle:height})
+            g.feed(speed)
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.arc(x=0,y=0.0001,radius=-((filament_diameter)*count),direction='CW')
+            g.set_valve(num = valve, value = 0)
+            g.feed(25)
+            g.abs_move(**{nozzle:5}) 
+
+            for i in range(count,count+6,2):            
+                g.move(x=2*filament_diameter)
+                g.abs_move(**{nozzle:height})
+                g.feed(speed)
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.arc(x=0,y=0.0001,radius=-((filament_diameter)*(i+2)),direction='CW')
+                g.set_valve(num = valve, value = 0)
+                g.feed(25)
+                g.abs_move(**{nozzle:5})           
+            g.feed(25)
+            g.clip(axis=nozzle, height=6, direction='-x')
+            g.set_pressure(pressure_box, pressure)
+    
+        else:
+            g.abs_move(x=34,y=25)
+            g.abs_move(**{nozzle:5})
+            g.move(x=(count+1)*filament_diameter)
+            g.abs_move(**{nozzle:height})
+            g.feed(speed)
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.arc(x=0,y=0.0001,radius=-((filament_diameter)*(count+1)),direction='CW')
+            g.set_valve(num = valve, value = 0)
+            g.feed(25)
+            g.abs_move(**{nozzle:5}) 
+
+            for i in range((count+1),(count+1)+6,2):            
+                g.move(x=2*filament_diameter)
+                g.abs_move(**{nozzle:height})
+                g.feed(speed)
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.arc(x=0,y=0.0001,radius=-((filament_diameter)*(i+2)),direction='CW')
+                g.set_valve(num = valve, value = 0)
+                g.feed(25)
+                g.abs_move(**{nozzle:5})           
+            g.feed(25)
+            g.clip(axis=nozzle, height=6, direction='-x')
+            g.set_pressure(pressure_box, pressure)
+
+def stretchy_matrix_square(valve,nozzle,height,speed,dwell,pressure,nozzle_diameter,dye,stiffness):#
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    
+    filament_diameter = nozzle_diameter*1.3
+    global count
+
+    if stiffness=='hard':
+        if dye == 'yes':
+            count=0                    
+            g.abs_move(x=34,y=25)
+            g.abs_move(**{nozzle:height})
+            g.feed(speed)
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.set_valve(num = valve, value = 0)
+            g.feed(25)
+            g.abs_move(**{nozzle:5})
+            count=1
+            for i in range(2,8,2):            
+                g.move(x=-2*filament_diameter,y=-2*filament_diameter)
+                g.abs_move(**{nozzle:height})
+                g.feed(speed)
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.rect(x=((2*filament_diameter)*(i)),y=((2*filament_diameter)*(i)))
+                g.set_valve(num = valve, value = 0)
+                g.feed(25)
+                g.abs_move(**{nozzle:5}) 
+                count+=1           
+            g.feed(25)
+            g.clip(axis=nozzle, height=6, direction='-x')
+            g.set_pressure(pressure_box, pressure)
+    
+        else:
+            g.abs_move(x=34,y=25)
+            g.abs_move(**{nozzle:5})
+            g.move(x=-filament_diameter,y=-filament_diameter)
+            g.abs_move(**{nozzle:height})
+            g.feed(speed)
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.rect(x=(2*filament_diameter),y=(2*filament_diameter))
+            g.set_valve(num = valve, value = 0)
+            g.feed(25)
+            g.abs_move(**{nozzle:5}) 
+            count+=1
+            for i in range(3,9,2):            
+                g.move(x=-2*filament_diameter,y=-2*filament_diameter)            
+                g.abs_move(**{nozzle:height})
+                g.feed(speed)
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.rect(x=((2*filament_diameter)*(i)),y=((2*filament_diameter)*(i)))
+                g.set_valve(num = valve, value = 0)
+                g.feed(25)
+                g.abs_move(**{nozzle:5}) 
+                count+=1
+            g.feed(25)
+            g.clip(axis=nozzle, height=6, direction='-x')
+            g.set_pressure(pressure_box, pressure)
+            print count
+    else:
+        if dye == 'no':
+
+            g.abs_move(x=34,y=25)
+            g.abs_move(**{nozzle:5})
+            g.move(x=-(count+1)*filament_diameter,y=-(count+1)*filament_diameter)
+            g.abs_move(**{nozzle:height})
+            g.feed(speed)
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.rect(x=((count+1)*2*filament_diameter),y=((count+1)*2*filament_diameter))
+            g.set_valve(num = valve, value = 0)
+            g.feed(25)
+            g.abs_move(**{nozzle:5}) 
+            for i in range((count+3),(count+3)+6,2):            
+                g.move(x=-2*filament_diameter,y=-2*filament_diameter)
+                g.abs_move(**{nozzle:height})
+                g.feed(speed)
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.rect(x=((2*filament_diameter)*(i)),y=((2*filament_diameter)*(i)))
+                g.set_valve(num = valve, value = 0)
+                g.feed(25)
+                g.abs_move(**{nozzle:5})   
+            g.feed(25)
+            g.clip(axis=nozzle, height=6, direction='-x')
+            g.set_pressure(pressure_box, pressure)
+    
+        else:
+            g.abs_move(x=34,y=25)
+            g.abs_move(**{nozzle:5})
+            g.move(x=-(count)*filament_diameter,y=-(count)*filament_diameter)
+            g.abs_move(**{nozzle:height})
+            g.feed(speed)
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.rect(x=(count*2*filament_diameter),y=(count*2*filament_diameter))
+            g.set_valve(num = valve, value = 0)
+            g.feed(25)
+            g.abs_move(**{nozzle:5}) 
+            for i in range((count+2),(count+2)+6,2):            
+                g.move(x=-2*filament_diameter,y=-2*filament_diameter)
+                g.abs_move(**{nozzle:height})
+                g.feed(speed)
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.rect(x=((2*filament_diameter)*(i)),y=((2*filament_diameter)*(i)))
+                g.set_valve(num = valve, value = 0)
+                g.feed(25)
+                g.abs_move(**{nozzle:5})     
+            g.feed(25)
+            g.clip(axis=nozzle, height=6, direction='-x')
+            g.set_pressure(pressure_box, pressure)
 
 
 #################################### END OF FUNCTION DEFINITIONS #######################################
@@ -2036,21 +2284,21 @@ if 'D' in AXES_USED:
 
 
 ###########------------------PRINT ME TPU STUFF
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-g.abs_move(x=0, y=0)
-nozzle_change(nozzles = 'ab')
-g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)
-tpu_square(valve='2',nozzle='B',height=0.35,speed=17,dwell=0.2,pressure=4)
-#tpu_layered_serpentine(valve='2',nozzle='B',height=0.07,speed=15,dwell=1,pressure=3)
-
-g.toggle_pressure(pressure_box)
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#g.set_home(x=0, y=0)
+#
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+#tpu_square(valve='2',nozzle='B',height=0.35,speed=17,dwell=0.2,pressure=4)
+##tpu_layered_serpentine(valve='2',nozzle='B',height=0.07,speed=15,dwell=1,pressure=3)
+#
+#g.toggle_pressure(pressure_box)
 
 
 
@@ -2099,7 +2347,7 @@ g.toggle_pressure(pressure_box)
 #
 #g.toggle_pressure(pressure_box)
 
-#------------------PRINT ME BACTERIA ELECTRODES
+##------------------PRINT ME BACTERIA ELECTRODES
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
@@ -2115,13 +2363,34 @@ g.toggle_pressure(pressure_box)
 #
 #g.toggle_pressure(pressure_box)
 
+##------------------PRINT ME CONCENTRIC STIFFNESS GRADIENTS
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#g.set_home(x=0, y=0)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=-24, y=-4)
+#
+#g.toggle_pressure(pressure_box)
+
+#stretchy_matrix_circle(valve='1',nozzle='z',height=0.02,speed=3.5,dwell=0.3,pressure=54,nozzle_diameter=.310,stiffness='hard',dye='yes')
+#stretchy_matrix_circle(valve='1',nozzle='z',height=0.02,speed=3.5,dwell=0.3,pressure=54,nozzle_diameter=.310,stiffness='hard',dye='no')
+#stretchy_matrix_circle(valve='1',nozzle='z',height=0.02,speed=3.5,dwell=0.3,pressure=54,nozzle_diameter=.310,stiffness='soft',dye='yes')
+#stretchy_matrix_circle(valve='1',nozzle='z',height=0.02,speed=3.5,dwell=0.3,pressure=54,nozzle_diameter=.310,stiffness='soft',dye='no')
+
+#stretchy_matrix_square(valve='1',nozzle='z',height=0.02,speed=3.5,dwell=0.3,pressure=54,nozzle_diameter=.310,stiffness='hard',dye='yes')
+#stretchy_matrix_square(valve='1',nozzle='z',height=0.02,speed=3.5,dwell=0.3,pressure=54,nozzle_diameter=.310,stiffness='hard',dye='no')
+##stretchy_matrix_square(valve='1',nozzle='z',height=0.02,speed=3.5,dwell=0.3,pressure=54,nozzle_diameter=.310,stiffness='soft',dye='yes')
+#stretchy_matrix_square(valve='1',nozzle='z',height=0.02,speed=3.5,dwell=0.3,pressure=54,nozzle_diameter=.310,stiffness='soft',dye='no')
+
+#g.toggle_pressure(pressure_box)
 
 
 
-
-
-
-#g.view(backend='matplotlib')
+g.view(backend='matplotlib')
 
 ##
 g.teardown()
