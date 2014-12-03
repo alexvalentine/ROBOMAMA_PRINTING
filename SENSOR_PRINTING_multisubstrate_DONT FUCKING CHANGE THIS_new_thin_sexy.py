@@ -75,11 +75,11 @@ g = G(
 zA  = zB = zC = zD =0
 cant_y_translate = 2.5
 #Defining positions of all 16 cantilevers as the top left (first 8 sensors) or bottom left (last 8 sensors) corner of cantilever, offest from extra and inset
-cantilever_position = ((11.93, 33.9 + cant_y_translate), (17.68, 33.9+ cant_y_translate), (25.43, 33.9+ cant_y_translate), (31.18, 33.9+ cant_y_translate), (38.93, 33.9+ cant_y_translate), (44.68, 33.9+ cant_y_translate), (52.43, 33.9+ cant_y_translate), (58.18, 33.9+ cant_y_translate),
-                       (11.93, 15.55 - cant_y_translate), (17.68, 15.55 - cant_y_translate), (25.43, 15.55 - cant_y_translate), (31.18, 15.55 - cant_y_translate), (38.93, 15.55 - cant_y_translate), (44.68, 15.55 - cant_y_translate), (52.43, 15.55 - cant_y_translate), (58.18, 15.55 - cant_y_translate))
-
-#cantilever_position = ((11.93, 33.9 + cant_y_translate), (17.68-2, 33.9+ cant_y_translate), (25.43, 33.9+ cant_y_translate), (31.18-2, 33.9+ cant_y_translate), (38.93, 33.9+ cant_y_translate), (44.68-2, 33.9+ cant_y_translate), (52.43, 33.9+ cant_y_translate), (58.18-2, 33.9+ cant_y_translate),
+#cantilever_position = ((11.93, 33.9 + cant_y_translate), (17.68, 33.9+ cant_y_translate), (25.43, 33.9+ cant_y_translate), (31.18, 33.9+ cant_y_translate), (38.93, 33.9+ cant_y_translate), (44.68, 33.9+ cant_y_translate), (52.43, 33.9+ cant_y_translate), (58.18, 33.9+ cant_y_translate),
 #                       (11.93, 15.55 - cant_y_translate), (17.68, 15.55 - cant_y_translate), (25.43, 15.55 - cant_y_translate), (31.18, 15.55 - cant_y_translate), (38.93, 15.55 - cant_y_translate), (44.68, 15.55 - cant_y_translate), (52.43, 15.55 - cant_y_translate), (58.18, 15.55 - cant_y_translate))
+
+cantilever_position = ((11.93+0.75, 33.9 + cant_y_translate), (17.68-0.75, 33.9+ cant_y_translate), (25.43+0.75, 33.9+ cant_y_translate), (31.18-0.75, 33.9+ cant_y_translate), (38.93+0.75, 33.9+ cant_y_translate), (44.68-0.75, 33.9+ cant_y_translate), (52.43+0.75, 33.9+ cant_y_translate), (58.18-0.75, 33.9+ cant_y_translate),
+                       (11.93+0.75, 15.55 - cant_y_translate), (17.68-0.75, 15.55 - cant_y_translate), (25.43+0.75, 15.55 - cant_y_translate), (31.18-0.75, 15.55 - cant_y_translate), (38.93+0.75, 15.55 - cant_y_translate), (44.68-0.75, 15.55 - cant_y_translate), (52.43+0.75, 15.55 - cant_y_translate), (58.18-0.75, 15.55 - cant_y_translate))
 
 
 
@@ -130,13 +130,13 @@ insulating_dwell = 0.5
  
               
 align_top_pressure=(10,)*16
-top_over=(0.04,0.08,0.05,0.1,0.06,0.12,0.07,0.14,)*2
-top_height=(0.05,)*16 
+top_over=(0.05,)*2+(0.07,)*2+(0.09,)*2+(0.11,)*2+(0.06,)*6
+top_height=(0.025+0.035,)*16 
 top_speed=(3,)*16
 
 
 
-cantilever_width = 3.5
+cantilever_width = 2.9
 cantilever_bending_length = 5.5
 cantilever_length = cantilever_bending_length + cant_y_translate
 
@@ -154,7 +154,7 @@ inset=(cantilever_width-wire_width)/2
 
 #############TRAVIS"S INKS
 electrode_height=0.130
-electrode_pressure = 7
+electrode_pressure = 12
 electrode_speed = 8
 
 
@@ -321,21 +321,21 @@ def print_sacrificial(trace_speed, height, over, nozzle, overhang = 0, y_inset =
     g.move(y=-20)
     g.abs_move(**{nozzle:6})
     
-    #for i in range(0,8,1):
-    #    g.feed(15)
-    #    g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1]-y_inset -0.5)
-    #    g.move(x=-overhang)
-    #    meander_2tails(x=(cantilever_width + 2*overhang), y=-(cantilever_length-y_inset), spacing=over,
-    #                    z=height, tail = 1, clip_direction = '-y', speed=trace_speed, 
-    #                    orientation = 'y', nozzle = nozzle, valve = None)
+    for i in range(1,8,2):
+        g.feed(15)
+        g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1]-y_inset -0.5)
+        g.move(x=-overhang)
+        meander_2tails(x=(cantilever_width + 2*overhang), y=-(cantilever_length-y_inset), spacing=over,
+                        z=height, tail = 0.5, clip_direction = '-y', speed=trace_speed, 
+                        orientation = 'y', nozzle = nozzle, valve = None)
     
-    for i in range(8,16,1):
+    for i in range(9,16,2):
         
         g.feed(15)
         g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1] +0.5 + y_inset)
         g.move(x=-overhang)
         meander_2tails(x=(cantilever_width + 2*overhang), y=(cantilever_length - y_inset), spacing=over, 
-                    z=height, tail = 1, clip_direction = '+y', speed=trace_speed, 
+                    z=height, tail = 0.5, clip_direction = '+y', speed=trace_speed, 
                     orientation = 'y', nozzle = nozzle, valve = None)
     g.feed(20)
     g.abs_move(**{nozzle:50})
@@ -431,7 +431,7 @@ def print_all_wires_no_stop(valve, nozzle,initial_dwell):
     g.set_valve(num = valve, value = 1)
     g.feed(8)  
           
-    for i in range(8,16,2):
+    for i in range(8,14,2):
         j=i/2
         g.abs_move(cantilever_position[i][0]+(-tail+inset), y = cantilever_position[i][1]-extra)
         g.feed(8)
@@ -478,15 +478,15 @@ def print_all_aligned_tops(nozzle, valve):
     g.set_valve(num = valve, value = 0)
     g.clip(axis=nozzle, direction='+y', height=5) 
 
-    #for i in range(0,8):
-    #    g.feed(15)
-    #    g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1] - y_translation +0.5)
-    #    g.move(x=-0.1)
-    #    g.set_pressure(pressure_box, align_top_pressure[i])
-    #    pressure_purge(delay = 0.5)
-    #    meander_tops(x=(cantilever_width + 0.1), y=cantilever_length - y_translation +0.5, start='UL', spacing=top_over[i], z=top_height[i], speed=top_speed[i], orientation = 'y', nozzle = nozzle, clip_direction = '+y', valve = valve)
+    for i in range(1,8,2):
+        g.feed(15)
+        g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1] - y_translation +0.5)
+        g.move(x=-0.1)
+        g.set_pressure(pressure_box, align_top_pressure[i])
+        pressure_purge(delay = 0.5)
+        meander_tops(x=(cantilever_width + 0.1), y=cantilever_length - y_translation +0.5, start='UL', spacing=top_over[i], z=top_height[i], speed=top_speed[i], orientation = 'y', nozzle = nozzle, clip_direction = '+y', valve = valve)
     
-    for i in range (8,16):
+    for i in range (8,10):
         g.feed(15)
         g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1] + y_translation -0.5)
         g.move(x=-0.1)
@@ -527,14 +527,14 @@ def print_cover(z, height, length, over, speed, pressure, start, valve = 1):
     g.set_valve(num = valve, value = 0)          
 
 def print_all_covers(nozzle = 'A', valve = 0):
-    #for i in range(0,4):
-    #    
-    #    g.feed(15)
-    #    g.abs_move(x=well_position[i][0], y=(well_position[i][1] + 14))
-    #    g.move(x=0.5, y=-0.5)
-    #    g.abs_move(**{nozzle:0.23})
-    #    print_cover(z=0.3, height=4.9, length = 11.5, over = 0.41, speed = 12, pressure = cover_pressure[i], start='UL',valve = valve)
-    #    g.clip(axis=nozzle, direction='-y', height=5)
+    for i in range(0,4):
+        
+        g.feed(15)
+        g.abs_move(x=well_position[i][0], y=(well_position[i][1] + 14))
+        g.move(x=0.5, y=-0.5)
+        g.abs_move(**{nozzle:0.23})
+        print_cover(z=0.3, height=4.9, length = 11.5, over = 0.41, speed = 12, pressure = cover_pressure[i], start='UL',valve = valve)
+        g.clip(axis=nozzle, direction='-y', height=5)
 
     
     
@@ -582,20 +582,20 @@ def print_ID(pressure,speed,nozzle,valve,dwell):
     
 def print_all_single_wells(layer_height, layer_increments, total_increments, pressure, speed, nozzle, valve):
     #
-    #for i in range(0,4):      
-    #    g.feed(15)
-    #    g.abs_move(*well_position[i])
-    #    g.abs_move(**{nozzle:0.35})
-    #    print_single_well(x = 12.5, y = -14, layer_height = layer_height ,  layers = layer_increments, speed = speed, pressure = pressure, filament = 1, valve = valve, nozzle = nozzle)
-    #    g.clip(axis=nozzle, direction='+y', height=3)
-    #    g.move(A=3)
-    #
-    #for i in range(4,8):      
-    #    g.feed(15)
-    #    g.abs_move(*well_position[i])
-    #    g.abs_move(**{nozzle:0.35})
-    #    print_single_well(x = 12.5, y = 14, layer_height = layer_height ,  layers = layer_increments, speed = speed, pressure = pressure, filament = 1, valve = valve, nozzle = nozzle)
-    #    g.clip(axis=nozzle, direction='-y', height=3)
+    for i in range(0,4):      
+        g.feed(15)
+        g.abs_move(*well_position[i])
+        g.abs_move(**{nozzle:0.35})
+        print_single_well(x = 12.5, y = -14, layer_height = layer_height ,  layers = layer_increments, speed = speed, pressure = pressure, filament = 1, valve = valve, nozzle = nozzle)
+        g.clip(axis=nozzle, direction='+y', height=3)
+        g.move(A=3)
+    
+    for i in range(4,8):      
+        g.feed(15)
+        g.abs_move(*well_position[i])
+        g.abs_move(**{nozzle:0.35})
+        print_single_well(x = 12.5, y = 14, layer_height = layer_height ,  layers = layer_increments, speed = speed, pressure = pressure, filament = 1, valve = valve, nozzle = nozzle)
+        g.clip(axis=nozzle, direction='-y', height=3)
      
     count = 0
     repeats = (total_increments)-1     
@@ -604,12 +604,12 @@ def print_all_single_wells(layer_height, layer_increments, total_increments, pre
     for i in range(repeats-1):
         
         count = count + layer_increments
-        #for i in range(0,4):
-        #    g.feed(15)
-        #    g.abs_move(*well_position[i])
-        #    g.abs_move(**{nozzle:0.15+count*layer_height})
-        #    print_single_well(x = 12.5, y = -14, layer_height = layer_height ,  layers = layer_increments, speed = speed, pressure = pressure, filament = 1, valve = valve, nozzle = nozzle)
-        #    g.clip(axis=nozzle, direction='+y', height=3)
+        for i in range(0,4):
+            g.feed(15)
+            g.abs_move(*well_position[i])
+            g.abs_move(**{nozzle:0.15+count*layer_height})
+            print_single_well(x = 12.5, y = -14, layer_height = layer_height ,  layers = layer_increments, speed = speed, pressure = pressure, filament = 1, valve = valve, nozzle = nozzle)
+            g.clip(axis=nozzle, direction='+y', height=3)
        
         for i in range(4,8):      
             g.feed(15)
@@ -625,7 +625,7 @@ def print_insulating_layer(nozzle, valve, TorB):
         pressure = insulating_pressure_top
         spacing = insulating_meand_spacing_top 
         y_translation = cant_y_translate
-        dwell=0.5
+        dwell=1.5
         
     else:
         speed = insulating_speed_bot
@@ -633,7 +633,7 @@ def print_insulating_layer(nozzle, valve, TorB):
         pressure = insulating_pressure_bot
         spacing = insulating_meand_spacing_bot
         y_translation = 0
-        dwell=1
+        dwell=0.5
     
     g.feed(25)
     g.set_pressure(pressure_box, pressure[1])             
@@ -644,18 +644,18 @@ def print_insulating_layer(nozzle, valve, TorB):
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
 
-    #for i in range(0,8):
-    #    g.abs_move(cantilever_position[i][0], cantilever_position[i][1] - y_translation)
-    #    if valve is not None:
-    #        g.set_valve(num = valve, value = 1)
-    #    g.dwell(insulating_dwell)
-    #    g.feed(speed[0])
-    #    meander_nostop(x=cantilever_width, y=-(cantilever_length - y_translation), spacing=spacing, orientation = 'y', speed=speed[i])            
-    #    g.set_valve(num = valve, value = 0)
-    #     
-    #g.move(x=3)
-    #g.set_valve(num = valve, value = 0)
-    #g.clip(axis=nozzle, direction='-y', height=20)
+    for i in range(0,8):
+        g.abs_move(cantilever_position[i][0], cantilever_position[i][1] - y_translation)
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(insulating_dwell)
+        g.feed(speed[0])
+        meander_nostop(x=cantilever_width, y=-(cantilever_length - y_translation), spacing=spacing, orientation = 'y', speed=speed[i])            
+        g.set_valve(num = valve, value = 0)
+         
+    g.move(x=3)
+    g.set_valve(num = valve, value = 0)
+    g.clip(axis=nozzle, direction='-y', height=20)
 #    
     g.feed(25)
     g.set_pressure(pressure_box, pressure[1])             
@@ -663,7 +663,7 @@ def print_insulating_layer(nozzle, valve, TorB):
     g.abs_move(x=cantilever_position[8][0]-3, y=cantilever_position[8][1] - y_translation)
     g.abs_move(**{nozzle:height})
     
-    for i in range(8,16):
+    for i in range(8,12):
         g.abs_move(cantilever_position[i][0], cantilever_position[i][1] + y_translation)
         if valve is not None:
             g.set_valve(num = valve, value = 1)        
@@ -671,10 +671,10 @@ def print_insulating_layer(nozzle, valve, TorB):
         g.feed(speed[0])
         meander_nostop(x=cantilever_width, y=cantilever_length - y_translation, spacing=spacing, orientation = 'y', speed=speed[i])
         g.set_valve(num = valve, value = 0)
-#
-#    g.move(x=3)
-#    g.set_valve(num = valve, value = 0)
-#    g.clip(axis=nozzle, direction='-y', height=20)
+
+    g.move(x=3)
+    g.set_valve(num = valve, value = 0)
+    g.clip(axis=nozzle, direction='-y', height=20)
 
 
 def print_electrodes(valve, nozzle):
@@ -736,8 +736,8 @@ def print_electrodes(valve, nozzle):
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
 active_slide = 'slide1'
-z_ref = -89.15747 #slide1
-#z_ref = -79.30061 #slide2
+z_ref = -80.8935483 #slide1
+#z_ref = -80.880085 #slactive_slide = 'slide1'ide2
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
 
@@ -769,21 +769,21 @@ if 'D' in AXES_USED:
 
   
 ######PRINT ME SOME INSULATING LAYERS ON BOTTOM
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 1)
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-
-g.set_home(x=0, y=5)
-
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 1)
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#
 #g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)   
-#pressure_clear(dwell_time = 1, pressure = 10, valve = 1) 
-print_insulating_layer(valve='1',nozzle='A',TorB='B')
-g.toggle_pressure(pressure_box)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)   
+##pressure_clear(dwell_time = 1, pressure = 10, valve = 1) 
+#print_insulating_layer(valve='1',nozzle='A',TorB='B')
+#g.toggle_pressure(pressure_box)
 
 
  
@@ -800,7 +800,7 @@ g.toggle_pressure(pressure_box)
 #
 #g.toggle_pressure(pressure_box)
 ##pressure_clear(dwell_time = 1, pressure = 30, valve = 3)
-#print_all_wires_no_stop(valve='2',nozzle='B',initial_dwell=0.5)
+#print_all_wires_no_stop(valve='2',nozzle='B',initial_dwell=1)
 #g.toggle_pressure(pressure_box)
 
 #
@@ -850,31 +850,31 @@ g.toggle_pressure(pressure_box)
 #
 #g.abs_move(x=0, y=0)
 #nozzle_change(nozzles = 'ab')
-#g.set_home(x=0, y=5)
+#g.set_home(x=0, y=0)
 #
 #g.toggle_pressure(pressure_box)
 #print_all_aligned_tops(valve='2',nozzle='B')
 #g.toggle_pressure(pressure_box)
-####
+######
 ##
 ##
 ########PRINT ME SOME PDMS COVERS AND WELLS
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 1)
-#####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-##
-#g.set_home(x=0, y=0)
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 1)
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 #
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ac')
-#g.set_home(x=0, y=5)
-##
-#g.toggle_pressure(pressure_box)
-##pressure_clear(dwell_time = 1, pressure = 40, valve = 1)
-##print_all_covers(nozzle = 'C', valve = 3)
-#print_all_single_wells(layer_height = 0.35, layer_increments=5, total_increments=6, pressure=30, speed=30, nozzle = 'C', valve = 3)
-##print_ID(pressure=24,speed=25,nozzle='C',valve=3,dwell=0.4)
-#g.toggle_pressure(pressure_box)
+g.set_home(x=0, y=0)
+
+g.abs_move(x=0, y=0)
+nozzle_change(nozzles = 'ac')
+g.set_home(x=0, y=0)
+#
+g.toggle_pressure(pressure_box)
+#pressure_clear(dwell_time = 1, pressure = 40, valve = 1)
+print_all_covers(nozzle = 'C', valve = 3)
+print_all_single_wells(layer_height = 0.35, layer_increments=5, total_increments=6, pressure=30, speed=30, nozzle = 'C', valve = 3)
+#print_ID(pressure=24,speed=25,nozzle='C',valve=3,dwell=0.4)
+g.toggle_pressure(pressure_box)
 
 g.teardown()
 
