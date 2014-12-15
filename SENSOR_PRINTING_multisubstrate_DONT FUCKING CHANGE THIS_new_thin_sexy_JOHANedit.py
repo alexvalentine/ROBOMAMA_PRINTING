@@ -8,8 +8,8 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
-            'B',
-            'C', 
+            #'B',
+            #'C', 
             #'D'
             ]
 
@@ -375,9 +375,9 @@ def print_wires_no_stop(z, speed, extra, tail, width, length, valve, nozzle, cli
     else:
         y_move = (-length + extra - (width/2))
         extra = -extra
-    print length
-    print y_move
-    print 'length_ymove'
+    #print length
+    #print y_move
+    #print 'length_ymove'
     g.feed(speed)
     g.abs_move(**{nozzle:z})
     g.move(x=tail)
@@ -385,7 +385,9 @@ def print_wires_no_stop(z, speed, extra, tail, width, length, valve, nozzle, cli
     g.arc(x = width, y=0, direction = arc_direction , radius = (width/2))
     g.move(y=-y_move)
     space = cantilever_position[1][0] - cantilever_position[0][0]
+    print space-width
     g.move(x=(space-width))
+    
     g.move(y=y_move)
     g.arc(x = width, y=0, direction = arc_direction , radius = (width/2))
     g.move(y=-y_move)
@@ -789,21 +791,21 @@ if 'D' in AXES_USED:
 
 
  
-#########PRINT ME SOME WIRES
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 1)
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-#
-#g.set_home(x=0, y=0)
-#
+########PRINT ME SOME WIRES
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 1)
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
 #g.abs_move(x=0, y=0)
 #nozzle_change(nozzles = 'ab')
 #g.set_home(x=0, y=0)
-#
-#g.toggle_pressure(pressure_box)
-##pressure_clear(dwell_time = 1, pressure = 30, valve = 3)
-#print_all_wires_no_stop(valve='2',nozzle='B',initial_dwell=1)
-#g.toggle_pressure(pressure_box)
+
+g.toggle_pressure(pressure_box)
+#pressure_clear(dwell_time = 1, pressure = 30, valve = 3)
+print_all_wires_no_stop(valve='2',nozzle='A',initial_dwell=1)
+g.toggle_pressure(pressure_box)
 
 #
 ##
@@ -826,20 +828,20 @@ if 'D' in AXES_USED:
 
 
 #########PRINT ME SOME SILVER ELECTRODES
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 1)
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-#
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 1)
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
 #g.set_home(x=0, y=0)
-#
-##g.abs_move(x=0, y=0)
-##nozzle_change(nozzles = 'ab')
-##g.set_home(x=0, y=0)
-#
-#g.toggle_pressure(pressure_box)
-##pressure_clear(dwell_time = 8, pressure = 40, valve = 4)
-#print_electrodes(valve='1',nozzle='A')
-#g.toggle_pressure(pressure_box)
+
+g.toggle_pressure(pressure_box)
+#pressure_clear(dwell_time = 8, pressure = 40, valve = 4)
+print_electrodes(valve='1',nozzle='A')
+g.toggle_pressure(pressure_box)
 
 
 ##

@@ -746,10 +746,10 @@ def print_electrodes(valve, nozzle):
 
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
-active_slide = 'slide1'
-z_ref = -80.190877 #slide1
-#active_slide = 'slide2'
-#z_ref = -80.196254#slide2
+#active_slide = 'slide1'
+#z_ref = -80.190877 #slide1
+active_slide = 'slide2'
+z_ref = -80.196254#slide2
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
 
