@@ -8,7 +8,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\alexs_prin
 
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
-            'B',
+            #'B',
             #'C', 
             #'D'
             ]
@@ -2239,14 +2239,31 @@ def wells(valve,nozzle,height,speed,dwell,pressure,layer_height,xstart,ystart):#
     g.feed(25)
     g.abs_move(**{nozzle:5}) 
 
+def silver_meander(valve,nozzle,height,speed,dwell,pressure,xstart,ystart,meandx,meandy,nozzleID):#
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    g.abs_move(x=xstart,y=ystart)
+    g.abs_move(**{nozzle:height})
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.meander(x=meandx,y=meandy,spacing=nozzleID*3,orientation='x',start='UL')
+    g.set_valve(num = valve, value = 0)
+    g.feed(25)
+    g.abs_move(**{nozzle:5}) 
+
+
 #################################### END OF FUNCTION DEFINITIONS #######################################
 
 
 
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
-active_slide = 'slide1'
-z_ref = -79.388879
+#active_slide = 'slide1'
+#z_ref = -92.619294
+active_slide = 'slide2'
+z_ref = -93.159304
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
 
@@ -2411,12 +2428,12 @@ if 'D' in AXES_USED:
 #g.toggle_pressure(pressure_box)
 
 ##------------------PRINT ME CONCENTRIC STIFFNESS GRADIENTS
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-
-g.set_home(x=0, y=0)
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#
+#g.set_home(x=0, y=0)
 #
 #
 #    ###PRINTING HARD###
@@ -2452,28 +2469,28 @@ g.set_home(x=0, y=0)
 
     ##PRINTING SOFT###
 
-g.abs_move(x=0, y=0)
-nozzle_change(nozzles = 'ab')
-g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)
-
-stretchy_matrix_circle(valve='2',nozzle='B',height=0.2+0.38,speed=5,dwell=0.3,pressure=18,nozzle_diameter=.20,stiffness='soft',dye='yes',init_dwell=1,xstart=20,ystart=15)
-stretchy_matrix_circle(valve='2',nozzle='B',height=0.2+0.38,speed=5,dwell=0.3,pressure=18,nozzle_diameter=.20,stiffness='soft',dye='yes',init_dwell=1,xstart=50,ystart=15)
-stretchy_matrix_circle(valve='2',nozzle='B',height=0.2+0.38,speed=5,dwell=0.3,pressure=18,nozzle_diameter=.20,stiffness='soft',dye='yes',init_dwell=1,xstart=20,ystart=35)
-stretchy_matrix_circle(valve='2',nozzle='B',height=0.2+0.38,speed=5,dwell=0.3,pressure=18,nozzle_diameter=.20,stiffness='soft',dye='yes',init_dwell=1,xstart=50,ystart=35)
-
-
-g.abs_move(x=0, y=0)
-nozzle_change(nozzles = 'ba')
-g.set_home(x=0, y=0)
-
-stretchy_matrix_circle(valve='1',nozzle='A',height=0.2+0.38,speed=3,dwell=0.3,pressure=25,nozzle_diameter=.20,stiffness='soft',dye='no',init_dwell=1,xstart=20,ystart=15)
-stretchy_matrix_circle(valve='1',nozzle='A',height=0.2+0.38,speed=3,dwell=0.3,pressure=25,nozzle_diameter=.20,stiffness='soft',dye='no',init_dwell=1,xstart=50,ystart=15)
-stretchy_matrix_circle(valve='1',nozzle='A',height=0.2+0.38,speed=3,dwell=0.3,pressure=25,nozzle_diameter=.20,stiffness='soft',dye='no',init_dwell=1,xstart=20,ystart=35)
-stretchy_matrix_circle(valve='1',nozzle='A',height=0.2+0.38,speed=3,dwell=0.3,pressure=25,nozzle_diameter=.20,stiffness='soft',dye='no',init_dwell=1,xstart=50,ystart=35)
-
-g.toggle_pressure(pressure_box)
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+#
+#stretchy_matrix_circle(valve='2',nozzle='B',height=0.2+0.38,speed=5,dwell=0.3,pressure=18,nozzle_diameter=.20,stiffness='soft',dye='yes',init_dwell=1,xstart=20,ystart=15)
+#stretchy_matrix_circle(valve='2',nozzle='B',height=0.2+0.38,speed=5,dwell=0.3,pressure=18,nozzle_diameter=.20,stiffness='soft',dye='yes',init_dwell=1,xstart=50,ystart=15)
+#stretchy_matrix_circle(valve='2',nozzle='B',height=0.2+0.38,speed=5,dwell=0.3,pressure=18,nozzle_diameter=.20,stiffness='soft',dye='yes',init_dwell=1,xstart=20,ystart=35)
+#stretchy_matrix_circle(valve='2',nozzle='B',height=0.2+0.38,speed=5,dwell=0.3,pressure=18,nozzle_diameter=.20,stiffness='soft',dye='yes',init_dwell=1,xstart=50,ystart=35)
+#
+#
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ba')
+#g.set_home(x=0, y=0)
+#
+#stretchy_matrix_circle(valve='1',nozzle='A',height=0.2+0.38,speed=3,dwell=0.3,pressure=25,nozzle_diameter=.20,stiffness='soft',dye='no',init_dwell=1,xstart=20,ystart=15)
+#stretchy_matrix_circle(valve='1',nozzle='A',height=0.2+0.38,speed=3,dwell=0.3,pressure=25,nozzle_diameter=.20,stiffness='soft',dye='no',init_dwell=1,xstart=50,ystart=15)
+#stretchy_matrix_circle(valve='1',nozzle='A',height=0.2+0.38,speed=3,dwell=0.3,pressure=25,nozzle_diameter=.20,stiffness='soft',dye='no',init_dwell=1,xstart=20,ystart=35)
+#stretchy_matrix_circle(valve='1',nozzle='A',height=0.2+0.38,speed=3,dwell=0.3,pressure=25,nozzle_diameter=.20,stiffness='soft',dye='no',init_dwell=1,xstart=50,ystart=35)
+#
+#g.toggle_pressure(pressure_box)
 
 
 
@@ -2498,6 +2515,52 @@ g.toggle_pressure(pressure_box)
 #wells(valve='1',nozzle='A',height=0.3,speed=6,dwell=0.25,pressure=50,layer_height=0.2,xstart=37.5,ystart=26)
 #g.toggle_pressure(pressure_box)
 
+######------------------PRINT ME SILVER MEANDERS
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
+
+g.toggle_pressure(pressure_box)
+#g.abs_move(x=0,y=0)
+##g.rect(x=76.2,y=50.8) 
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=10,dwell=1,pressure=2,xstart=5,ystart=50.8-5,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=10,dwell=1,pressure=4,xstart=15,ystart=50.8-5,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=10,dwell=1,pressure=6,xstart=25,ystart=50.8-5,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=10,dwell=1,pressure=8,xstart=35,ystart=50.8-5,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=10,dwell=1,pressure=10,xstart=45,ystart=50.8-5,meandx=5,meandy=5,nozzleID=0.2)#
+
+
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=15,dwell=1,pressure=2,xstart=5,ystart=50.8-15,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=15,dwell=1,pressure=4,xstart=15,ystart=50.8-15,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=15,dwell=1,pressure=6,xstart=25,ystart=50.8-15,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=15,dwell=1,pressure=8,xstart=35,ystart=50.8-15,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=15,dwell=1,pressure=10,xstart=45,ystart=50.8-15,meandx=5,meandy=5,nozzleID=0.2)#
+#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=20,dwell=1,pressure=2,xstart=5,ystart=50.8-25,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=20,dwell=1,pressure=4,xstart=15,ystart=50.8-25,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=20,dwell=1,pressure=6,xstart=25,ystart=50.8-25,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=20,dwell=1,pressure=8,xstart=35,ystart=50.8-25,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=20,dwell=1,pressure=10,xstart=45,ystart=50.8-25,meandx=5,meandy=5,nozzleID=0.2)#
+
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=25,dwell=1,pressure=5,xstart=5,ystart=50.8-35,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=25,dwell=1,pressure=8,xstart=15,ystart=50.8-35,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=25,dwell=1,pressure=11,xstart=25,ystart=50.8-35,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=25,dwell=1,pressure=14,xstart=35,ystart=50.8-35,meandx=5,meandy=5,nozzleID=0.2)#
+#silver_meander(valve='1',nozzle='A',height=0.015,speed=25,dwell=1,pressure=17,xstart=45,ystart=50.8-35,meandx=5,meandy=5,nozzleID=0.2)#
+
+silver_meander(valve='1',nozzle='A',height=0.015,speed=25,dwell=1,pressure=1,xstart=5,ystart=8,meandx=5,meandy=5,nozzleID=0.2)#
+silver_meander(valve='1',nozzle='A',height=0.015,speed=25,dwell=1,pressure=1.5,xstart=15,ystart=8,meandx=5,meandy=5,nozzleID=0.2)#
+silver_meander(valve='1',nozzle='A',height=0.015,speed=25,dwell=1,pressure=2,xstart=25,ystart=8,meandx=5,meandy=5,nozzleID=0.2)#
+silver_meander(valve='1',nozzle='A',height=0.015,speed=25,dwell=1,pressure=2.5,xstart=35,ystart=8,meandx=5,meandy=5,nozzleID=0.2)#
+silver_meander(valve='1',nozzle='A',height=0.015,speed=25,dwell=1,pressure=3,xstart=45,ystart=8,meandx=5,meandy=5,nozzleID=0.2)#
+
+g.toggle_pressure(pressure_box)
 
 
 #g.view(backend='matplotlib')
