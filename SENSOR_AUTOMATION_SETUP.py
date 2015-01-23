@@ -9,7 +9,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
              'B',
-           #'C', 
+           'C', 
          #   'D'
             ]
 
@@ -39,7 +39,7 @@ SUBSTRATES = {
         'origin': (150,107),
         'size': 'auto',
         'profile': True,
-        'profile-spacing': (10,10),
+        'profile-spacing': (10,45),
     },
     #'slide2': {
     #    'origin': (150,40),
@@ -72,7 +72,7 @@ g = G(
     )
 
 
-def setup(ref, move_to_ref = False):
+def setup(active_slide, ref, move_to_ref = False):
     automator.setup()
     automator.automate()
     automator.save_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
@@ -82,39 +82,39 @@ def setup(ref, move_to_ref = False):
     g.direct_write = False
     if move_to_ref is True:
         g.direct_write = True
-        g.abs_move(x=automator.substrate_origins['slide1'][ref][0], y=automator.substrate_origins['slide1'][ref][1] + 5)
-        g.abs_move(**{ref:(automator.substrate_origins['slide1'][ref][2]+ 1)})
+        g.abs_move(x=automator.substrate_origins[active_slide][ref][0], y=automator.substrate_origins[active_slide][ref][1] + 5)
+        g.abs_move(**{ref:(automator.substrate_origins[active_slide][ref][2]+ 1)})
         g.direct_write = False
         
         
 
-################## Full Setup Run
+################### Full Setup Run
 reference_nozzle = 'A' 
-
-
-#setup(ref = reference_nozzle, move_to_ref = True)
+active_slide = 'slide1'
+#active_slide = 'slide2'
 #
+#setup(active_slide, ref = reference_nozzle, move_to_ref = True)
+
 ##########
 #
 #
 
-active_slide = 'slide1'
-#active_slide = 'slide2'
-#
-###############Rezero some nozzles but use the rest of the old info ###
-automator.setup()
-automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
-automator.rezero_nozzles(['B'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
 
 #
+#################Rezero some nozzles but use the rest of the old info ###
+automator.setup()
+automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
+automator.rezero_nozzles(['A','B','C'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
+
 #
+##
 ####### COMMANDS TO MOVE REF NOZZLE TO SUBSTRATE ORIGIN (0,5)
 ##
-#automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
-#g.direct_write = True
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1] + 5)
-#g.abs_move(**{'A':(automator.substrate_origins[active_slide]['A'][2]+ 0.1)})
-#g.dirct_write = False
+automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
+g.direct_write = True
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1] + 5)
+g.abs_move(**{'A':(automator.substrate_origins[active_slide]['A'][2]+ 0.1)})
+g.dirct_write = False
 
 #######Reset zeros ############
 
