@@ -39,14 +39,14 @@ SUBSTRATES = {
         'origin': (150,107),
         'size': 'auto',
         'profile': True,
-        'profile-spacing': (10,45),
+        'profile-spacing': (10,10),
     },
-    #'slide2': {
-    #    'origin': (150,40),
-    #    'size': 'auto',
-    #    'profile': True,
-    #    'profile-spacing': (10,10),
-    #},
+    'slide2': {
+        'origin': (150,40),
+        'size': 'auto',
+        'profile': True,
+        'profile-spacing': (10,10),
+    },
     #'slide3': {
     #    'origin': (144,26),
     #    'size': 'auto',
@@ -90,8 +90,8 @@ def setup(active_slide, ref, move_to_ref = False):
 
 ################### Full Setup Run
 reference_nozzle = 'A' 
-active_slide = 'slide1'
-#active_slide = 'slide2'
+#active_slide = 'slide1'
+active_slide = 'slide2'
 #
 #setup(active_slide, ref = reference_nozzle, move_to_ref = True)
 
@@ -104,17 +104,17 @@ active_slide = 'slide1'
 #################Rezero some nozzles but use the rest of the old info ###
 automator.setup()
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
-automator.rezero_nozzles(['A','B','C'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
+automator.rezero_nozzles(['B'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
 
 #
 ##
 ####### COMMANDS TO MOVE REF NOZZLE TO SUBSTRATE ORIGIN (0,5)
-##
-automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
-g.direct_write = True
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1] + 5)
-g.abs_move(**{'A':(automator.substrate_origins[active_slide]['A'][2]+ 0.1)})
-g.dirct_write = False
+###
+#automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
+#g.direct_write = True
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1] + 5)
+#g.abs_move(**{'A':(automator.substrate_origins[active_slide]['A'][2]+ 0.1)})
+#g.dirct_write = False
 
 #######Reset zeros ############
 

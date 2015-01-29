@@ -105,12 +105,15 @@ extra = 0#1.5      # distance from cantilever position to top wire line
 
 wire_width = 1.55       # distance from center of each wire trace to its paired wire - width of sensor
         
-wire_height=(0.055,)*8
+wire_height=(0.035,)*8
 
-wire_pressure=(7.5,)*8
+wire_pressure=(7,)*8
 
 wire_speed = (10,)*8
                 
+                
+                ####printed top slide at 25um, but wires did that weird dragging thing on only half of each cantilever######
+                ######printed bottom slide at 35um, looked fine.....print at this height from now on!!!!!!!!######
                                                                                             
 
 insulating_meand_spacing_top = 0.13
@@ -128,17 +131,20 @@ insulating_speed_bot = (15,)*16
 insulating_dwell = 0.5
 
  
- #**** 150122Slide one with 1 TPU Slide 2 2 TPU covers****#
+ #**** both top of bottom slide 1 TPU cover, bottom of bottom slide 2 TPU cover****# 
  
  
               
 align_top_pressure=(10,)*16
 
-top_over=(0.05,)*16 #spacing
-top_height=(0.075,)*16 
+top_over=(0.06,)*16 #spacing
+top_height=(0.09,)*16 
 top_speed=(3,)*16
 
- #**** printing the top row of both devices at 50um spcaing and the bottom row at 60um***#
+ 
+  #**** printed at 60um spacing ***#
+ #printed at 90um height, mannually adjusted down to ~82um (zeroing is off so this is not accurate)
+ 
 
 cantilever_width = 2.9
 cantilever_bending_length = 5.5
@@ -159,7 +165,7 @@ inset=(cantilever_width-wire_width)/2
 #############TRAVIS"S INK
 electrode_height=0.130
 electrode_pressure = 8
-electrode_speed = 6
+electrode_speed = 8
 
 
 ############################## VARIABLE TRASH ###########################
@@ -403,13 +409,26 @@ def print_wires_no_stop(z, speed, extra, tail, width, length, valve, nozzle, cli
 def print_all_wires_no_stop(valve, nozzle,initial_dwell):
     width = wire_width
     inset = (cantilever_width-width)/2
+    g.set_pressure(pressure_box, wire_pressure[0])
+    
+    ######test circle#####
     g.feed(20)
+    g.abs_move(4, 20)
+    g.abs_move(**{nozzle:wire_height[0]})
+    g.feed(wire_speed[0])
+    g.set_valve(num = valve, value = 1)
+    g.dwell(initial_dwell)
+    g.arc(x=1.5,y=0.0001,radius=-3)
+    g.abs_move(**{nozzle:3})
+    g.feed(15)
+    
+    
+    
+    
     g.abs_move(*cantilever_position[0])
     g.set_pressure(pressure_box, wire_pressure[0])
     g.move(x=(-tail+inset), y=extra)
     g.abs_move(**{nozzle:wire_height[0]})
-    g.set_valve(num = valve, value = 1)
-    g.dwell(initial_dwell)
     g.feed(8)
     for i in range(0,8,2):
         j=i/2
@@ -475,7 +494,7 @@ def print_all_aligned_tops(nozzle, valve):
     y_translation = cant_y_translate
     
     #test_line
-    g.abs_move(x=5.6,y=7)
+    g.abs_move(x=5.3,y=7)
     g.set_pressure(pressure_box, align_top_pressure[0])
     g.abs_move(**{nozzle:top_height[0]})
     g.feed(top_speed[0])
@@ -485,22 +504,22 @@ def print_all_aligned_tops(nozzle, valve):
     g.set_valve(num = valve, value = 0)
     g.move(**{nozzle:0.100})
 
-#    for i in range(1,8,2):
-#        g.feed(5)
-#        g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1] - y_translation +0.5)
-#        g.move(x=-0.15)
-#        g.set_pressure(pressure_box, align_top_pressure[i])
-#        #pressure_purge(delay = 0.1)
-#        meander_tops(x=(cantilever_width + 0.15), y=cantilever_length - y_translation +0.5, start='UL', spacing=top_over[i], z=top_height[i], speed=top_speed[i], orientation = 'y', nozzle = nozzle, clip_direction = '+y', valve = valve)
-#    
-#    #g.set_valve(num = valve, value = 0)
-#
-#    g.move(x=4)
-#    g.move(y=-10) ## this is the movement from end of top row to start of bottom row, without turning off pressure, traveling between the two rows
-#    g.move(x=-50)
+    for i in range(1,8,2):
+        g.feed(5)
+        g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1] - y_translation +0.5)
+        g.move(x=-0.15)
+        g.set_pressure(pressure_box, align_top_pressure[i])
+        #pressure_purge(delay = 0.1)
+        meander_tops(x=(cantilever_width + 0.15), y=cantilever_length - y_translation +0.5, start='UL', spacing=top_over[i], z=top_height[i], speed=top_speed[i], orientation = 'y', nozzle = nozzle, clip_direction = '+y', valve = valve)
+    
+    g.set_valve(num = valve, value = 0)
+
+    g.move(x=4)
+    g.move(y=-10) ## this is the movement from end of top row to start of bottom row, without turning off pressure, traveling between the two rows
+    g.move(x=-50)
     
     
-    for i in range (13,16,2):
+    for i in range (9,16,2):
         g.feed(5)
         g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1] + y_translation -0.5)
         g.move(x=-0.15)
@@ -640,7 +659,7 @@ def print_insulating_layer(nozzle, valve, TorB):
         pressure = insulating_pressure_top
         spacing = insulating_meand_spacing_top 
         y_translation = cant_y_translate
-        dwell=1
+        dwell=1.5
         
     else:
         speed = insulating_speed_bot
@@ -648,7 +667,7 @@ def print_insulating_layer(nozzle, valve, TorB):
         pressure = insulating_pressure_bot
         spacing = insulating_meand_spacing_bot
         y_translation = 0
-        dwell=0.2
+        dwell=1.8
     
     g.feed(25)
     g.set_pressure(pressure_box, pressure[1])             
@@ -751,12 +770,12 @@ def print_electrodes(valve, nozzle):
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
-#
-active_slide = 'slide1'
-z_ref = -81.5506
-#
-#active_slide = 'slide2'
-#z_ref = -89.229700
+
+#active_slide = 'slide1'
+#z_ref = -88.0601
+###
+active_slide = 'slide2'
+z_ref = -80.93123
 #automator.substrate_origins[active_slide]['A'][2]#-81.24665 #slide2
 #automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
@@ -848,7 +867,7 @@ if 'D' in AXES_USED:
 
 
 
-#########PRINT ME SOME SILVER ELECTRODES
+##########PRINT ME SOME SILVER ELECTRODES
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 2)
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
