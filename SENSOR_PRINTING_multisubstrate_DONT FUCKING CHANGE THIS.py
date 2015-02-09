@@ -8,8 +8,8 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
-            'B',
-            'C', 
+            #'B',
+            #'C', 
             #'D'
             ]
 
@@ -677,6 +677,26 @@ def print_insulating_layer(nozzle, valve, TorB):
 #    g.clip(axis=nozzle, direction='-y', height=20)
 
 
+def nicole_circle(nozzle, valve):
+
+    
+    g.feed(25)
+    g.set_pressure(pressure_box, 75)             
+    pressure_purge(delay = 0.5)
+    g.abs_move(x=20,y=20)
+    g.abs_move(**{nozzle:0.015})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(0.5)
+    g.arc(x=-9,y=2,radius=-4.5)
+    g.move(x=-0.3)
+    #g.arc(x=-8.4,y=0.001,radius=4.2)
+    #g.move(x=-0.3)
+    #g.arc(x=-7.8,y=0.001,radius=3.9)
+
+
+
+
 def print_electrodes(valve, nozzle):
     silver_inset = 0.75
     for i in range(0,32):
@@ -736,7 +756,7 @@ def print_electrodes(valve, nozzle):
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
 active_slide = 'slide1'
-z_ref = -89.15747 #slide1
+z_ref = -74.31411 #slide1
 #z_ref = -79.30061 #slide2
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
@@ -768,13 +788,32 @@ if 'D' in AXES_USED:
 #print_sacrificial(trace_speed = 5, height = -0.05, over = 0.75, nozzle = 'C', overhang = 0)
 
   
-######PRINT ME SOME INSULATING LAYERS ON BOTTOM
+#######PRINT ME SOME INSULATING LAYERS ON BOTTOM
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 1)
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#
+#g.set_home(x=0, y=5)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)   
+##pressure_clear(dwell_time = 1, pressure = 10, valve = 1) 
+#print_insulating_layer(valve='1',nozzle='A',TorB='B')
+#g.toggle_pressure(pressure_box)
+
+
+  
+#######PRINT NICOLE SOME CIRCLES
 set_home_in_z()
 g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 1)
 ###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 
 
-g.set_home(x=0, y=5)
+g.set_home(x=0, y=0)
 
 #g.abs_move(x=0, y=0)
 #nozzle_change(nozzles = 'ab')
@@ -782,8 +821,9 @@ g.set_home(x=0, y=5)
 
 g.toggle_pressure(pressure_box)   
 #pressure_clear(dwell_time = 1, pressure = 10, valve = 1) 
-print_insulating_layer(valve='1',nozzle='A',TorB='B')
+nicole_circle(nozzle='A', valve=0)
 g.toggle_pressure(pressure_box)
+
 
 
  
