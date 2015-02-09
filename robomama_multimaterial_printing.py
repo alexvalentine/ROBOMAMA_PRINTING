@@ -2260,10 +2260,10 @@ def silver_meander(valve,nozzle,height,speed,dwell,pressure,xstart,ystart,meandx
 
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
-#active_slide = 'slide1'
-#z_ref = -92.619294
-active_slide = 'slide2'
-z_ref = -93.159304
+active_slide = 'slide1'
+z_ref = -92.619294
+#active_slide = 'slide2'
+#z_ref = -93.159304
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
 
