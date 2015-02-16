@@ -117,7 +117,7 @@ wire_pressure=(5.5,)*8
 
 wire_speed = (10,)*8
                 
-                
+                #wires printed beautifully!!!!#
                 
                 
                 ####printed all 5.5psi######
@@ -139,9 +139,16 @@ insulating_dwell = 0.5
 
  
  #**** 2 TPU covers...both slides we made sure to clean and purge before each layer****# 
+ # first time we tried printing it was skipping and took 6.5psi to purge - believe to be due to the syringe sitting for ~1hr in robomama without being used
+ #so we printed over the first 2 cantilevers that were initially printed (skippy and thin)
  #***replaced tip between left and right slides as well*###
  
- 
+ #first slide printing showed variation in thickness coming out of nozzle - residual pressure?
+ #noted that we did not have a pressure release tube in valve 6 for the first slide, and when we put it in the second slide seemed to print much better
+              
+ #made the test line into a test meander for the last layer of the top slide - then just let the pressure at 3.5 purge itself out - NO manual purge from now on! use this method!
+ #make sure there are no bubbles in the TPU barrel
+              
               
 align_top_pressure=(10,)*16
 
@@ -153,7 +160,7 @@ top_speed=(3,)*16
   #**** printed at 60um spacing ***#
  #printed at 50um height, manually adjusted down to 20um#
  
- 
+ #printed okay, broke some tips but these settings should be fine
 
 cantilever_width = 2.9
 cantilever_bending_length = 5.5
@@ -162,8 +169,11 @@ cantilever_length = cantilever_bending_length + cant_y_translate
 trans_speed = 40
 
 
-cover_pressure=(15,)*8
+cover_pressure=(20,)*8
 #
+#normally 15psi! guess pdms was sitting out so long it needed more pressure
+##changed pressure for wells to 40psi
+
 inset=(cantilever_width-wire_width)/2
 
 
@@ -173,8 +183,11 @@ inset=(cantilever_width-wire_width)/2
 
 #############TRAVIS"S INK
 electrode_height=0.130
-electrode_pressure = 8
+electrode_pressure = 46
 electrode_speed = 8
+
+##changed! silver is old and needed more pressure
+
 
 
 ############################## VARIABLE TRASH ###########################
@@ -420,16 +433,16 @@ def print_all_wires_no_stop(valve, nozzle,initial_dwell):
     inset = (cantilever_width-width)/2
     g.set_pressure(pressure_box, wire_pressure[0])
     
-    ######test circle#####
-    #g.feed(20)
-    #g.abs_move(4, 20)
-    #g.abs_move(**{nozzle:wire_height[0]})
-    #g.feed(wire_speed[0])
-    #g.set_valve(num = valve, value = 1)
-    #g.dwell(initial_dwell)
-    #g.arc(x=1.5,y=0.0001,radius=-3)
-    #g.abs_move(**{nozzle:3})
-    #g.feed(15)
+    #####test circle#####
+    g.feed(20)
+    g.abs_move(4, 20)
+    g.abs_move(**{nozzle:wire_height[0]})
+    g.feed(wire_speed[0])
+    g.set_valve(num = valve, value = 1)
+    g.dwell(initial_dwell)
+    g.arc(x=1.5,y=0.0001,radius=-3)
+    g.abs_move(**{nozzle:3})
+    g.feed(15)
     
     
     
@@ -506,15 +519,15 @@ def print_all_aligned_tops(nozzle, valve):
     y_translation = cant_y_translate
     
     #test_line
-    g.abs_move(x=3,y=7)
+    g.abs_move(x=66.5,y=10)
     g.set_pressure(pressure_box, align_top_pressure[0])
     g.abs_move(**{nozzle:top_height[0]})
     g.feed(top_speed[0])
     g.set_valve(num = valve, value = 1)
     g.dwell(0.25)
-    g.move(y=30)
+    g.move(y=25)
     g.set_valve(num = valve, value = 0)
-    g.move(**{nozzle:0.100})
+    g.move(**{nozzle:0.300})
 
     for i in range(1,8,2):
         g.feed(5)
@@ -672,7 +685,7 @@ def print_insulating_layer(nozzle, valve, TorB):
         spacing = insulating_meand_spacing_top 
         y_translation = cant_y_translate
         dwell=2
-        test_x=7
+        test_x=6.5
         
     else:
         speed = insulating_speed_bot
@@ -681,7 +694,7 @@ def print_insulating_layer(nozzle, valve, TorB):
         spacing = insulating_meand_spacing_bot
         y_translation = 0
         dwell=1.5
-        test_x=5
+        test_x=4.5
     
     g.feed(25)
     g.set_pressure(pressure_box, pressure[1])             
@@ -694,6 +707,10 @@ def print_insulating_layer(nozzle, valve, TorB):
     g.feed(6)
     g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.move(y=20)
+    g.move(x=-.13)
+    g.move(y=-20)
+    g.move(x=-.13)
     g.move(y=20)
     g.set_valve(num = valve, value = 0)
     g.feed(25)
@@ -796,14 +813,15 @@ def print_electrodes(valve, nozzle):
 reference_nozzle = 'A'
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 ###
+
 #active_slide = 'slide1'
-#z_ref = -88.50406
+#z_ref = -69.004094
 
-#active_slide = 'slide2'
-#z_ref = -81.831212
+active_slide = 'slide2'
+z_ref = -70.023254
 
-active_slide = 'slide3'
-z_ref = -81.862714
+#active_slide = 'slide3'
+#z_ref = -87.3048
 
 #automator.substrate_origins[active_slide]['A'][2]#-81.24665 #slide2
 #automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
@@ -901,13 +919,13 @@ if 'D' in AXES_USED:
 #
 #g.set_home(x=0, y=0)
 #
-##g.abs_move(x=0, y=0)
-##nozzle_change(nozzles = 'ab')
-##g.set_home(x=0, y=0)
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
 #
 #g.toggle_pressure(pressure_box)
 ##pressure_clear(dwell_time = 8, pressure = 40, valve = 4)
-#print_electrodes(valve='1',nozzle='A')
+#print_electrodes(valve='2',nozzle='B')
 #g.toggle_pressure(pressure_box)
 
 
@@ -919,12 +937,12 @@ if 'D' in AXES_USED:
 #
 #g.set_home(x=0, y=0)
 #
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
-#g.set_home(x=0, y=0)
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
 #
 #g.toggle_pressure(pressure_box)
-#print_all_aligned_tops(valve='2',nozzle='B')
+#print_all_aligned_tops(valve='1',nozzle='A')
 #g.toggle_pressure(pressure_box)
 ############
 ####
@@ -944,7 +962,7 @@ g.set_home(x=0, y=0)
 g.toggle_pressure(pressure_box)
 #pressure_clear(dwell_time = 1, pressure = 40, valve = 1)
 print_all_covers(nozzle = 'C', valve = 3)
-print_all_single_wells(layer_height = 0.35, layer_increments=5, total_increments=6, pressure=35, speed=22, nozzle = 'C', valve = 3)
+print_all_single_wells(layer_height = 0.35, layer_increments=5, total_increments=6, pressure=40, speed=22, nozzle = 'C', valve = 3)
 #print_ID(pressure=24,speed=25,nozzle='C',valve=3,dwell=0.4)
 g.toggle_pressure(pressure_box)
 
