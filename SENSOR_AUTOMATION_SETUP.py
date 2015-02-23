@@ -8,7 +8,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
-           #  'B',
+             'B',
            #'C', 
          #   'D'
             ]
@@ -36,16 +36,16 @@ AXES_DATA = {
 #Defining substrate location and profilometry mesh size
 SUBSTRATES = {
     'slide1': {
-        'origin': (60,107),
+        'origin': (230,107),
         'size': 'auto',
         'profile': True,
-        'profile-spacing': (10,10),
+        'profile-spacing': (45,45),
     },
     'slide2': {
-        'origin': (150,107),
+        'origin': (230,51),
         'size': 'auto',
         'profile': True,
-        'profile-spacing': (10,10),
+        'profile-spacing': (45,45),
     },
     #'slide3': {
     #    'origin': (230,107),
@@ -90,12 +90,12 @@ def setup(active_slide, ref, move_to_ref = False):
 
 ################### Full Setup Run
 reference_nozzle = 'A' 
-#active_slide = 'slide1'
-active_slide = 'slide2'
+active_slide = 'slide1'
+#active_slide = 'slide2'
 #active_slide = 'slide3'
 
 #
-#setup(active_slide, ref = reference_nozzle, move_to_ref = True)
+setup(active_slide, ref = reference_nozzle, move_to_ref = True)
 
 ##########
 #
@@ -103,10 +103,10 @@ active_slide = 'slide2'
 
 
 #
-#################Rezero some nozzles but use the rest of the old info ###
-automator.setup()
-automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
-automator.rezero_nozzles(['B'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
+################Rezero some nozzles but use the rest of the old info ###
+#automator.setup()
+#automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
+#automator.rezero_nozzles(['A','C'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
 
 ##
 ###
@@ -118,7 +118,7 @@ automator.rezero_nozzles(['B'], alignment_path=r"C:\Users\Lewis Group\Desktop\Ca
 #g.abs_move(**{'A':(automator.substrate_origins[active_slide]['A'][2]+ 0.2)})
 #g.dirct_write = False
 
-#######Reset zeros ############
+######Reset zeros ############
 
 
 #automator.substrate_origins['slide1']['B'][2]

@@ -9,7 +9,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
             'B',
-            'C', 
+            #'C', 
             #'D'
             ]
 
@@ -117,10 +117,6 @@ wire_pressure=(5.5,)*8
 
 wire_speed = (10,)*8
                 
-                #wires printed beautifully!!!!#
-                
-                
-                ####printed all 5.5psi######
                                                                                             
 
 insulating_meand_spacing_top = 0.13
@@ -137,17 +133,7 @@ insulating_speed_bot = (15,)*16
 
 insulating_dwell = 0.5
 
- 
- #**** 2 TPU covers...both slides we made sure to clean and purge before each layer****# 
- # first time we tried printing it was skipping and took 6.5psi to purge - believe to be due to the syringe sitting for ~1hr in robomama without being used
- #so we printed over the first 2 cantilevers that were initially printed (skippy and thin)
- #***replaced tip between left and right slides as well*###
- 
- #first slide printing showed variation in thickness coming out of nozzle - residual pressure?
- #noted that we did not have a pressure release tube in valve 6 for the first slide, and when we put it in the second slide seemed to print much better
-              
- #made the test line into a test meander for the last layer of the top slide - then just let the pressure at 3.5 purge itself out - NO manual purge from now on! use this method!
- #make sure there are no bubbles in the TPU barrel
+
               
               
 align_top_pressure=(10,)*16
@@ -159,8 +145,7 @@ top_speed=(3,)*16
  
   #**** printed at 60um spacing ***#
  #printed at 50um height, manually adjusted down to 20um#
- 
- #printed okay, broke some tips but these settings should be fine
+
 
 cantilever_width = 2.9
 cantilever_bending_length = 5.5
@@ -182,8 +167,8 @@ inset=(cantilever_width-wire_width)/2
 #electrode_pressure = 4
 
 #############TRAVIS"S INK
-electrode_height=0.130
-electrode_pressure = 46
+electrode_height=0.290
+electrode_pressure = 7
 electrode_speed = 8
 
 ##changed! silver is old and needed more pressure
@@ -519,7 +504,7 @@ def print_all_aligned_tops(nozzle, valve):
     y_translation = cant_y_translate
     
     #test_line
-    g.abs_move(x=66.5,y=10)
+    g.abs_move(x=68,y=10)
     g.set_pressure(pressure_box, align_top_pressure[0])
     g.abs_move(**{nozzle:top_height[0]})
     g.feed(top_speed[0])
@@ -544,7 +529,7 @@ def print_all_aligned_tops(nozzle, valve):
     g.move(x=-50)
 #    
     
-    for i in range (9,16,2):
+    for i in range(9,16,2):
         g.feed(5)
         g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1] + y_translation -0.5)
         g.move(x=-0.15)
@@ -685,7 +670,7 @@ def print_insulating_layer(nozzle, valve, TorB):
         spacing = insulating_meand_spacing_top 
         y_translation = cant_y_translate
         dwell=2
-        test_x=6.5
+        test_x=3.5
         
     else:
         speed = insulating_speed_bot
@@ -694,7 +679,7 @@ def print_insulating_layer(nozzle, valve, TorB):
         spacing = insulating_meand_spacing_bot
         y_translation = 0
         dwell=1.5
-        test_x=4.5
+        test_x=1.5
     
     g.feed(25)
     g.set_pressure(pressure_box, pressure[1])             
@@ -755,7 +740,7 @@ def print_insulating_layer(nozzle, valve, TorB):
 
 def print_electrodes(valve, nozzle):
     silver_inset = 0.75
-    for i in range(0,32):
+    for i in range(16,32):
         j=(i/2)
         if i<16:
             myclip='-y'
@@ -814,14 +799,14 @@ reference_nozzle = 'A'
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 ###
 
-#active_slide = 'slide1'
-#z_ref = -69.004094
+active_slide = 'slide1'
+z_ref = -80.379474
 
-active_slide = 'slide2'
-z_ref = -70.023254
+#active_slide = 'slide2'
+#z_ref = -80.379474
 
 #active_slide = 'slide3'
-#z_ref = -87.3048
+#z_ref = -87.381723
 
 #automator.substrate_origins[active_slide]['A'][2]#-81.24665 #slide2
 #automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
@@ -913,24 +898,24 @@ if 'D' in AXES_USED:
 
 
 ###########PRINT ME SOME SILVER ELECTRODES
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 2)
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-#
-#g.set_home(x=0, y=0)
-#
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
-#g.set_home(x=0, y=0)
-#
-#g.toggle_pressure(pressure_box)
-##pressure_clear(dwell_time = 8, pressure = 40, valve = 4)
-#print_electrodes(valve='2',nozzle='B')
-#g.toggle_pressure(pressure_box)
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 2)
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+g.abs_move(x=0, y=0)
+nozzle_change(nozzles = 'ab')
+g.set_home(x=0, y=0)
+
+g.toggle_pressure(pressure_box)
+#pressure_clear(dwell_time = 8, pressure = 40, valve = 4)
+print_electrodes(valve='2',nozzle='B')
+g.toggle_pressure(pressure_box)
 
 
 ##
-##########PRINT ME SOME PDMS MICROGROOVES
+#########PRINT ME SOME PDMS MICROGROOVES
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 2)
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
@@ -949,22 +934,22 @@ if 'D' in AXES_USED:
 #
 ####
 ##########PRINT ME SOME PDMS COVERS AND WELLS
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 2)
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-g.abs_move(x=0, y=0)
-nozzle_change(nozzles = 'ac')
-g.set_home(x=0, y=0)
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 2)
+#####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 #
-g.toggle_pressure(pressure_box)
-#pressure_clear(dwell_time = 1, pressure = 40, valve = 1)
-print_all_covers(nozzle = 'C', valve = 3)
-print_all_single_wells(layer_height = 0.35, layer_increments=5, total_increments=6, pressure=40, speed=22, nozzle = 'C', valve = 3)
-#print_ID(pressure=24,speed=25,nozzle='C',valve=3,dwell=0.4)
-g.toggle_pressure(pressure_box)
+#g.set_home(x=0, y=0)
+#
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ac')
+#g.set_home(x=0, y=0)
+##
+#g.toggle_pressure(pressure_box)
+##pressure_clear(dwell_time = 1, pressure = 40, valve = 1)
+#print_all_covers(nozzle = 'C', valve = 3)
+#print_all_single_wells(layer_height = 0.35, layer_increments=5, total_increments=6, pressure=42, speed=22, nozzle = 'C', valve = 3)
+##print_ID(pressure=24,speed=25,nozzle='C',valve=3,dwell=0.4)
+#g.toggle_pressure(pressure_box)
 
 g.teardown()
 
