@@ -8,7 +8,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\alexs_prin
 
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
-            #'B',
+            'B',
             #'C', 
             #'D'
             ]
@@ -691,7 +691,7 @@ def print_die(valve,nozzle,height,speed,dwell,pressure):
     g.feed(25)
     
     g.set_pressure(pressure_box, pressure)
-    g.abs_move(x=35,y=20)
+    g.abs_move(x=20,y=20)
     g.set_home(x=0,y=0)
     #pressure_purge(delay = 2)
     for i in np.arange(2):
@@ -979,8 +979,8 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
     #g.feed(25)
     #g.set_pressure(pressure_box, pressure)
     
-    g.abs_move(x=0,y=0)
-    #g.set_home(x=0,y=0)
+    g.abs_move(x=20,y=20)
+    g.set_home(x=0,y=0)
     pressure_purge(delay = 2)
     for i in np.arange(2):        
         for j in np.arange(6):
@@ -1011,6 +1011,8 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
+                        g.move(**{nozzle:15})
+                        g.dwell(10)
                     else:
                         g.abs_move(x=external_pad_positions[23-j][0],y=external_pad_positions[23-j][1])
                         g.feed(speed*0.2)
@@ -1027,6 +1029,8 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
+                        g.move(**{nozzle:15})
+                        g.dwell(10)
                 else:
                     g.abs_move(**{nozzle:5})
                     g.abs_move(x=pad_positions[6+j][0],y=pad_positions[6+j][1])
@@ -1054,6 +1058,8 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
+                        g.move(**{nozzle:15})
+                        g.dwell(10)
                     else:
                         g.abs_move(x=external_pad_positions[6+j][0],y=external_pad_positions[6+j][1])
                         g.feed(speed*0.2)
@@ -1070,6 +1076,8 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
+                        g.move(**{nozzle:15})
+                        g.dwell(10)
     
     for i in np.arange(2):        
         for j in np.arange(6):
@@ -1100,6 +1108,8 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
+                        g.move(**{nozzle:15})
+                        g.dwell(10)
                     else:
                         g.abs_move(x=external_pad_positions[j][0],y=external_pad_positions[j][1])
                         g.feed(speed*0.2)
@@ -1116,6 +1126,8 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
+                        g.move(**{nozzle:15})
+                        g.dwell(10)
                 else:
                     g.abs_move(**{nozzle:5})
                     g.abs_move(x=pad_positions[17-j][0],y=pad_positions[17-j][1])
@@ -1143,6 +1155,8 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
+                        g.move(**{nozzle:15})
+                        g.dwell(10)
                     else:
                         g.abs_move(x=external_pad_positions[17-j][0],y=external_pad_positions[17-j][1])
                         g.feed(speed*0.2)
@@ -1159,14 +1173,15 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
+                        g.move(**{nozzle:15})
+                        g.dwell(10)
 
 
 
 def test_line(valve,nozzle,height,speed,dwell,pressure):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
-    g.abs_move(x=3,y=3)
-    g.set_home(x=0,y=0)
+    g.abs_move(x=3,y=3.5)
     pressure_purge(delay = 2)
     g.abs_move(**{nozzle:height})
     if valve is not None:
@@ -2220,7 +2235,7 @@ def stretchy_matrix_square(valve,nozzle,height,speed,dwell,pressure,nozzle_diame
             g.set_pressure(pressure_box, pressure)
 
 
-def wells(valve,nozzle,height,speed,dwell,pressure,layer_height,xstart,ystart):#
+def wells(valve,nozzle,height,speed,dwell,pressure,layer_height,xstart,ystart,layers):#
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
     g.abs_move(x=xstart,y=ystart)
@@ -2229,18 +2244,31 @@ def wells(valve,nozzle,height,speed,dwell,pressure,layer_height,xstart,ystart):#
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
-    g.rect(x=25,y=18)
-    g.move(**{nozzle:layer_height})
-    g.rect(x=25,y=18)
-    g.move(**{nozzle:layer_height})
-    g.rect(x=25,y=18)
-    g.move(**{nozzle:layer_height})
-    g.rect(x=25,y=18)
-    g.move(**{nozzle:layer_height})
-    g.rect(x=25,y=18)
+    
+    for i in range (layers):
+        g.rect(x=22.4,y=22.4)
+        g.move(**{nozzle:layer_height})
+      
     g.set_valve(num = valve, value = 0)
     g.feed(25)
-    g.abs_move(**{nozzle:5}) 
+    g.abs_move(**{nozzle:30})
+    
+def square_infill(valve,nozzle,height,speed,dwell,pressure,xstart,ystart,orientation):#
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    g.abs_move(x=xstart,y=ystart)
+    g.abs_move(**{nozzle:height})
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.meander(x=3.6,y=3.6,spacing=0.6,orientation=orientation)
+      
+    g.set_valve(num = valve, value = 0)
+    g.feed(25)
+    g.move(x=4,y=4)
+    g.abs_move(**{nozzle:5})
+  
 
 def silver_meander(valve,nozzle,height,speed,dwell,pressure,xstart,ystart,meandx,meandy,nozzleID):#
     g.feed(25)
@@ -2264,7 +2292,7 @@ def silver_meander(valve,nozzle,height,speed,dwell,pressure,xstart,ystart,meandx
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
 active_slide = 'slide1'
-z_ref = -88.8196
+z_ref = -87.4211
 #active_slide = 'slide2'
 #z_ref = -93.159304
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
@@ -2395,25 +2423,6 @@ if 'D' in AXES_USED:
 
 
 
-#######------------------PRINT ME DIE AND WIRING
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
-g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)
-#test_line(valve='1',nozzle='A',height=1,speed=0.6,dwell=3,pressure=21)
-#g.dwell(5)
-print_die(valve='1',nozzle='A',height=0.065,speed=1.3,dwell=0.1,pressure=6.2)
-
-#print_die_wiring_PET_old(valve='1',nozzle='A',height=0.02,speed=0.5,dwell=0.3,pressure=26)
-print_die_wiring(valve='1',nozzle='A',height=0.07,speed=0.8,dwell=0.3,pressure=6.5)
-
-g.toggle_pressure(pressure_box)
-
 ##------------------PRINT ME BACTERIA ELECTRODES
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
@@ -2501,22 +2510,73 @@ g.toggle_pressure(pressure_box)
 
 
 ##------------------PRINT ME WELLS
+
+
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 #
 #g.set_home(x=0, y=0)
 #
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
+#
+#g.abs_move(x=20,y=20)
+#g.set_home(x=0,y=0)
+#
+#g.toggle_pressure(pressure_box)
+#
+#wells(valve='2',nozzle='B',height=0.3,speed=15,dwell=0.25,pressure=28,layer_height=0.2,layers=10,xstart=-10,ystart=-10)
+#g.dwell(15)
+#square_infill(valve='2',nozzle='B',height=0.4,speed=5,dwell=0.5,pressure=22,xstart=-0.7,ystart=-0.7,orientation='x')
+#
+##translate over 32 in x!!!!
+#g.abs_move(x=32,y=0)
+#g.set_home(x=0,y=0)
+#
+#wells(valve='2',nozzle='B',height=0.3,speed=15,dwell=0.25,pressure=28,layer_height=0.2,layers=10,xstart=-10,ystart=-10)
+#g.dwell(15)
+#square_infill(valve='2',nozzle='B',height=0.4,speed=5,dwell=0.5,pressure=22,xstart=-0.7,ystart=-0.7,orientation='x')
+#
+#
+#
+#
 ##g.abs_move(x=0, y=0)
 ##nozzle_change(nozzles = 'ab')
 ##g.set_home(x=0, y=0)
 #
+#
+#
+#square_infill(valve='2',nozzle='B',height=1.4,speed=6,dwell=0.5,pressure=25,xstart=-0.3,ystart=-0.7,orientation='y')
+#
+#
 #g.toggle_pressure(pressure_box)
-#wells(valve='1',nozzle='A',height=0.3,speed=6,dwell=0.25,pressure=50,layer_height=0.2,xstart=7.5,ystart=6)
-#wells(valve='1',nozzle='A',height=0.3,speed=6,dwell=0.25,pressure=50,layer_height=0.2,xstart=7.5,ystart=26)
-#wells(valve='1',nozzle='A',height=0.3,speed=6,dwell=0.25,pressure=50,layer_height=0.2,xstart=37.5,ystart=6)
-#wells(valve='1',nozzle='A',height=0.3,speed=6,dwell=0.25,pressure=50,layer_height=0.2,xstart=37.5,ystart=26)
-#g.toggle_pressure(pressure_box)
+
+
+######------------------PRINT ME DIE AND WIRING
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+g.set_home(x=0, y=0)
+
+g.toggle_pressure(pressure_box)
+#test_line(valve='1',nozzle='A',height=0.02,speed=1,dwell=0.2,pressure=5)
+#g.dwell(5)
+#print_die(valve='1',nozzle='A',height=0.065,speed=1.3,dwell=0.1,pressure=6.2)
+
+#print_die_wiring_PET_old(valve='1',nozzle='A',height=0.02,speed=0.5,dwell=0.3,pressure=26)
+print_die_wiring(valve='1',nozzle='A',height=0.5818+0.07,speed=1.0,dwell=0.2,pressure=5)
+
+g.toggle_pressure(pressure_box)
+
+
+
+
+
 
 ######------------------PRINT ME SILVER MEANDERS
 #set_home_in_z()
@@ -2566,7 +2626,7 @@ g.toggle_pressure(pressure_box)
 #g.toggle_pressure(pressure_box)
 
 
-g.view(backend='matplotlib')
+#g.view(backend='matplotlib')
 
 ##
 g.teardown()
