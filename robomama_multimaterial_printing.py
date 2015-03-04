@@ -8,7 +8,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\alexs_prin
 
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
-            'B',
+            #'B',
             #'C', 
             #'D'
             ]
@@ -2424,20 +2424,20 @@ if 'D' in AXES_USED:
 
 
 ##------------------PRINT ME BACTERIA ELECTRODES
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-#
-#g.set_home(x=0, y=0)
-#
-##g.abs_move(x=0, y=0)
-##nozzle_change(nozzles = 'ab')
-##g.set_home(x=-24, y=-4)
-#
-#g.toggle_pressure(pressure_box)
-#bacteria_electrodes(valve='1',nozzle='A',height=0.02,speed=3.5,dwell=0.3,pressure=54,spacing='400')
-#
-#g.toggle_pressure(pressure_box)
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=-24, y=-4)
+
+g.toggle_pressure(pressure_box)
+bacteria_electrodes(valve='1',nozzle='A',height=0.02,speed=3.5,dwell=0.3,pressure=54,spacing='400')
+
+g.toggle_pressure(pressure_box)
 
 ##------------------PRINT ME CONCENTRIC STIFFNESS GRADIENTS
 #set_home_in_z()
@@ -2555,23 +2555,23 @@ if 'D' in AXES_USED:
 
 
 ######------------------PRINT ME DIE AND WIRING
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
-g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)
-#test_line(valve='1',nozzle='A',height=0.02,speed=1,dwell=0.2,pressure=5)
-#g.dwell(5)
-#print_die(valve='1',nozzle='A',height=0.065,speed=1.3,dwell=0.1,pressure=6.2)
-
-#print_die_wiring_PET_old(valve='1',nozzle='A',height=0.02,speed=0.5,dwell=0.3,pressure=26)
-print_die_wiring(valve='1',nozzle='A',height=0.5818+0.07,speed=1.0,dwell=0.2,pressure=5)
-
-g.toggle_pressure(pressure_box)
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+##test_line(valve='1',nozzle='A',height=0.02,speed=1,dwell=0.2,pressure=5)
+##g.dwell(5)
+##print_die(valve='1',nozzle='A',height=0.065,speed=1.3,dwell=0.1,pressure=6.2)
+#
+##print_die_wiring_PET_old(valve='1',nozzle='A',height=0.02,speed=0.5,dwell=0.3,pressure=26)
+#print_die_wiring(valve='1',nozzle='A',height=0.5818+0.07,speed=1.0,dwell=0.2,pressure=5)
+#
+#g.toggle_pressure(pressure_box)
 
 
 
