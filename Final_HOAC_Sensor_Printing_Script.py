@@ -9,7 +9,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = ['A',
             'B',
-            #'C', 
+            'C', 
             #'D'
             ]
 
@@ -109,11 +109,11 @@ tail = 1.5          # first distance of wire before cantilever position and afte
 
 extra = 0#1.5      # distance from cantilever position to top wire line
 
-wire_width = 1.55       # distance from center of each wire trace to its paired wire - width of sensor
+wire_width = 2     # distance from center of each wire trace to its paired wire - width of sensor
         
-wire_height=(0.025,)*8
+wire_height=(0.025+0.02,)*8
 
-wire_pressure=(5.5,)*8
+wire_pressure=(6.5,)*8
 
 wire_speed = (10,)*8
                 
@@ -139,11 +139,10 @@ insulating_dwell = 0.5
 align_top_pressure=(10,)*16
 
 top_over=(0.06,)*16 #spacing
-top_height=(0.05,)*16 
+top_height=(0.04,)*16 
 top_speed=(3,)*16
 
  
-  #**** printed at 60um spacing ***#
  #printed at 50um height, manually adjusted down to 20um#
 
 
@@ -154,7 +153,7 @@ cantilever_length = cantilever_bending_length + cant_y_translate
 trans_speed = 40
 
 
-cover_pressure=(20,)*8
+cover_pressure=(15,)*8
 #
 #normally 15psi! guess pdms was sitting out so long it needed more pressure
 ##changed pressure for wells to 40psi
@@ -166,12 +165,22 @@ inset=(cantilever_width-wire_width)/2
 #electrode_height=0.075
 #electrode_pressure = 4
 
-#############TRAVIS"S INK
-electrode_height=0.290
-electrode_pressure = 7
-electrode_speed = 8
+############# POLYURETHANE INK 
+#electrode_height=0.13
+#electrode_pressure = 8
+#electrode_speed = 6
 
-##changed! silver is old and needed more pressure
+############# POLYAMIDE INK 
+#electrode_height=0.13+0.04
+#electrode_pressure = 10+10
+#electrode_speed = 8+5
+
+############ Voxyl8 E1
+electrode_height=0.13
+electrode_pressure = 10
+electrode_speed = 12
+
+
 
 
 
@@ -444,7 +453,7 @@ def print_all_wires_no_stop(valve, nozzle,initial_dwell):
         if valve is not None:
             g.set_valve(num = valve, value = 1)
         print_wires_no_stop(z=wire_height[j], speed=wire_speed[j], extra = extra,
-            tail = 1.5, width = 1.55, length=(cantilever_length - 0.75), valve = valve, nozzle = nozzle, clip_direction = '+y', k=j, arc_direction = 'CCW')
+            tail = 1.5, width = width, length=(cantilever_length - 0.5), valve = valve, nozzle = nozzle, clip_direction = '+y', k=j, arc_direction = 'CCW')
         g.set_valve(num = valve, value = 0)
         g.move(x=1.5,**{nozzle:2})
         if i==6:
@@ -472,7 +481,7 @@ def print_all_wires_no_stop(valve, nozzle,initial_dwell):
         if valve is not None:
             g.set_valve(num = valve, value = 1)        
         print_wires_no_stop(z=wire_height[j], speed=wire_speed[j], extra = extra, 
-            tail = 1.5, width = 1.55, length=-(cantilever_length - 0.75), valve = valve, nozzle = nozzle, clip_direction = '-y', k=j, arc_direction = 'CW')
+            tail = 1.5, width = width, length=-(cantilever_length - 0.5), valve = valve, nozzle = nozzle, clip_direction = '-y', k=j, arc_direction = 'CW')
         g.set_valve(num = valve, value = 0)
         g.move(x=1.5,**{nozzle:2})
         if i==14:
@@ -504,7 +513,7 @@ def print_all_aligned_tops(nozzle, valve):
     y_translation = cant_y_translate
     
     #test_line
-    g.abs_move(x=68,y=10)
+    g.abs_move(x=69,y=10)
     g.set_pressure(pressure_box, align_top_pressure[0])
     g.abs_move(**{nozzle:top_height[0]})
     g.feed(top_speed[0])
@@ -526,8 +535,8 @@ def print_all_aligned_tops(nozzle, valve):
 
     g.move(x=4)
     g.move(y=-10) ## this is the movement from end of top row to start of bottom row, without turning off pressure, traveling between the two rows
-    g.move(x=-50)
-#    
+#    g.move(x=-50)
+    
     
     for i in range(9,16,2):
         g.feed(5)
@@ -670,7 +679,7 @@ def print_insulating_layer(nozzle, valve, TorB):
         spacing = insulating_meand_spacing_top 
         y_translation = cant_y_translate
         dwell=2
-        test_x=3.5
+        test_x=1.5
         
     else:
         speed = insulating_speed_bot
@@ -740,7 +749,20 @@ def print_insulating_layer(nozzle, valve, TorB):
 
 def print_electrodes(valve, nozzle):
     silver_inset = 0.75
-    for i in range(16,32):
+    
+    ########test_line
+    #g.abs_move(x=71,y=10)
+    #g.set_pressure(pressure_box, electrode_pressure)
+    #g.abs_move(**{nozzle:electrode_height})
+    #g.feed(electrode_speed)
+    #g.set_valve(num = valve, value = 1)
+    #g.dwell(0.25)
+    #g.move(y=25)
+    #g.set_valve(num = valve, value = 0)
+    #g.move(**{nozzle:2})
+    #    
+    
+    for i in range(0,32):
         j=(i/2)
         if i<16:
             myclip='-y'
@@ -800,10 +822,10 @@ automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.t
 ###
 
 active_slide = 'slide1'
-z_ref = -80.379474
-
+z_ref = -66.44068
+##
 #active_slide = 'slide2'
-#z_ref = -80.379474
+#z_ref = -66.434117
 
 #active_slide = 'slide3'
 #z_ref = -87.381723
@@ -877,9 +899,9 @@ if 'D' in AXES_USED:
 #print_all_wires_no_stop(valve='2',nozzle='B',initial_dwell=0.2)
 #g.toggle_pressure(pressure_box)
 
+
 #
-##
-#######PRINT ME SOME INSULATING LAYERS ON TOP
+########PRINT ME SOME INSULATING LAYERS ON TOP
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 2)
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
@@ -898,20 +920,20 @@ if 'D' in AXES_USED:
 
 
 ###########PRINT ME SOME SILVER ELECTRODES
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 2)
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-g.abs_move(x=0, y=0)
-nozzle_change(nozzles = 'ab')
-g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)
-#pressure_clear(dwell_time = 8, pressure = 40, valve = 4)
-print_electrodes(valve='2',nozzle='B')
-g.toggle_pressure(pressure_box)
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 2)
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#g.set_home(x=0, y=0)
+#
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+##pressure_clear(dwell_time = 8, pressure = 40, valve = 4)
+#print_electrodes(valve='2',nozzle='B')
+#g.toggle_pressure(pressure_box)
 
 
 ##
@@ -929,27 +951,27 @@ g.toggle_pressure(pressure_box)
 #g.toggle_pressure(pressure_box)
 #print_all_aligned_tops(valve='1',nozzle='A')
 #g.toggle_pressure(pressure_box)
-############
+#############
 ####
 #
 ####
-##########PRINT ME SOME PDMS COVERS AND WELLS
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 2)
-#####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#########PRINT ME SOME PDMS COVERS AND WELLS
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0]- 1.7, y=automator.substrate_origins[active_slide]['A'][1]- 2)
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+g.abs_move(x=0, y=0)
+nozzle_change(nozzles = 'ac')
+g.set_home(x=0, y=0)
 #
-#g.set_home(x=0, y=0)
-#
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ac')
-#g.set_home(x=0, y=0)
-##
-#g.toggle_pressure(pressure_box)
-##pressure_clear(dwell_time = 1, pressure = 40, valve = 1)
-#print_all_covers(nozzle = 'C', valve = 3)
-#print_all_single_wells(layer_height = 0.35, layer_increments=5, total_increments=6, pressure=42, speed=22, nozzle = 'C', valve = 3)
-##print_ID(pressure=24,speed=25,nozzle='C',valve=3,dwell=0.4)
-#g.toggle_pressure(pressure_box)
+g.toggle_pressure(pressure_box)
+#pressure_clear(dwell_time = 1, pressure = 40, valve = 1)
+print_all_covers(nozzle = 'C', valve = 3)
+print_all_single_wells(layer_height = 0.35, layer_increments=5, total_increments=6, pressure=32, speed=22, nozzle = 'C', valve = 3)
+#print_ID(pressure=24,speed=25,nozzle='C',valve=3,dwell=0.4)
+g.toggle_pressure(pressure_box)
 
 g.teardown()
 

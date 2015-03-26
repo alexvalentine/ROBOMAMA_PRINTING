@@ -7,7 +7,8 @@ from aerotech_automator import AerotechAutomator
 outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\alexs_print.pgm"
 
 #List of axes used for printing - comment out the axes not being used
-AXES_USED = ['A',
+AXES_USED = [
+            'A',
             #'B',
             #'C', 
             #'D'
@@ -187,10 +188,10 @@ tpu_pressure = 4.5           #pressure for TPU syringe
 
 pdms_pressure = 27            #pressure for PDMS syringe
 
-pad_positions=((0.1,0.38+0.28*0),(.1,0.38+0.28*1),(.1,0.38+0.28*2),(.1,0.38+0.28*3),(.1,0.38+0.28*4),(.1,0.38+0.28*5),
-(0.38+0.28*0,2.06),(0.38+0.28*1,2.06),(0.38+0.28*2,2.06),(0.38+0.28*3,2.06),(0.38+0.28*4,2.06),(0.38+0.28*5,2.06),
-(2.06,0.38+0.28*5),(2.06,0.38+0.28*4),(2.06,0.38+0.28*3),(2.06,0.38+0.28*2),(2.06,0.38+0.28*1),(2.06,0.38+0.28*0),
-(0.38+0.28*5,0.1),(0.38+0.28*4,0.1),(0.38+0.28*3,0.1),(0.38+0.28*2,0.1),(0.38+0.28*1,0.1),(0.38+0.28*0,0.1))
+pad_positions=((0.1,0.38+0.29*0),(.1,0.38+0.29*1),(.1,0.38+0.29*2),(.1,0.38+0.29*3),(.1,0.38+0.29*4),(.1,0.38+0.29*5),
+(0.38+0.29*0,2.06),(0.38+0.29*1,2.06),(0.38+0.29*2,2.06),(0.38+0.29*3,2.06),(0.38+0.29*4,2.06),(0.38+0.29*5,2.06),
+(2.06,0.38+0.29*5),(2.06,0.38+0.29*4),(2.06,0.38+0.29*3),(2.06,0.38+0.29*2),(2.06,0.38+0.29*1),(2.06,0.38+0.29*0),
+(0.38+0.29*5,0.1),(0.38+0.29*4,0.1),(0.38+0.29*3,0.1),(0.38+0.29*2,0.1),(0.38+0.29*1,0.1),(0.38+0.29*0,0.1))
 #coordinates of the center of all contact pads, in a dummy die starting in LL corner 
 #and going clockwise 24 pads, 6 on each side
 
@@ -691,7 +692,7 @@ def print_die(valve,nozzle,height,speed,dwell,pressure):
     g.feed(25)
     
     g.set_pressure(pressure_box, pressure)
-    g.abs_move(x=20,y=20)
+    g.abs_move(x=35,y=20)
     g.set_home(x=0,y=0)
     #pressure_purge(delay = 2)
     for i in np.arange(2):
@@ -965,36 +966,36 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
     
-    ######test line
-    #g.abs_move(x=5,y=3)
-    #pressure_purge(delay = 2)
-    #g.abs_move(**{nozzle:height})
-    #if valve is not None:
-    #    g.set_valve(num = valve, value = 1)
-    #g.dwell(dwell)
-    #g.feed(speed)
-    #g.move(x=7)
-    #g.feed(25)
-    #g.clip(axis=nozzle, height=6, direction='-x')
-    #g.feed(25)
-    #g.set_pressure(pressure_box, pressure)
+    #####test line
+    g.abs_move(x=5,y=5)
+    pressure_purge(delay = 2)
+    g.abs_move(**{nozzle:0.08})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.feed(speed)
+    g.move(x=7)
+    g.feed(25)
+    g.clip(axis=nozzle, height=6, direction='-x')
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
     
-    g.abs_move(x=20,y=20)
+    g.abs_move(x=35,y=25)
     g.set_home(x=0,y=0)
     pressure_purge(delay = 2)
     for i in np.arange(2):        
         for j in np.arange(6):
                 if i==0:
                     g.abs_move(**{nozzle:5})
-                    g.abs_move(x=pad_positions[23-j][0],y=pad_positions[23-j][1])
+                    g.abs_move(x=pad_positions[23-j][0],y=pad_positions[23-j][1]-1) # -1 added to allow for die placement
                     g.abs_move(**{nozzle:height})
                     if valve is not None:
                         g.set_valve(num = valve, value = 1)
                     g.dwell(dwell)
-                    g.feed(speed*0.7)
-                    g.move(y=-0.4)
+                    #g.feed(speed*0.7)
+                    #g.move(y=-0.4)
                     g.feed(speed)
-                    g.move(y=-3.6)
+                    g.move(y=-3)
                     if j<3:
                         g.abs_move(x=external_pad_positions[23-j][0],y=external_pad_positions[23-j][1])
                         g.feed(speed*0.2)
@@ -1011,8 +1012,6 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
-                        g.move(**{nozzle:15})
-                        g.dwell(10)
                     else:
                         g.abs_move(x=external_pad_positions[23-j][0],y=external_pad_positions[23-j][1])
                         g.feed(speed*0.2)
@@ -1029,19 +1028,17 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
-                        g.move(**{nozzle:15})
-                        g.dwell(10)
                 else:
                     g.abs_move(**{nozzle:5})
-                    g.abs_move(x=pad_positions[6+j][0],y=pad_positions[6+j][1])
+                    g.abs_move(x=pad_positions[6+j][0],y=pad_positions[6+j][1]+1) # +1 added to allow for die placement
                     g.abs_move(**{nozzle:height})
                     if valve is not None:
                         g.set_valve(num = valve, value = 1)
                     g.dwell(dwell)
-                    g.feed(speed*0.7)
-                    g.move(y=0.4)
+                    #g.feed(speed*0.7)
+                    #g.move(y=0.4)
                     g.feed(speed)
-                    g.move(y=3.6)                    
+                    g.move(y=3)                    
                     if j<3:
                         g.abs_move(x=external_pad_positions[6+j][0],y=external_pad_positions[6+j][1])
                         g.feed(speed*0.2)
@@ -1058,8 +1055,6 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
-                        g.move(**{nozzle:15})
-                        g.dwell(10)
                     else:
                         g.abs_move(x=external_pad_positions[6+j][0],y=external_pad_positions[6+j][1])
                         g.feed(speed*0.2)
@@ -1076,22 +1071,20 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
-                        g.move(**{nozzle:15})
-                        g.dwell(10)
     
     for i in np.arange(2):        
         for j in np.arange(6):
                 if i==0:
                     g.abs_move(**{nozzle:5})
-                    g.abs_move(x=pad_positions[j][0],y=pad_positions[j][1])
+                    g.abs_move(x=pad_positions[j][0]-1,y=pad_positions[j][1]) # -1 added to allow for die placement
                     g.abs_move(**{nozzle:height})
                     if valve is not None:
                         g.set_valve(num = valve, value = 1)
                     g.dwell(dwell)
-                    g.feed(speed/2)
-                    g.move(x=-0.4)
+                    #g.feed(speed/2)
+                    #g.move(x=-0.4)
                     g.feed(speed)
-                    g.move(x=-3.6)
+                    g.move(x=-3)
                     if j<3:
                         g.abs_move(x=external_pad_positions[j][0],y=external_pad_positions[j][1])
                         g.feed(speed*0.2)
@@ -1108,8 +1101,6 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
-                        g.move(**{nozzle:15})
-                        g.dwell(10)
                     else:
                         g.abs_move(x=external_pad_positions[j][0],y=external_pad_positions[j][1])
                         g.feed(speed*0.2)
@@ -1126,19 +1117,17 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
-                        g.move(**{nozzle:15})
-                        g.dwell(10)
                 else:
                     g.abs_move(**{nozzle:5})
-                    g.abs_move(x=pad_positions[17-j][0],y=pad_positions[17-j][1])
+                    g.abs_move(x=pad_positions[17-j][0]+1,y=pad_positions[17-j][1] )# +1 added to allow for die placement
                     g.abs_move(**{nozzle:height})
                     if valve is not None:
                         g.set_valve(num = valve, value = 1)
                     g.dwell(dwell)
-                    g.feed(speed/2)
-                    g.move(x=0.4)
+                    #g.feed(speed/2)
+                    #g.move(x=0.4)
                     g.feed(speed)
-                    g.move(x=3.6)                  
+                    g.move(x=3)                  
                     if j<3:
                         g.abs_move(x=external_pad_positions[17-j][0],y=external_pad_positions[17-j][1])
                         g.feed(speed*0.2)
@@ -1155,8 +1144,6 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
-                        g.move(**{nozzle:15})
-                        g.dwell(10)
                     else:
                         g.abs_move(x=external_pad_positions[17-j][0],y=external_pad_positions[17-j][1])
                         g.feed(speed*0.2)
@@ -1173,15 +1160,96 @@ def print_die_wiring(valve,nozzle,height,speed,dwell,pressure):
                         g.set_valve(num = valve, value = 0)
                         g.feed(15)
                         g.clip(axis=nozzle, height=5)
-                        g.move(**{nozzle:15})
-                        g.dwell(10)
 
+def print_die_wiring_DIE_CONNECTIONS(valve,nozzle,height,speed,dwell,pressure):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    
+    #####test line
+    g.abs_move(x=5,y=5.5)
+    pressure_purge(delay = 2)
+    g.abs_move(**{nozzle:height})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.feed(speed)
+    g.move(x=7)
+    g.feed(25)
+    g.clip(axis=nozzle, height=6, direction='-x')
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    #
+    g.abs_move(x=42.25,y=23.32)
+    g.set_home(x=0,y=0)
+    pressure_purge(delay = 2)
+    for i in np.arange(2):        
+        for j in np.arange(6):
+                if i==0:
+                    g.abs_move(**{nozzle:2})
+                    g.abs_move(x=pad_positions[23-j][0],y=pad_positions[23-j][1]-1)
+                    g.abs_move(**{nozzle:height})
+                    if valve is not None:
+                        g.set_valve(num = valve, value = 1)
+                    g.feed(speed)
+                    g.dwell(dwell)
+                    g.move(y=0.5)
+                    g.move(y=0.5,**{nozzle:0.1})
+                    g.set_valve(num = valve, value = 0)
+                    #g.dwell(2)
+                    g.feed(15)
+                    g.clip(axis=nozzle, height=2, direction='-y')
+                else:
+                    g.abs_move(**{nozzle:2})
+                    g.abs_move(x=pad_positions[6+j][0],y=pad_positions[6+j][1]+1) # +1 added to allow for die placement
+                    g.abs_move(**{nozzle:height})
+                    if valve is not None:
+                        g.set_valve(num = valve, value = 1)
+                    g.feed(speed)
+                    g.dwell(dwell)
+                    g.move(y=-0.5)
+                    g.move(y=-0.5,**{nozzle:0.1})
+                    #g.dwell(2)
+                    g.set_valve(num = valve, value = 0)
+                    g.feed(15)
+                    g.clip(axis=nozzle, height=2, direction='+y')
+    
+    for i in np.arange(2):        
+        for j in np.arange(6):
+                if i==0:
+                    g.abs_move(**{nozzle:2})
+                    g.abs_move(x=pad_positions[j][0]-1,y=pad_positions[j][1]) # -1 added to allow for die placement
+                    g.abs_move(**{nozzle:height})
+                    if valve is not None:
+                        g.set_valve(num = valve, value = 1)
+                    g.feed(speed)
+                    g.dwell(dwell)
+                    g.move(x=0.5)
+                    g.move(x=0.5,**{nozzle:0.1})
+                    #g.dwell(2)
+                    g.set_valve(num = valve, value = 0)
+                    g.feed(15)
+                    g.clip(axis=nozzle, height=2, direction='-x')
+                else:
+                    g.abs_move(**{nozzle:2})
+                    g.abs_move(x=pad_positions[17-j][0]+1,y=pad_positions[17-j][1] )# +1 added to allow for die placement
+                    g.abs_move(**{nozzle:height})
+                    if valve is not None:
+                        g.set_valve(num = valve, value = 1)
+                    g.feed(speed)
+                    g.dwell(dwell)
+                    g.move(x=-0.5)
+                    g.move(x=-0.5,**{nozzle:0.1})
+                    #g.dwell(2)
+                    g.set_valve(num = valve, value = 0)
+                    g.feed(15)
+                    g.clip(axis=nozzle, height=2, direction='+x')             
 
 
 def test_line(valve,nozzle,height,speed,dwell,pressure):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
-    g.abs_move(x=3,y=3.5)
+    g.abs_move(x=3,y=3)
+    g.set_home(x=0,y=0)
     pressure_purge(delay = 2)
     g.abs_move(**{nozzle:height})
     if valve is not None:
@@ -1743,23 +1811,24 @@ def bacteria_electrodes(valve,nozzle,height,speed,dwell,pressure,spacing):#
     g.set_pressure(pressure_box, pressure)
 
     #########test line
-    g.abs_move(x=2.5,y=3)
+    g.abs_move(x=2,y=2.5)
     pressure_purge(delay = 2)
     g.abs_move(**{nozzle:height})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
     g.feed(speed)
-    g.move(y=20)
+    g.move(x=35)
     g.feed(20)
-    g.clip(axis=nozzle, height=6, direction='-x')
+    g.clip(axis=nozzle, height=10, direction='-x')
     g.set_pressure(pressure_box, pressure)
     
-    g.abs_move(x=10,y=1.5)
+    g.abs_move(x=16,y=30)
     g.set_home(x=0, y=0)
     g.move(y=2)   #starts first electrode farther up to avoid short circuit
     #g.move(x=14.4)
     #Print start
+    g.dwell(5)
     if spacing=='400':    
         top_electrode_connection=20.4
         bottom_electrode_connection=0
@@ -1768,60 +1837,69 @@ def bacteria_electrodes(valve,nozzle,height,speed,dwell,pressure,spacing):#
             g.feed(speed)
             if valve is not None:
                 g.set_valve(num = valve, value = 1)
-            g.dwell(dwell)
+            #g.dwell(dwell)
             g.abs_move(y=top_electrode_connection)
             g.set_valve(num = valve, value = 0)
-            g.clip(axis=nozzle, height=2, direction='-y')
+            g.clip(axis=nozzle, height=1, direction='-y')
             g.move(x=0.4,y=-0.4)
             g.abs_move(**{nozzle:height})
             if valve is not None:
                 g.set_valve(num = valve, value = 1)
-            g.dwell(dwell)
+            #g.dwell(dwell)
             g.abs_move(y=bottom_electrode_connection)
             g.set_valve(num = valve, value = 0)
-            g.clip(axis=nozzle, height=2, direction='+y')
+            g.clip(axis=nozzle, height=1, direction='+y')
             if i<24:
                 g.move(x=0.4,y=0.4)
         #
-        g.abs_move(x=0,y=0)
-        g.abs_move(**{nozzle:height}) 
-        if valve is not None:
-            g.set_valve(num = valve, value = 1)
-        g.dwell(dwell)
-        g.feed(speed*0.3)
-        g.abs_move(x=22.4,y=0)
-        g.feed(speed*0.2)
-        g.arc(x=1.,y=0,radius=0.5)
-        g.arc(x=-1.,y=0,radius=0.5)
-        g.move(x=0.2)
-        g.arc(x=0.6,y=0,radius=0.3)
-        g.arc(x=-0.6,y=0,radius=0.3)
-        g.move(x=0.2)
-        g.arc(x=0.2,y=0,radius=0.1)
-        g.arc(x=-0.2,y=0,radius=0.1)
-        g.set_valve(num = valve, value = 0)
-        g.clip(axis=nozzle, height=2, direction='+y')
 
-        
-        g.abs_move(x=0.2,y=20.4)
+        g.abs_move(x=0,y=0)
+        g.abs_move(**{nozzle:10}) 
+        g.dwell(5)
         g.abs_move(**{nozzle:height}) 
         if valve is not None:
             g.set_valve(num = valve, value = 1)
-        g.feed(speed*0.3)
         g.dwell(dwell)
+        g.feed(speed*0.6)
+        g.abs_move(x=19.8,y=0)
+        g.move(y=-3)
+        g.abs_move(**{nozzle:height+0.05})
+        g.set_pressure(pressure_box, pressure+3)
         g.feed(speed*0.2)
-        g.abs_move(x=22.4)
-        g.feed(speed*0.2)
-        g.arc(x=1.,y=0,radius=0.5)
-        g.arc(x=-1.,y=0,radius=0.5)
-        g.move(x=0.2)
-        g.arc(x=0.6,y=0,radius=0.3)
-        g.arc(x=-0.6,y=0,radius=0.3)
-        g.move(x=0.2)
-        g.arc(x=0.2,y=0,radius=0.1)
-        g.arc(x=-0.2,y=0,radius=0.1)
+        g.arc(x=0,y=1.4,radius=0.7)
+        g.arc(x=0,y=-1.4,radius=0.7)
+        g.move(y=0.2)
+        g.arc(x=0,y=1.,radius=0.5)
+        g.arc(x=0,y=-1.,radius=0.5)
+        g.move(y=0.2)
+        g.arc(x=0,y=0.6,radius=0.3)
+        g.arc(x=0,y=-0.6,radius=0.3)
         g.set_valve(num = valve, value = 0)
-        g.clip(axis=nozzle, height=2, direction='-y')
+        g.clip(axis=nozzle, height=10, direction='+y')
+
+        g.feed(15)
+        g.set_pressure(pressure_box, pressure)
+        g.abs_move(x=0.2,y=20.4)
+        g.dwell(5)
+        g.abs_move(**{nozzle:height}) 
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.feed(speed*0.6)
+        g.abs_move(x=19.8)
+        g.move(y=3)
+        g.abs_move(**{nozzle:height+0.05})
+        g.set_pressure(pressure_box, pressure+3)
+        g.feed(speed*0.2)
+        g.arc(x=0,y=1.4,radius=0.7)
+        g.arc(x=0,y=-1.4,radius=0.7)
+        g.move(y=0.2)
+        g.arc(x=0,y=1.,radius=0.5)
+        g.arc(x=0,y=-1.,radius=0.5)
+        g.move(y=0.2)
+        g.arc(x=0,y=0.6,radius=0.3)
+        g.arc(x=0,y=-0.6,radius=0.3)
+        g.set_valve(num = valve, value = 0)
+        g.clip(axis=nozzle, height=1, direction='+y')
         #
     elif spacing=='200':
         top_electrode_connection=20.4
@@ -2235,7 +2313,7 @@ def stretchy_matrix_square(valve,nozzle,height,speed,dwell,pressure,nozzle_diame
             g.set_pressure(pressure_box, pressure)
 
 
-def wells(valve,nozzle,height,speed,dwell,pressure,layer_height,xstart,ystart,layers):#
+def wells(valve,nozzle,height,speed,dwell,pressure,layer_height,xstart,ystart):#
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
     g.abs_move(x=xstart,y=ystart)
@@ -2244,31 +2322,18 @@ def wells(valve,nozzle,height,speed,dwell,pressure,layer_height,xstart,ystart,la
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
-    
-    for i in range (layers):
-        g.rect(x=22.4,y=22.4)
-        g.move(**{nozzle:layer_height})
-      
+    g.rect(x=25,y=18)
+    g.move(**{nozzle:layer_height})
+    g.rect(x=25,y=18)
+    g.move(**{nozzle:layer_height})
+    g.rect(x=25,y=18)
+    g.move(**{nozzle:layer_height})
+    g.rect(x=25,y=18)
+    g.move(**{nozzle:layer_height})
+    g.rect(x=25,y=18)
     g.set_valve(num = valve, value = 0)
     g.feed(25)
-    g.abs_move(**{nozzle:30})
-    
-def square_infill(valve,nozzle,height,speed,dwell,pressure,xstart,ystart,orientation):#
-    g.feed(25)
-    g.set_pressure(pressure_box, pressure)
-    g.abs_move(x=xstart,y=ystart)
-    g.abs_move(**{nozzle:height})
-    g.feed(speed)
-    if valve is not None:
-        g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    g.meander(x=3.6,y=3.6,spacing=0.6,orientation=orientation)
-      
-    g.set_valve(num = valve, value = 0)
-    g.feed(25)
-    g.move(x=4,y=4)
-    g.abs_move(**{nozzle:5})
-  
+    g.abs_move(**{nozzle:5}) 
 
 def silver_meander(valve,nozzle,height,speed,dwell,pressure,xstart,ystart,meandx,meandy,nozzleID):#
     g.feed(25)
@@ -2292,7 +2357,7 @@ def silver_meander(valve,nozzle,height,speed,dwell,pressure,xstart,ystart,meandx
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
 active_slide = 'slide1'
-z_ref = -87.4211
+z_ref = -86.359451
 #active_slide = 'slide2'
 #z_ref = -93.159304
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
@@ -2423,21 +2488,41 @@ if 'D' in AXES_USED:
 
 
 
-##------------------PRINT ME BACTERIA ELECTRODES
+#######------------------PRINT ME DIE AND WIRING
 set_home_in_z()
-g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
 ###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
 
 #g.abs_move(x=0, y=0)
 #nozzle_change(nozzles = 'ab')
-#g.set_home(x=-24, y=-4)
+g.set_home(x=0, y=0)
 
 g.toggle_pressure(pressure_box)
-bacteria_electrodes(valve='1',nozzle='A',height=0.02,speed=3.5,dwell=0.3,pressure=54,spacing='400')
+#test_line(valve='1',nozzle='A',height=1,speed=0.6,dwell=3,pressure=21)
+#g.dwell(5)
+#print_die(valve='1',nozzle='A',height=0.065,speed=1.3,dwell=0.1,pressure=6.2)
+
+#print_die_wiring_PET_old(valve='1',nozzle='A',height=0.02,speed=0.5,dwell=0.3,pressure=26)
+#print_die_wiring(valve='1',nozzle='z',height=0.17,speed=2,dwell=0.3,pressure=6.5)
+print_die_wiring_DIE_CONNECTIONS(valve='1',nozzle='A',height=0.26,speed=0.5,dwell=0.3,pressure=22)
 
 g.toggle_pressure(pressure_box)
+
+##------------------PRINT ME BACTERIA ELECTRODES
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#g.set_home(x=0, y=0)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=-24, y=-4)
+#
+#g.toggle_pressure(pressure_box)
+#bacteria_electrodes(valve='1',nozzle='A',height=0.06,speed=5,dwell=0.1,pressure=35,spacing='400')
+#
+#g.toggle_pressure(pressure_box)
 
 ##------------------PRINT ME CONCENTRIC STIFFNESS GRADIENTS
 #set_home_in_z()
@@ -2510,73 +2595,22 @@ g.toggle_pressure(pressure_box)
 
 
 ##------------------PRINT ME WELLS
-
-
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 #
 #g.set_home(x=0, y=0)
 #
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
-#g.set_home(x=0, y=0)
-#
-#g.abs_move(x=20,y=20)
-#g.set_home(x=0,y=0)
-#
-#g.toggle_pressure(pressure_box)
-#
-#wells(valve='2',nozzle='B',height=0.3,speed=15,dwell=0.25,pressure=28,layer_height=0.2,layers=10,xstart=-10,ystart=-10)
-#g.dwell(15)
-#square_infill(valve='2',nozzle='B',height=0.4,speed=5,dwell=0.5,pressure=22,xstart=-0.7,ystart=-0.7,orientation='x')
-#
-##translate over 32 in x!!!!
-#g.abs_move(x=32,y=0)
-#g.set_home(x=0,y=0)
-#
-#wells(valve='2',nozzle='B',height=0.3,speed=15,dwell=0.25,pressure=28,layer_height=0.2,layers=10,xstart=-10,ystart=-10)
-#g.dwell(15)
-#square_infill(valve='2',nozzle='B',height=0.4,speed=5,dwell=0.5,pressure=22,xstart=-0.7,ystart=-0.7,orientation='x')
-#
-#
-#
-#
 ##g.abs_move(x=0, y=0)
 ##nozzle_change(nozzles = 'ab')
 ##g.set_home(x=0, y=0)
 #
-#
-#
-#square_infill(valve='2',nozzle='B',height=1.4,speed=6,dwell=0.5,pressure=25,xstart=-0.3,ystart=-0.7,orientation='y')
-#
-#
 #g.toggle_pressure(pressure_box)
-
-
-######------------------PRINT ME DIE AND WIRING
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-#
-##g.abs_move(x=0, y=0)
-##nozzle_change(nozzles = 'ab')
-#g.set_home(x=0, y=0)
-#
+#wells(valve='1',nozzle='A',height=0.3,speed=6,dwell=0.25,pressure=50,layer_height=0.2,xstart=7.5,ystart=6)
+#wells(valve='1',nozzle='A',height=0.3,speed=6,dwell=0.25,pressure=50,layer_height=0.2,xstart=7.5,ystart=26)
+#wells(valve='1',nozzle='A',height=0.3,speed=6,dwell=0.25,pressure=50,layer_height=0.2,xstart=37.5,ystart=6)
+#wells(valve='1',nozzle='A',height=0.3,speed=6,dwell=0.25,pressure=50,layer_height=0.2,xstart=37.5,ystart=26)
 #g.toggle_pressure(pressure_box)
-##test_line(valve='1',nozzle='A',height=0.02,speed=1,dwell=0.2,pressure=5)
-##g.dwell(5)
-##print_die(valve='1',nozzle='A',height=0.065,speed=1.3,dwell=0.1,pressure=6.2)
-#
-##print_die_wiring_PET_old(valve='1',nozzle='A',height=0.02,speed=0.5,dwell=0.3,pressure=26)
-#print_die_wiring(valve='1',nozzle='A',height=0.5818+0.07,speed=1.0,dwell=0.2,pressure=5)
-#
-#g.toggle_pressure(pressure_box)
-
-
-
-
-
 
 ######------------------PRINT ME SILVER MEANDERS
 #set_home_in_z()
