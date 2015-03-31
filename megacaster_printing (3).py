@@ -13,10 +13,10 @@ g=G(
     aerotech_include=False,
 ) 
 
-pad_positions=((0.1,0.38+0.28*0),(.1,0.38+0.28*1),(.1,0.38+0.28*2),(.1,0.38+0.28*3),(.1,0.38+0.28*4),(.1,0.38+0.28*5),
-(0.38+0.28*0,2.06),(0.38+0.28*1,2.06),(0.38+0.28*2,2.06),(0.38+0.28*3,2.06),(0.38+0.28*4,2.06),(0.38+0.28*5,2.06),
-(2.06,0.38+0.28*5),(2.06,0.38+0.28*4),(2.06,0.38+0.28*3),(2.06,0.38+0.28*2),(2.06,0.38+0.28*1),(2.06,0.38+0.28*0),
-(0.38+0.28*5,0.1),(0.38+0.28*4,0.1),(0.38+0.28*3,0.1),(0.38+0.28*2,0.1),(0.38+0.28*1,0.1),(0.38+0.28*0,0.1))
+pad_positions=((0.1,0.38+0.29*0),(.1,0.38+0.29*1),(.1,0.38+0.29*2),(.1,0.38+0.29*3),(.1,0.38+0.29*4),(.1,0.38+0.29*5),
+(0.38+0.29*0,2.06),(0.38+0.29*1,2.06),(0.38+0.29*2,2.06),(0.38+0.29*3,2.06),(0.38+0.29*4,2.06),(0.38+0.29*5,2.06),
+(2.06,0.38+0.29*5),(2.06,0.38+0.29*4),(2.06,0.38+0.29*3),(2.06,0.38+0.29*2),(2.06,0.38+0.29*1),(2.06,0.38+0.29*0),
+(0.38+0.29*5,0.1),(0.38+0.29*4,0.1),(0.38+0.29*3,0.1),(0.38+0.29*2,0.1),(0.38+0.29*1,0.1),(0.38+0.29*0,0.1))
 
 well_position = ((10.5, 25.245), (24, 25.245), (37.5, 25.245), (51, 25.245), 
                        (10.5, 24.245), (24, 24.245), (37.5, 24.245), (51, 24.245))
@@ -723,12 +723,13 @@ def print_die_wiring_DIE_CONNECTIONS(nozzle,height,speed,dwell,pressure):
     g.feed(speed)
     g.move(x=7)
     g.feed(25)
-    g.clip(axis=nozzle, height=10, direction='-x')
+    g.clip(axis=nozzle, height=5, direction='-x')
     g.feed(25)
     g.toggle_pressure(pressure_box)
-    g.dwell(10)
+    g.dwell(1)
     #
-    g.abs_move(x=6,y=10)
+    g.write("G82 X Y")
+    g.abs_move(x=-29.072078-0.06,y=-4.006953-.38)
     g.set_home(x=0,y=0)
     for i in np.arange(2):        
         for j in np.arange(6):
@@ -742,14 +743,18 @@ def print_die_wiring_DIE_CONNECTIONS(nozzle,height,speed,dwell,pressure):
                     g.abs_move(**{nozzle:height})
                     g.feed(speed)
                     g.toggle_pressure(pressure_box)
+                    g.move(x=0.3)
+                    g.arc(x=-0.6,y=0,radius=0.3)
+                    g.arc(x=0.6,y=0,radius=0.3)
+                    g.move(x=-0.3)
                     g.abs_move(x=pad_positions[23-j][0],y=pad_positions[23-j][1]-2)
-                    g.move(y=1.5)
-                    g.move(y=0.5,**{nozzle:0.1})
+                    g.move(y=1.0)
+                    g.move(y=1.1,**{nozzle:0.13})
                     g.feed(2)
+                    g.move(y=-0.9,**{nozzle:-0.13})
                     g.toggle_pressure(pressure_box)
-                    g.move(y=-1)
-                    #g.dwell(2)
                 else:
+                    print ''
                     g.abs_move(**{nozzle:1})
                     if j<3:
                         g.abs_move(x=pad_positions[6+j][0]-(4-(j+1)),y=pad_positions[6+j][1]+4)
@@ -759,14 +764,17 @@ def print_die_wiring_DIE_CONNECTIONS(nozzle,height,speed,dwell,pressure):
                     g.abs_move(**{nozzle:height})
                     g.feed(speed)
                     g.toggle_pressure(pressure_box)
+                    g.move(x=0.3)
+                    g.arc(x=-0.6,y=0,radius=0.3)
+                    g.arc(x=0.6,y=0,radius=0.3)
+                    g.move(x=-0.3)
                     g.abs_move(x=pad_positions[6+j][0],y=pad_positions[6+j][1]+2)
-                    g.move(y=-1.5)
-                    g.move(y=-0.5,**{nozzle:0.1})
+                    g.move(y=-1.0)
+                    g.move(y=-1.1,**{nozzle:0.13})
                     g.feed(2)
+                    g.move(y=1.0,**{nozzle:-0.13})
                     g.toggle_pressure(pressure_box)
-                    g.move(y=1)
-                    #g.dwell(2)
-                    
+    #                
     for i in np.arange(2):        
         for j in np.arange(6):
                 if i==0:
@@ -775,21 +783,23 @@ def print_die_wiring_DIE_CONNECTIONS(nozzle,height,speed,dwell,pressure):
                         g.abs_move(x=pad_positions[j][0]-4,y=pad_positions[j][1]-(4-(j+1)))
                     else:
                         g.abs_move(x=pad_positions[j][0]-4,y=pad_positions[j][1]+((j-2)))
-                    
-                    
+
                     g.abs_move(**{nozzle:height})
                     g.feed(speed)
                     g.toggle_pressure(pressure_box)
+                    g.move(x=0.3)
+                    g.arc(x=-0.6,y=0,radius=0.3)
+                    g.arc(x=0.6,y=0,radius=0.3)
+                    g.move(x=-0.3)
                     g.abs_move(x=pad_positions[j][0]-2,y=pad_positions[j][1])
-                    g.dwell(dwell)
-                    g.move(x=1.5)
-                    g.move(x=0.5,**{nozzle:0.1})
+                    g.move(x=1.0)
+                    g.move(x=1.1,**{nozzle:0.13})
                     #g.dwell(2)
-                    g.toggle_pressure(pressure_box)
                     g.feed(2)
-                    g.move(x=-1)
-                    #g.dwell(2)
+                    g.move(x=-1.0,**{nozzle:-0.13})
+                    g.toggle_pressure(pressure_box)
                 else:
+                    print ''
                     g.abs_move(**{nozzle:1})
                     if j<3:
                         g.abs_move(x=pad_positions[17-j][0]+4,y=pad_positions[17-j][1]-(4-(j+1)))
@@ -799,16 +809,22 @@ def print_die_wiring_DIE_CONNECTIONS(nozzle,height,speed,dwell,pressure):
                     g.abs_move(**{nozzle:height})
                     g.feed(speed)
                     g.toggle_pressure(pressure_box)
-                    g.dwell(dwell)
+                    g.move(x=0.3)
+                    g.arc(x=-0.6,y=0,radius=0.3)
+                    g.arc(x=0.6,y=0,radius=0.3)
+                    g.move(x=-0.3)
                     g.abs_move(x=pad_positions[17-j][0]+2,y=pad_positions[17-j][1])
-                    g.move(x=-1.5)
-                    g.move(x=-0.5,**{nozzle:0.1})
+                    g.move(x=-1.0)
+                    g.move(x=-1.1,**{nozzle:0.13})
                     #g.dwell(2)
-                    g.toggle_pressure(pressure_box)
                     g.feed(2)
-                    g.move(x=1)
-                    #g.dwell(2)
-
+                    g.move(x=1.0,**{nozzle:-0.13})
+                    g.toggle_pressure(pressure_box)
+        
+        if i==1:
+            g.clip(axis=nozzle, height=5, direction='-x')
+        else:
+            print ''
 
 #print_die(speed=1.4,dwell=0.1)
 #print_die_wiring(speed=0.25,dwell=0.1)
@@ -819,8 +835,8 @@ def print_die_wiring_DIE_CONNECTIONS(nozzle,height,speed,dwell,pressure):
 #print_all_single_wells(layer_height = 0.04, layer_increments=5, total_increments=20, pressure=32, speed=5, nozzle = 'Z')
 
 g.set_home(x=0,y=0,z=0)
-print_die_wiring_DIE_CONNECTIONS(nozzle='z',height=0.05,speed=1,dwell=0.02,pressure=12)
+print_die_wiring_DIE_CONNECTIONS(nozzle='z',height=0.04,speed=1.8,dwell=0.02,pressure=8)
 
-#g.view(backend='matplotlib')
+g.view(backend='matplotlib')
 
 g.teardown() 
