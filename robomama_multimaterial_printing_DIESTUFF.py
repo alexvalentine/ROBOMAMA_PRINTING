@@ -1957,7 +1957,7 @@ def bacteria_electrodes(valve,nozzle,height,speed,dwell,pressure,spacing):#
     g.set_pressure(pressure_box, pressure)
 
     #########test line
-    g.abs_move(x=2,y=2.5)
+    g.abs_move(x=2,y=3.5)
     pressure_purge(delay = 2)
     g.abs_move(**{nozzle:height})
     if valve is not None:
@@ -1969,12 +1969,25 @@ def bacteria_electrodes(valve,nozzle,height,speed,dwell,pressure,spacing):#
     g.clip(axis=nozzle, height=10, direction='-x')
     g.set_pressure(pressure_box, pressure)
     
-    g.abs_move(x=16,y=30)
+    
+    
+    g.abs_move(x=25,y=15)
     g.set_home(x=0, y=0)
-    g.move(y=2)   #starts first electrode farther up to avoid short circuit
+    
+    ####OUTLINE OF SLIDE FOR ALIGNING PURPOSES
+    #g.abs_move(x=-25,y=-15)
+    #g.move(x=72.4)
+    #g.move(y=50.8)
+    #g.move(x=-72.4)
+    #g.move(y=-50.8)
+    #####OUTLINE OF SLIDE FOR ALIGNING PURPOSES
+    
+    g.abs_move(x=0,y=0)
+
+    g.move(x=2)   #starts first electrode farther up to avoid short circuit
     #g.move(x=14.4)
     #Print start
-    g.dwell(5)
+    g.dwell(0.1)
     if spacing=='400':    
         top_electrode_connection=20.4
         bottom_electrode_connection=0
@@ -1984,31 +1997,31 @@ def bacteria_electrodes(valve,nozzle,height,speed,dwell,pressure,spacing):#
             if valve is not None:
                 g.set_valve(num = valve, value = 1)
             #g.dwell(dwell)
-            g.abs_move(y=top_electrode_connection)
+            g.abs_move(x=top_electrode_connection)
             g.set_valve(num = valve, value = 0)
-            g.clip(axis=nozzle, height=1, direction='-y')
-            g.move(x=0.4,y=-0.4)
+            g.clip(axis=nozzle, height=0.4, direction='-y')
+            g.move(y=0.4,x=-0.4)
             g.abs_move(**{nozzle:height})
             if valve is not None:
                 g.set_valve(num = valve, value = 1)
             #g.dwell(dwell)
-            g.abs_move(y=bottom_electrode_connection)
+            g.abs_move(x=bottom_electrode_connection)
             g.set_valve(num = valve, value = 0)
-            g.clip(axis=nozzle, height=1, direction='+y')
+            g.clip(axis=nozzle, height=0.4, direction='+y')
             if i<24:
-                g.move(x=0.4,y=0.4)
+                g.move(y=0.4,x=0.4)
         #
 
         g.abs_move(x=0,y=0)
-        g.abs_move(**{nozzle:10}) 
-        g.dwell(5)
+        #g.abs_move(**{nozzle:10}) 
+        g.dwell(1)
         g.abs_move(**{nozzle:height}) 
         if valve is not None:
             g.set_valve(num = valve, value = 1)
         g.dwell(dwell)
         g.feed(speed*0.6)
-        g.abs_move(x=19.8,y=0)
-        g.move(y=-3)
+        g.abs_move(y=19.8,x=0)
+        g.move(x=-3,y=3)
         g.abs_move(**{nozzle:height+0.05})
         g.set_pressure(pressure_box, pressure+3)
         g.feed(speed*0.2)
@@ -2025,14 +2038,14 @@ def bacteria_electrodes(valve,nozzle,height,speed,dwell,pressure,spacing):#
 
         g.feed(15)
         g.set_pressure(pressure_box, pressure)
-        g.abs_move(x=0.2,y=20.4)
-        g.dwell(5)
+        g.abs_move(y=0,x=20.4)
+        g.dwell(1)
         g.abs_move(**{nozzle:height}) 
         if valve is not None:
             g.set_valve(num = valve, value = 1)
         g.feed(speed*0.6)
-        g.abs_move(x=19.8)
-        g.move(y=3)
+        g.abs_move(y=19.8)
+        g.move(x=3,y=3)
         g.abs_move(**{nozzle:height+0.05})
         g.set_pressure(pressure_box, pressure+3)
         g.feed(speed*0.2)
@@ -2045,7 +2058,7 @@ def bacteria_electrodes(valve,nozzle,height,speed,dwell,pressure,spacing):#
         g.arc(x=0,y=0.6,radius=0.3)
         g.arc(x=0,y=-0.6,radius=0.3)
         g.set_valve(num = valve, value = 0)
-        g.clip(axis=nozzle, height=1, direction='+y')
+        g.clip(axis=nozzle, height=10, direction='+y')
         #
     elif spacing=='200':
         top_electrode_connection=20.4
@@ -2131,13 +2144,14 @@ def tpu_square(valve,nozzle,height,speed,dwell,pressure):
     g.clip(axis=nozzle, height=6, direction='-x')
     g.set_pressure(pressure_box, pressure)
     
-    g.abs_move(10, 10)    
+    g.abs_move(22, 12)    
     g.abs_move(**{nozzle:height}) 
     g.feed(speed)
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
-    g.meander(x=23,y=23,spacing=0.2,start='LL',orientation='y')
+    #g.rect(x=25,y=25)
+    g.meander(x=25,y=25,spacing=0.2,start='LL',orientation='y')
 
     g.set_valve(num = valve, value = 0)
     g.clip(axis=nozzle, height=10, direction='-y')
@@ -2522,10 +2536,13 @@ def die_pick_and_place(valve,nozzle):#
 
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
-active_slide = 'slide1'
-z_ref = -87.050397
-#active_slide = 'slide2'
-#z_ref = -93.159304
+#active_slide = 'slide1'
+#z_ref = -88.388081
+active_slide = 'slide2'
+z_ref = -88.493860
+#active_slide = 'slide3'
+#z_ref = -88.3824
+
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
 
@@ -2610,21 +2627,21 @@ if 'D' in AXES_USED:
 
 
 ###########------------------PRINT ME TPU STUFF
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-#
-#g.set_home(x=0, y=0)
-#
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
 #g.abs_move(x=0, y=0)
 #nozzle_change(nozzles = 'ab')
 #g.set_home(x=0, y=0)
-#
-#g.toggle_pressure(pressure_box)
-#tpu_square(valve='2',nozzle='B',height=0.35,speed=17,dwell=0.2,pressure=4)
-##tpu_layered_serpentine(valve='2',nozzle='B',height=0.07,speed=15,dwell=1,pressure=3)
-#
-#g.toggle_pressure(pressure_box)
+
+g.toggle_pressure(pressure_box)
+tpu_square(valve='1',nozzle='A',height=0.05,speed=20,dwell=0.2,pressure=1.5)
+#tpu_layered_serpentine(valve='2',nozzle='B',height=0.07,speed=15,dwell=1,pressure=3)
+
+g.toggle_pressure(pressure_box)
 
 
 
@@ -2655,32 +2672,32 @@ if 'D' in AXES_USED:
 
 
 #######------------------PRINT ME DIE AND WIRING
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
-g.set_home(x=0, y=0)
-
-#g.toggle_pressure(pressure_box)
-#test_line(valve='1',nozzle='A',height=1,speed=0.6,dwell=3,pressure=21)
-#g.dwell(5)
-#print_die(valve='1',nozzle='A',height=0.065,speed=1.3,dwell=0.1,pressure=6.2)
-
-#print_die_wiring_PET_old(valve='1',nozzle='A',height=0.02,speed=0.5,dwell=0.3,pressure=26)
-#print_die_wiring(valve='1',nozzle='A',height=0.035,speed=4,dwell=0.3,pressure=8)
-#print_die_wiring_DIE_CONNECTIONS_vertical(valve='1',nozzle='A',height=0.035,speed=4,dwell=0.0.1,pressure=8)
-#print_die_wiring_DIE_CONNECTIONS(valve='1',nozzle='A',height=0.015,speed=4,dwell=0.01,pressure=6.5)
-
-die_pick_and_place(valve='3',nozzle='C')
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
+#
+##g.toggle_pressure(pressure_box)
+##test_line(valve='1',nozzle='A',height=1,speed=0.6,dwell=3,pressure=21)
+##g.dwell(5)
+##print_die(valve='1',nozzle='A',height=0.065,speed=1.3,dwell=0.1,pressure=6.2)
+#
+##print_die_wiring_PET_old(valve='1',nozzle='A',height=0.02,speed=0.5,dwell=0.3,pressure=26)
+##print_die_wiring(valve='1',nozzle='A',height=0.035,speed=4,dwell=0.3,pressure=8)
+##print_die_wiring_DIE_CONNECTIONS_vertical(valve='1',nozzle='A',height=0.035,speed=4,dwell=0.0.1,pressure=8)
+##print_die_wiring_DIE_CONNECTIONS(valve='1',nozzle='A',height=0.015,speed=4,dwell=0.01,pressure=6.5)
+#
+#die_pick_and_place(valve='3',nozzle='C')
 
 
 #g.toggle_pressure(pressure_box)
 
 ##------------------PRINT ME BACTERIA ELECTRODES
 #set_home_in_z()
-#g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 #
 #g.set_home(x=0, y=0)
@@ -2690,11 +2707,11 @@ die_pick_and_place(valve='3',nozzle='C')
 ##g.set_home(x=-24, y=-4)
 #
 #g.toggle_pressure(pressure_box)
-#bacteria_electrodes(valve='1',nozzle='A',height=0.06,speed=5,dwell=0.1,pressure=35,spacing='400')
+#bacteria_electrodes(valve='1',nozzle='A',height=0.03,speed=5.8,dwell=0.1,pressure=12,spacing='400')
 #
 #g.toggle_pressure(pressure_box)
 
-##------------------PRINT ME CONCENTRIC STIFFNESS GRADIENTS
+#------------------PRINT ME CONCENTRIC STIFFNESS GRADIENTS
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
@@ -2830,7 +2847,7 @@ die_pick_and_place(valve='3',nozzle='C')
 #g.toggle_pressure(pressure_box)
 
 
-#g.view(backend='matplotlib')
+g.view(backend='matplotlib')
 
 ##
 g.teardown()
