@@ -79,8 +79,7 @@ y_space = 30
 #groove settings
 movement_feed = 25
 #array = (-95, -94, -93, -92, -91, -90, -90,-91,-91,-92,-92.5, -92.6, -92.6,-92.6,-92.7)
-groove_space = (0.04,0.06,0.08,0.1)
-groove_height = (0.1,)*15
+
 groove_pressure = (10,)*15
 groove_speed = (3,)*15
 
@@ -92,10 +91,9 @@ bottom_space = (0.13,)*15
 cant_width = 3.5
 cant_length = 3.5
 
-cant_width_groove = 4
-cant_length_groove = 4
-cant_width_tpu = 10#(12,)*15
-cant_length_tpu = 10#(12,)*15
+
+cant_width_tpu = 13#(12,)*15
+cant_length_tpu = 13#(12,)*15
 
 def setup(active_slide, ref, move_to_ref = False):
     automator.setup()
@@ -232,7 +230,7 @@ def print_all_bottoms(nozzle = 'A', valve = 1):
         z_start = ZZ+relative_zeros[count]
         g.feed(movement_feed)
         g.set_pressure(com_port = pressure_box, value = bottom_pressure[0])
-        g.abs_move(starting[0]-7, starting[1]-7)
+        g.abs_move(starting[0]-8.5-3, starting[1]-8.5)
         g.abs_move(**{nozzle:z_start+bottom_height[i]})
         print_bottom(cant_width_tpu, cant_length_tpu, spacing=bottom_space[count], startz=z_start+bottom_height[i], speed = bottom_speed[count], nozzle = nozzle, valve = valve)
         g.feed(movement_feed)
@@ -252,38 +250,72 @@ def print_all_grooves(nozzle = 'B', valve = 2):
     count = 0
     BA_offset = (automator.substrate_origins['slide1']['A'][0]-automator.substrate_origins['slide1']['B'][0], 
                 automator.substrate_origins['slide1']['A'][1]-automator.substrate_origins['slide1']['B'][1])
-    for i in np.arange(0,15):
-        starting= (cantilever_position[i][0]-BA_offset[0], cantilever_position[i][1]-BA_offset[1])
-        #starting= (cantilever_position[i][0]-(cant_width/2), cantilever_position[i][1]-(cant_length/2))
+    for i in np.arange(10,15):
+        starting= (cantilever_position[i][0]-BA_offset[0]-3, cantilever_position[i][1]-BA_offset[1])
+        #starting= (cantilever_position[i][0]-3, cantilever_position[i][1])
         z_start = ZZ+relative_zeros[count]
         g.feed(movement_feed)
         g.set_pressure(com_port = pressure_box, value = groove_pressure[0])
-        for j in range(4):
-            if j==0:
-                g.abs_move(starting[0]-4.5, starting[1]+0.5)
-                g.abs_move(**{nozzle:z_start+groove_height[i]})
-                print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
-                g.feed(movement_feed)
-                g.abs_move(**{nozzle:z_start+10})
-            elif j==1:
-                g.abs_move(starting[0]+0.5, starting[1]+0.5)
-                g.abs_move(**{nozzle:z_start+groove_height[i]})
-                print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
-                g.feed(movement_feed)
-                g.abs_move(**{nozzle:z_start+10})
-            elif j==2:
-                g.abs_move(starting[0]-4.5, starting[1]-4.5)
-                g.abs_move(**{nozzle:z_start+groove_height[i]})
-                print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
-                g.feed(movement_feed)
-                g.abs_move(**{nozzle:z_start+10})
-            else:
-                g.abs_move(starting[0]+0.5, starting[1]-4.5)
-                g.abs_move(**{nozzle:z_start+groove_height[i]})
-                print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
-                g.feed(movement_feed)
-                g.abs_move(**{nozzle:z_start+10})
+    
+        
+        ####### LARGE AREA GROOVES - 1 SPACING PER SLIDE
+        
+        groove_space = (0.04,)*3+(0.06,)*3+(0.08,)*4+(0.1,)*3+(0.04,0.08)
+        groove_height = (0.03,)*15
+        cant_width_groove = 10
+        cant_length_groove = 10
+        4
+        
+        g.abs_move(starting[0]-5, starting[1]-5)
+        g.abs_move(**{nozzle:z_start+groove_height[i]})
+        print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[i], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
+        print groove_space[i]
+        g.feed(movement_feed)
+        g.abs_move(**{nozzle:z_start+10})
+        
+        ####### LARGE AREA GROOVES - 1 SPACING PER SLIDE
+
+
+
+
+        
+        ######## QUADRANTS OF GROOVES - 4 SPACINGS PER SLIDE
+        #
+        #groove_space = (0.04,0.06,0.08,0.1)
+        #groove_height = (0.1,)*15
+        #cant_width_groove = 4
+        #cant_length_groove = 4
+        #
+        #for j in range(4):
+        #    if j==0:
+        #        g.abs_move(starting[0]-4.5, starting[1]+0.5)
+        #        g.abs_move(**{nozzle:z_start+groove_height[i]})
+        #        print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
+        #        g.feed(movement_feed)
+        #        g.abs_move(**{nozzle:z_start+10})
+        #    elif j==1:
+        #        g.abs_move(starting[0]+0.5, starting[1]+0.5)
+        #        g.abs_move(**{nozzle:z_start+groove_height[i]})
+        #        print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
+        #        g.feed(movement_feed)
+        #        g.abs_move(**{nozzle:z_start+10})
+        #    elif j==2:
+        #        g.abs_move(starting[0]-4.5, starting[1]-4.5)
+        #        g.abs_move(**{nozzle:z_start+groove_height[i]})
+        #        print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
+        #        g.feed(movement_feed)
+        #        g.abs_move(**{nozzle:z_start+10})
+        #    else:
+        #        g.abs_move(starting[0]+0.5, starting[1]-4.5)
+        #        g.abs_move(**{nozzle:z_start+groove_height[i]})
+        #        print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
+        #        g.feed(movement_feed)
+        #        g.abs_move(**{nozzle:z_start+10})
+        # 
+        #  ####### QUADRANTS OF GROOVES - 4 SPACINGS PER SLIDE
                     
+                               
+                                                     
         count = count + 1
     g.abs_move(**{nozzle:ZZ+60})
         
@@ -292,11 +324,11 @@ def print_all_grooves(nozzle = 'B', valve = 2):
 g.write("POSOFFSET CLEAR X Y U A B C D") 
 reference_nozzle = 'A' 
 active_slide = 'slide1'
-z_ref = -88.641972
+z_ref = -88.559017
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 #
 ### run full alignment###
-#
+
 #setup(active_slide, ref = reference_nozzle, move_to_ref = True)
 
 
@@ -318,9 +350,9 @@ automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.t
 ################### all the printing and array stuff below
 
 
-#####All stuff below here should be commented during alignment section, then comment out setup(), and uncomment everything below and run. 
-# it will profile an array, then output the printing to an outfile
-                
+######All stuff below here should be commented during alignment section, then comment out setup(), and uncomment everything below and run. 
+### it will profile an array, then output the printing to an outfile
+#                
 ######### Profiling and Array building ########################
 
 g.abs_move(A=-1, B=-1, C=-1, D=-1)
@@ -372,10 +404,10 @@ g.feed(20)
 
 g.write("POSOFFSET CLEAR X Y U A B C D")    
 g.abs_move(A=-1, B=-1, C=-1, D=-1)
-g.toggle_pressure(pressure_box)   
-print_all_bottoms()
-g.toggle_pressure(pressure_box)
-g.dwell(60)
+#g.toggle_pressure(pressure_box)   
+#print_all_bottoms()
+#g.toggle_pressure(pressure_box)
+#g.dwell(60)
 g.toggle_pressure(pressure_box)
 print_all_grooves()
 g.toggle_pressure(pressure_box)
