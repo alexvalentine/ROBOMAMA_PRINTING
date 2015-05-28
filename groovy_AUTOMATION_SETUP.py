@@ -79,7 +79,7 @@ y_space = 30
 #groove settings
 movement_feed = 25
 #array = (-95, -94, -93, -92, -91, -90, -90,-91,-91,-92,-92.5, -92.6, -92.6,-92.6,-92.7)
-groove_space = (1,1,1,1,1,)+(1,0.06,0.08,0.1,0.1,)+(0.1,0.1,0.08,0.08,0.06,)
+groove_space = (0.04,0.06,0.08,0.1)
 groove_height = (0.1,)*15
 groove_pressure = (10,)*15
 groove_speed = (3,)*15
@@ -88,8 +88,14 @@ bottom_height = (0.015,)*15
 bottom_speed = (15,)*15
 bottom_pressure = (3.5,)*15
 bottom_space = (0.13,)*15
-cant_width = 12#(12,)*15
-cant_length = 12#(12,)*15
+
+cant_width = 3.5
+cant_length = 3.5
+
+cant_width_groove = 4
+cant_length_groove = 4
+cant_width_tpu = 10#(12,)*15
+cant_length_tpu = 10#(12,)*15
 
 def setup(active_slide, ref, move_to_ref = False):
     automator.setup()
@@ -196,6 +202,7 @@ def print_bottom(cant_width, cant_length, spacing, startz, speed,  nozzle, valve
     g.feed(speed)
     g.set_valve(num = valve, value = 1)
     g.dwell(0.15)    
+    g.move(x=2,y=2)
     g.meander(x = cant_width, y = cant_length, spacing = spacing, orientation = 'y')
     g.set_valve(num = valve, value = 0)
 
@@ -220,20 +227,20 @@ def print_all_bottoms(nozzle = 'A', valve = 1):
         ZZ=zD
     count = 0
     g.abs_move(**{nozzle:ZZ+40})
-    for i in np.arange(4,15):
-        starting= (cantilever_position[i][0]-(cant_width/2), cantilever_position[i][1]-(cant_length/2))
+    for i in np.arange(0,15):
+        starting= (cantilever_position[i][0], cantilever_position[i][1])
         z_start = ZZ+relative_zeros[count]
         g.feed(movement_feed)
         g.set_pressure(com_port = pressure_box, value = bottom_pressure[0])
-        g.abs_move(starting[0], starting[1])
+        g.abs_move(starting[0]-7, starting[1]-7)
         g.abs_move(**{nozzle:z_start+bottom_height[i]})
-        print_bottom(cant_width, cant_length, spacing=bottom_space[count], startz=z_start+bottom_height[i], speed = bottom_speed[count], nozzle = nozzle, valve = valve)
+        print_bottom(cant_width_tpu, cant_length_tpu, spacing=bottom_space[count], startz=z_start+bottom_height[i], speed = bottom_speed[count], nozzle = nozzle, valve = valve)
         g.feed(movement_feed)
         g.abs_move(**{nozzle:z_start+10})
         count = count + 1
     g.abs_move(**{nozzle:ZZ+60})
 
-def print_all_grooves(nozzle = 'A', valve = 1):
+def print_all_grooves(nozzle = 'B', valve = 2):
     if nozzle == 'A':
         ZZ=zA
     if nozzle == 'B':
@@ -243,19 +250,40 @@ def print_all_grooves(nozzle = 'A', valve = 1):
     if nozzle == 'D':
         ZZ=zD
     count = 0
-    #BA_offset = (automator.substrate_origins['slide1']['A'][0]-automator.substrate_origins['slide1']['B'][0], 
-    #            automator.substrate_origins['slide1']['A'][1]-automator.substrate_origins['slide1']['B'][1])
-    for i in [13,14]:
-        #starting= (cantilever_position[i][0]-(cant_width/2)-BA_offset[0], cantilever_position[i][1]-(cant_length/2)-BA_offset[1])
-        starting= (cantilever_position[i][0]-(cant_width/2), cantilever_position[i][1]-(cant_length/2))
+    BA_offset = (automator.substrate_origins['slide1']['A'][0]-automator.substrate_origins['slide1']['B'][0], 
+                automator.substrate_origins['slide1']['A'][1]-automator.substrate_origins['slide1']['B'][1])
+    for i in np.arange(0,15):
+        starting= (cantilever_position[i][0]-BA_offset[0], cantilever_position[i][1]-BA_offset[1])
+        #starting= (cantilever_position[i][0]-(cant_width/2), cantilever_position[i][1]-(cant_length/2))
         z_start = ZZ+relative_zeros[count]
         g.feed(movement_feed)
         g.set_pressure(com_port = pressure_box, value = groove_pressure[0])
-        g.abs_move(starting[0], starting[1])
-        g.abs_move(**{nozzle:z_start+groove_height[i]})
-        print_grooves(cant_width, cant_length, spacing=groove_space[i], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
-        g.feed(movement_feed)
-        g.abs_move(**{nozzle:z_start+10})
+        for j in range(4):
+            if j==0:
+                g.abs_move(starting[0]-4.5, starting[1]+0.5)
+                g.abs_move(**{nozzle:z_start+groove_height[i]})
+                print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
+                g.feed(movement_feed)
+                g.abs_move(**{nozzle:z_start+10})
+            elif j==1:
+                g.abs_move(starting[0]+0.5, starting[1]+0.5)
+                g.abs_move(**{nozzle:z_start+groove_height[i]})
+                print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
+                g.feed(movement_feed)
+                g.abs_move(**{nozzle:z_start+10})
+            elif j==2:
+                g.abs_move(starting[0]-4.5, starting[1]-4.5)
+                g.abs_move(**{nozzle:z_start+groove_height[i]})
+                print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
+                g.feed(movement_feed)
+                g.abs_move(**{nozzle:z_start+10})
+            else:
+                g.abs_move(starting[0]+0.5, starting[1]-4.5)
+                g.abs_move(**{nozzle:z_start+groove_height[i]})
+                print_grooves(cant_width_groove, cant_length_groove, spacing=groove_space[j], startz=z_start+groove_height[i], speed = groove_speed[count], nozzle = nozzle, valve = valve)
+                g.feed(movement_feed)
+                g.abs_move(**{nozzle:z_start+10})
+                    
         count = count + 1
     g.abs_move(**{nozzle:ZZ+60})
         
@@ -264,9 +292,9 @@ def print_all_grooves(nozzle = 'A', valve = 1):
 g.write("POSOFFSET CLEAR X Y U A B C D") 
 reference_nozzle = 'A' 
 active_slide = 'slide1'
-z_ref = -69.657413
+z_ref = -88.641972
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
-
+#
 ### run full alignment###
 #
 #setup(active_slide, ref = reference_nozzle, move_to_ref = True)
@@ -290,11 +318,11 @@ automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.t
 ################### all the printing and array stuff below
 
 
-###All stuff below here should be commented during alignment section, then comment out setup(), and uncomment everything below and run. 
+#####All stuff below here should be commented during alignment section, then comment out setup(), and uncomment everything below and run. 
 # it will profile an array, then output the printing to an outfile
                 
-########## Profiling and Array building ########################
-#
+######### Profiling and Array building ########################
+
 g.abs_move(A=-1, B=-1, C=-1, D=-1)
 
 slide0=(automator.substrate_origins[active_slide]['A'][0]+11, automator.substrate_origins[active_slide]['A'][1]+11)
@@ -344,10 +372,10 @@ g.feed(20)
 
 g.write("POSOFFSET CLEAR X Y U A B C D")    
 g.abs_move(A=-1, B=-1, C=-1, D=-1)
-#g.toggle_pressure(pressure_box)   
-#print_all_bottoms()
-#g.toggle_pressure(pressure_box)
-#g.dwell(60)
+g.toggle_pressure(pressure_box)   
+print_all_bottoms()
+g.toggle_pressure(pressure_box)
+g.dwell(60)
 g.toggle_pressure(pressure_box)
 print_all_grooves()
 g.toggle_pressure(pressure_box)
