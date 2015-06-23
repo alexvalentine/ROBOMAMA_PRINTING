@@ -83,87 +83,6 @@ g = G(
 #ORIGIN OF PRINTING AREA IS DEFINED AS BOTTOM LEFT CORNER OF SUBSTRATE (glass 2"x3")
 
 zA  = zB = zC = zD =0
-cant_y_translate = 2.5
-#Defining positions of all 16 cantilevers as the top left (first 8 sensors) or bottom left (last 8 sensors) corner of cantilever, offest from extra and inset
-cantilever_position = ((11.93, 33.9 + cant_y_translate), (17.68, 33.9+ cant_y_translate), (25.43, 33.9+ cant_y_translate), (31.18, 33.9+ cant_y_translate), (38.93, 33.9+ cant_y_translate), (44.68, 33.9+ cant_y_translate), (52.43, 33.9+ cant_y_translate), (58.18, 33.9+ cant_y_translate),
-                       (11.93, 15.55 - cant_y_translate), (17.68, 15.55 - cant_y_translate), (25.43, 15.55 - cant_y_translate), (31.18, 15.55 - cant_y_translate), (38.93, 15.55 - cant_y_translate), (44.68, 15.55 - cant_y_translate), (52.43, 15.55 - cant_y_translate), (58.18, 15.55 - cant_y_translate))
-
-#Defining positions of 24 pins, 12 on top (4 overlapping) and 12 on bottom (4 overlapping)
-pin_position = ((6.6, 47.56), (12.6, 47.56), (12.6, 47.56), (18.6, 47.56), (24.6, 47.56), (30.6, 47.56), (30.6, 47.56), (36.6, 47.56),
-                (42.6, 47.56), (48.6, 47.56), (48.6, 47.56), (54.6, 47.56), (60.6, 47.56), (66.6, 47.56), (66.6, 47.56), (72.6, 47.56),
-                (3, 3), (9, 3), (9, 3), (15, 3), (21, 3), (27, 3), (27, 3),
-                (33, 3), (39, 3), (45, 3), (45, 3), (51, 3), (57, 3), (63, 3), (63, 3), (69, 3))
-
-#Defining positions of wells as the bottom left corner (top 4) and the top left corner (bottom 4) of the square trace
-
-
-well_position = ((10.5, 25.245), (24, 25.245), (37.5, 25.245), (51, 25.245), 
-                       (10.5, 24.245), (24, 24.245), (37.5, 24.245), (51, 24.245))
-#((10.5, 26.045), (24, 26.045), (37.5, 26.045), (51, 26.045), 
-#                       (10.5, 25.045), (24, 25.045), (37.5, 25.045), (51, 25.045))
-
-pressure_box = 4       # COM port of pressure box    
-
-tail = 1.5          # first distance of wire before cantilever position and after
-
-extra = 0#1.5      # distance from cantilever position to top wire line
-
-wire_width = 1.55       # distance from center of each wire trace to its paired wire - width of sensor
-           
-wire_height=(0.03,)*8#(0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04,
-            # 0.03, 0.03, 0.03, 0.03, 0.02, 0.02, 0.02, 0.02)
-wire_pressure=(5.5,)*8#(23,)*16#(7.8,)*8#(68,)*16+(68,)*4+(68,)*4
-
-wire_speed = (7.5,)*8#+(4,)*4+(3.75,)*4+(4,)*4 #(2, 2, 2, 2, 2, 2, 2, 2,
-            #2, 2, 2, 2, 2, 2, 2, 2)
-                
-                                                       #(7,3) (6,5)                                       
-
-insulating_meand_spacing_top = 0.21
-insulating_meand_spacing_bot = 0.21
-
-insulating_height_top = (0.045,)*16
-insulating_height_bot = (0.015,)*16
-
-insulating_pressure_top = (3.5,)*16
-insulating_pressure_bot = (3.5,)*16
-                                        
-insulating_speed_top = (15,)*16
-insulating_speed_bot = (15,)*16
-
-
-
- 
-              
-align_top_pressure=(17,)*16
-top_over=(0.06,)*4+(0.07,)*4+(0.080,)*4+(0.090,)*4
-top_height=(0.710,)*16 
-top_speed=(3,)*16
-
-
-
-cantilever_width = 3.5
-cantilever_bending_length = 5.5
-cantilever_length = cantilever_bending_length + cant_y_translate
-
-trans_speed = 40
-
-
-cover_pressure=(15,)*8
-#
-inset=(cantilever_width-wire_width)/2
-
-
-#######SILVER TPU?
-#electrode_height=0.150
-#electrode_pressure = 6
-
-##############TRAVIS"S INKS
-electrode_height=0.190
-electrode_pressure = 10
-
-
-
 
 
 
@@ -203,6 +122,50 @@ external_pad_positions=((-7.9,-6.6),(-7.9,-3.5),(-7.9,-0.4),(-7.9,2.7),(-7.9,5.8
 #24 pads, 6 on each side
 
 pyramid_positions=((0,0),(0,19.4-6),(0,38.8-12),(-19.4+6,19.4-6),(19.4-6,19.4-6))
+
+
+#### ATMEGA328
+#        outer pin perimeter: 9mm x 9mm
+#        inner packaging perimeter: 7mm x 7mm
+#        'pad target' at end of each pin is approx. 0.4mm x 0.4mm
+#        pad positions are the CENTER of each of these pad targets
+#
+#        set bottom left corner of outer border as 0,0, pad position 
+#
+#        pads numbered using SAME convention as pin numbering - #1 is top left pin on left side, continues counterclockwise around chip
+
+    
+
+
+ATMEGA328_pad_positions = (
+
+((0.2,7.3),(0.2,6.5),(0.2,5.7),(0.2,4.9),(0.2,4.1),(0.2,3.3),(0.2,2.5),(0.2,1.7)),
+((1.7,0.2),(2.5,0.2),(3.3,0.2),(4.1,0.2),(4.9,0.2),(5.7,0.2),(6.5,0.2),(7.3,0.2)),
+((8.8,1.7),(8.8,2.5),(8.8,3.3),(8.8,4.1),(8.8,4.9),(8.8,5.7),(8.8,6.5),(8.8,7.3)),
+((7.3,8.8),(6.5,8.8),(5.7,8.8),(4.9,8.8),(4.1,8.8),(3.3,8.8),(2.5,8.8),(1.7,8.8))
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ############### END OF VARIABLE AND PARAMTER DEFINITIONS ###############
 
@@ -326,26 +289,7 @@ def test_print():
     g.set_valve(num = 0, value = 1)
     g.toggle_pressure(pressure_box)
 
-    
-def print_sacrificial(trace_speed, height, over, nozzle, overhang = 0, y_inset = cant_y_translate):
-    for i in range(1,8,2):
-        g.feed(15)
-        g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1]-y_inset -0.5)
-        g.move(x=-overhang)
-        meander_2tails(x=(cantilever_width + 2*overhang), y=-(cantilever_length-y_inset), spacing=over,
-                        z=height, tail = 1, clip_direction = '-y', speed=trace_speed, 
-                        orientation = 'y', nozzle = nozzle, valve = None)
-    
-    for i in range(9,16,2):
-        
-        g.feed(15)
-        g.abs_move(x=cantilever_position[i][0], y=cantilever_position[i][1] +0.5 + y_inset)
-        g.move(x=-overhang)
-        meander_2tails(x=(cantilever_width + 2*overhang), y=(cantilever_length - y_inset), spacing=over, 
-                    z=height, tail = 1, clip_direction = '+y', speed=trace_speed, 
-                    orientation = 'y', nozzle = nozzle, valve = None)
-    g.feed(20)
-    g.abs_move(**{nozzle:50})
+
     
 
 def print_wires(z, speed, extra, tail, width, length, valve, nozzle, clip_direction, arc_direction, k):
@@ -2528,6 +2472,233 @@ def die_pick_and_place(valve,nozzle):#
     g.feed(15)
     
     
+def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+   
+    if testline == 'y':
+        #########test line
+        g.abs_move(x=2,y=3.5)
+        pressure_purge(delay = 2)
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.feed(speed)
+        g.move(x=15)
+        g.feed(20)
+        g.clip(axis=nozzle, height=2, direction='-x')
+        #########test line
+    
+
+    g.write("POSOFFSET CLEAR X Y")    
+    g.abs_move(x=startx,y=starty) ####bottom left corner of TPU square
+    g.set_home(x=-6.5,y=-6.5)
+    
+        
+    
+    ###### RESET WIRE, PIN 29
+    #
+    #g.abs_move(x=13.5,y=13.5)
+    #g.abs_move(**{nozzle:height})
+    #g.feed(speed)
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)
+    #g.move(x=-3,y=-3)
+    #g.move(x=-3)
+    #g.move(x=-0.3,**{nozzle:1})
+    #g.move(x=-0.3,**{nozzle:-1})
+    #g.abs_move(x = ATMEGA328_pad_positions[3][4][0])
+    #g.abs_move(y = ATMEGA328_pad_positions[3][4][1])
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(15)
+    #g.clip(axis=nozzle, height=2,direction='+y')
+
+    ###### VCC WIRE, PIN 4
+    #
+    #g.abs_move(x=13.5,y=13.5)
+    #g.abs_move(**{nozzle:height+0.04})
+    #g.feed(speed)
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)
+    #g.move(x=-3,y=-3)
+    #g.move(x=-1,y=-1,**{nozzle:-0.04})    
+    #g.move(x=-4,y=-4)
+    #g.abs_move(y = ATMEGA328_pad_positions[0][3][1])
+    #g.abs_move(x = ATMEGA328_pad_positions[0][3][0])
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(15)
+    #g.clip(axis=nozzle, height=2,direction='+x')
+    #
+    ##### Rx WIRE, PIN 30
+    #
+    #g.abs_move(x = ATMEGA328_pad_positions[3][5][0], y=13.5)
+    #g.abs_move(**{nozzle:height})
+    #g.feed(speed)
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)  
+    #g.abs_move(y = ATMEGA328_pad_positions[3][5][1])
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(15)
+    #g.clip(axis=nozzle, height=2,direction='+y')
+    
+    
+    #### Tx WIRE, PIN 30
+    
+    g.abs_move(x=-4,y=13.5)
+    g.abs_move(**{nozzle:height})
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)  
+    g.move(x=3,y=-3)
+    g.abs_move(x = ATMEGA328_pad_positions[3][6][0])
+    g.abs_move(y = ATMEGA328_pad_positions[3][6][1])
+    g.set_valve(num = valve, value = 0)
+    g.feed(15)
+    g.clip(axis=nozzle, height=2,direction='+y')
+    
+    
+#    ##### GND WIRE (LED), PIN 17
+#    
+#    g.abs_move(x=13.5,y=-4)
+#    g.abs_move(**{nozzle:height})
+#    g.feed(speed)
+#    if valve is not None:
+#        g.set_valve(num = valve, value = 1)
+#    g.dwell(dwell)  
+#    g.move(x=-1.5,y=1.5)
+#    g.move(x=-2)
+#    g.move(y=1)
+#    g.move(y=0.8,**{nozzle:1})
+#    g.move(y=0.8,**{nozzle:-1})
+#    g.move(y=1)
+#    g.move(y=0.3,**{nozzle:1})
+#    g.move(y=0.3,**{nozzle:-1})
+#    g.abs_move(y = ATMEGA328_pad_positions[2][0][1])
+#    g.abs_move(x = ATMEGA328_pad_positions[2][0][0])
+#    g.set_valve(num = valve, value = 0)
+#    g.feed(15)
+#    g.clip(axis=nozzle, height=2,direction='+x')
+#    
+#
+#    ##### GND WIRE (cap, half of oscillator), PIN 20, 5, 7
+#    
+#    g.abs_move(x=13.5,y=-4)
+#    g.abs_move(**{nozzle:height+0.04})
+#    g.feed(speed)
+#    if valve is not None:
+#        g.set_valve(num = valve, value = 1)
+#    g.dwell(dwell)  
+#    g.move(x=-1.5,y=1.5)
+#    g.move(1,**{nozzle:-0.04})
+#    g.abs_move(y = ATMEGA328_pad_positions[2][4][1])
+#    g.move(x=-5)
+#    g.abs_move(y = ATMEGA328_pad_positions[0][4][1])
+#    g.move(x=-8.5)
+#    g.move(y=-0.5,**{nozzle:1})
+#    g.move(y=-0.5,**{nozzle:-1})
+#    g.abs_move(y = ATMEGA328_pad_positions[0][6][1])
+#    g.move(x=-2)
+#    g.move(x=2)
+#    g.abs_move(x = ATMEGA328_pad_positions[0][6][0])
+#    g.set_valve(num = valve, value = 0)
+#    g.feed(15)
+#    g.clip(axis=nozzle, height=2,direction='-x')
+#
+#
+#    ##### GND WIRE (other cap, other half of oscillator), PIN 8
+#    
+#    g.abs_move(x=13.5,y=-4)
+#    g.abs_move(**{nozzle:height+0.08})
+#    g.feed(speed)
+#    if valve is not None:
+#        g.set_valve(num = valve, value = 1)
+#    g.dwell(dwell)  
+#    g.move(x=-1.5,y=1.5)
+#    g.move(1,**{nozzle:-0.04})
+#    g.abs_move(y = ATMEGA328_pad_positions[2][4][1])
+#    g.move(x=-5)
+#    g.move(y=-2,**{nozzle:-0.04})
+#    g.move(x=-4)
+#    g.abs_move(x=-1,y=-1)
+#    g.move(y=0.6)
+#    g.move(y=0.5,**{nozzle:1})
+#    g.move(y=0.5,**{nozzle:-1})
+#
+#    g.move(x=-3.5)
+#    g.move(y=1)    
+#    g.move(y=-1)
+#    g.move(x=3.5)
+#    
+#    g.abs_move(y = ATMEGA328_pad_positions[0][7][1])
+#    g.abs_move(x = ATMEGA328_pad_positions[0][7][0])
+#    g.set_valve(num = valve, value = 0)
+#    g.feed(15)
+#    g.clip(axis=nozzle, height=2,direction='-x')
+#
+#    ##### Tx terminal
+#
+#    g.abs_move(x=-4,y=13.5)
+#    g.abs_move(**{nozzle:height+0.09})
+#    g.feed(speed)
+#    if valve is not None:
+#        g.set_valve(num = valve, value = 1)
+#    g.dwell(dwell)  
+#    g.move(x=-0.75,y=-0.75)
+#    g.rect(x=1.5,y=1.5)
+#    g.set_valve(num = valve, value = 0)
+#    g.feed(15)
+#    g.clip(axis=nozzle, height=2,direction='-x')
+#
+#
+#    ##### Rx terminal
+#
+#    g.abs_move(x = ATMEGA328_pad_positions[3][5][0], y=13.5)
+#    g.abs_move(**{nozzle:height})
+#    g.feed(speed)
+#    if valve is not None:
+#        g.set_valve(num = valve, value = 1)
+#    g.dwell(dwell)  
+#    g.move(x=-0.75,y=-0.75)
+#    g.rect(x=1.5,y=1.5)
+#    g.set_valve(num = valve, value = 0)
+#    g.feed(15)
+#    g.clip(axis=nozzle, height=2,direction='-x')
+#
+#
+#
+#    #### VCC terminal
+#    
+#    g.abs_move(x=13.5,y=13.5)
+#    g.abs_move(**{nozzle:height})
+#    g.feed(speed)
+#    if valve is not None:
+#        g.set_valve(num = valve, value = 1)
+#    g.dwell(dwell)  
+#    g.move(x=-0.75,y=-0.75)
+#    g.rect(x=1.5,y=1.5)
+#    g.set_valve(num = valve, value = 0)
+#    g.feed(15)
+#    g.clip(axis=nozzle, height=2,direction='-x')
+#    
+#    
+#    ##### GND WIRE (LED), PIN 17
+#    
+#    g.abs_move(x=13.5,y=-4)
+#    g.abs_move(**{nozzle:height})
+#    g.feed(speed)
+#    if valve is not None:
+#        g.set_valve(num = valve, value = 1)
+#    g.dwell(dwell)  
+#    g.move(x=-0.75,y=-0.75)
+#    g.rect(x=1.5,y=1.5)
+#    g.set_valve(num = valve, value = 0)
+#    g.feed(15)
+#    g.clip(axis=nozzle, height=2,direction='-x')
 
 
 #################################### END OF FUNCTION DEFINITIONS #######################################
@@ -2536,10 +2707,12 @@ def die_pick_and_place(valve,nozzle):#
 
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
-#active_slide = 'slide1'
-#z_ref = -88.388081
-active_slide = 'slide2'
-z_ref = -88.493860
+
+active_slide = 'slide1'
+z_ref = -86.993507
+
+#active_slide = 'slide2'
+#z_ref = -88.493860
 #active_slide = 'slide3'
 #z_ref = -88.3824
 
@@ -2549,6 +2722,8 @@ g.write("POSOFFSET CLEAR X Y U A B C D")
   
 
 substrate_dif = automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
+
+#automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
 
 if 'A' in AXES_USED:
     zA = automator.substrate_origins[active_slide]['A'][2] - substrate_dif
@@ -2627,21 +2802,21 @@ if 'D' in AXES_USED:
 
 
 ###########------------------PRINT ME TPU STUFF
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
 #g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)
-tpu_square(valve='1',nozzle='A',height=0.05,speed=20,dwell=0.2,pressure=1.5)
-#tpu_layered_serpentine(valve='2',nozzle='B',height=0.07,speed=15,dwell=1,pressure=3)
-
-g.toggle_pressure(pressure_box)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+#tpu_square(valve='1',nozzle='A',height=0.05,speed=20,dwell=0.2,pressure=1.5)
+##tpu_layered_serpentine(valve='2',nozzle='B',height=0.07,speed=15,dwell=1,pressure=3)
+#
+#g.toggle_pressure(pressure_box)
 
 
 
@@ -2847,7 +3022,32 @@ g.toggle_pressure(pressure_box)
 #g.toggle_pressure(pressure_box)
 
 
-g.view(backend='matplotlib')
+
+
+
+#######------------------PRINT ME WELLS
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
+
+g.toggle_pressure(pressure_box)
+arduino_gen1(valve='1',nozzle='A',height=0.05,speed=4,dwell=0.1,pressure=23,startx=420.766728,starty=108.626399,testline='y')
+#arduino_gen1(valve='1',nozzle='A',height=0.02,speed=9,dwell=0.1,pressure=20,startx=35,testline='y')
+
+g.toggle_pressure(pressure_box)
+
+
+
+
+
+
+#g.view(backend='matplotlib')
 
 ##
 g.teardown()
