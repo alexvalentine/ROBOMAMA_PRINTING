@@ -2548,18 +2548,18 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
     
     #### Tx WIRE, PIN 30
     
-    g.abs_move(x=-4,y=13.5)
-    g.abs_move(**{nozzle:height})
-    g.feed(speed)
-    if valve is not None:
-        g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)  
-    g.move(x=3,y=-3)
-    g.abs_move(x = ATMEGA328_pad_positions[3][6][0])
-    g.abs_move(y = ATMEGA328_pad_positions[3][6][1])
-    g.set_valve(num = valve, value = 0)
-    g.feed(15)
-    g.clip(axis=nozzle, height=2,direction='+y')
+    #g.abs_move(x=-4,y=13.5)
+    #g.abs_move(**{nozzle:height})
+    #g.feed(speed)
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)  
+    #g.move(x=3,y=-3)
+    #g.abs_move(x = ATMEGA328_pad_positions[3][6][0])
+    #g.abs_move(y = ATMEGA328_pad_positions[3][6][1])
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(15)
+    #g.clip(axis=nozzle, height=2,direction='+y')
     
     
 #    ##### GND WIRE (LED), PIN 17
@@ -3025,7 +3025,7 @@ if 'D' in AXES_USED:
 
 
 
-#######------------------PRINT ME WELLS
+#######------------------PRINT ME ARDUINO
 set_home_in_z()
 g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
 ###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
@@ -3047,7 +3047,7 @@ g.toggle_pressure(pressure_box)
 
 
 
-#g.view(backend='matplotlib')
+g.view(backend='matplotlib')
 
 ##
 g.teardown()
