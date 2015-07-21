@@ -571,9 +571,14 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
     g.abs_move(x=startx,y=starty) ####bottom left corner of TPU square
     g.set_home(x=-6.5,y=-6.5)
     
-        
+    for i in range(4):
+        for j in range (8):
+            g.abs_move(x = ATMEGA328_pad_positions[i][j][0], y = ATMEGA328_pad_positions[i][j][1])
+            g.move(x = 0.2, y = 0.2)
+            g.rect(x = 0.4, y = 0.4, start = 'UR')
     
-    ###### RESET WIRE, PIN 29
+    
+    ####### RESET WIRE, PIN 29
     
     g.abs_move(x=13.5,y=13.5)
     g.abs_move(**{nozzle:height})
@@ -582,17 +587,21 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
     g.move(x=-3,y=-3)
-    g.move(x=-3)
-    g.move(x=-0.3,**{nozzle:1})
-    g.move(x=-0.3,**{nozzle:-1})
+    g.move(x=-2.4)
+    g.move(x=-0.6,**{nozzle:1})
+    g.move(x=-0.6,**{nozzle:-1})
     g.abs_move(x = ATMEGA328_pad_positions[3][4][0])
     g.abs_move(y = ATMEGA328_pad_positions[3][4][1])
+    g.abs_move(**{nozzle:height+0.05})
+    g.move(y=1.7)
+    g.move(y=1,**{nozzle:-0.05})
+    g.abs_move(y=16)
     g.set_valve(num = valve, value = 0)
     g.feed(15)
     g.clip(axis=nozzle, height=2,direction='+y')
 
-    ###### VCC WIRE, PIN 4
-    #
+    ####### VCC WIRE, PIN 4
+    ##
     g.abs_move(x=13.5,y=13.5)
     g.abs_move(**{nozzle:height+0.04})
     g.feed(speed)
@@ -604,41 +613,48 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
     g.move(x=-4,y=-4)
     g.abs_move(y = ATMEGA328_pad_positions[0][3][1])
     g.abs_move(x = ATMEGA328_pad_positions[0][3][0])
-    g.move(x=-2)
+    g.move(x=-1)
     g.set_valve(num = valve, value = 0)
     g.feed(15)
     g.clip(axis=nozzle, height=2,direction='+x')
     #
-    ##### Rx WIRE, PIN 30
-    #
-    g.abs_move(x = ATMEGA328_pad_positions[3][5][0], y=13.5)
+#
+    ###### Rx WIRE, PIN 30
+    ##
+    g.abs_move(x = -4, y=-4)
     g.abs_move(**{nozzle:height})
     g.feed(speed)
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)  
-    g.abs_move(y = ATMEGA328_pad_positions[3][5][1])
+    g.move(y=2)
+    g.move(x=-2)
+    g.move(y=8)
+    g.move(x=4.5,y=4.5)
+    g.move(x=3.5,y=-3.5)
+    g.abs_move(x = ATMEGA328_pad_positions[3][5][0])
+    g.abs_move(y = ATMEGA328_pad_positions[3][5][1]+1)
     g.set_valve(num = valve, value = 0)
     g.feed(15)
     g.clip(axis=nozzle, height=2,direction='+y')
     
-    
+#    
     #### Tx WIRE, PIN 30
-    
+    #
     g.abs_move(x=-4,y=13.5)
     g.abs_move(**{nozzle:height})
     g.feed(speed)
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)  
-    g.move(x=3,y=-3)
+    g.move(x=2,y=-2)
     g.abs_move(x = ATMEGA328_pad_positions[3][6][0])
     g.abs_move(y = ATMEGA328_pad_positions[3][6][1])
     g.set_valve(num = valve, value = 0)
     g.feed(15)
     g.clip(axis=nozzle, height=2,direction='+y')
     
-    
+#    
     ##### GND WIRE (LED), PIN 17
     
     g.abs_move(x=13.5,y=-4)
@@ -648,21 +664,23 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)  
     g.move(x=-1.5,y=1.5)
-    g.move(x=-2)
-    g.move(y=1)
-    g.move(y=0.8,**{nozzle:1})
-    g.move(y=0.8,**{nozzle:-1})
-    g.move(y=1)
-    g.move(y=0.3,**{nozzle:1})
-    g.move(y=0.3,**{nozzle:-1})
+    g.move(x=1)
+    g.move(y=1.5)
+    g.move(x=-1)
+    g.move(x=-1,**{nozzle:1})
+    g.move(x=-1,**{nozzle:-1})
+    g.move(y=1.5)
+    g.move(x=0.5)
+    g.move(x=0.5,**{nozzle:1})
+    g.move(x=0.5,**{nozzle:-1})
     g.abs_move(y = ATMEGA328_pad_positions[2][0][1])
     g.abs_move(x = ATMEGA328_pad_positions[2][0][0])
     g.set_valve(num = valve, value = 0)
     g.feed(15)
     g.clip(axis=nozzle, height=2,direction='+x')
     
-
-    ##### GND WIRE (cap, half of oscillator), PIN 20, 5, 7
+#
+#    ##### GND WIRE (cap, half of oscillator), PIN 20, 5, 7
     
     g.abs_move(x=13.5,y=-4)
     g.abs_move(**{nozzle:height+0.04})
@@ -671,7 +689,7 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)  
     g.move(x=-1.5,y=1.5)
-    g.move(1,**{nozzle:-0.04})
+    g.move(x=1,**{nozzle:-0.04})
     g.abs_move(y = ATMEGA328_pad_positions[2][4][1])
     g.move(x=-5)
     g.abs_move(y = ATMEGA328_pad_positions[0][4][1])
@@ -687,9 +705,9 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
     g.feed(15)
     g.clip(axis=nozzle, height=2,direction='-x')
 
-
-    ##### GND WIRE (other cap, other half of oscillator), PIN 8
-    
+#
+#    ##### GND WIRE (other cap, other half of oscillator), PIN 8
+#    
     g.abs_move(x=13.5,y=-4)
     g.abs_move(**{nozzle:height+0.08})
     g.feed(speed)
@@ -715,9 +733,9 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
     g.set_valve(num = valve, value = 0)
     g.feed(15)
     g.clip(axis=nozzle, height=2,direction='-x')
-
-    ##### Tx terminal
-
+#
+#    ##### Tx terminal
+#
     g.abs_move(x=-4,y=13.5)
     g.abs_move(**{nozzle:height+0.09})
     g.feed(speed)
@@ -729,11 +747,11 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
     g.set_valve(num = valve, value = 0)
     g.feed(15)
     g.clip(axis=nozzle, height=2,direction='-x')
-
-
-    ##### Rx terminal
-
-    g.abs_move(x = ATMEGA328_pad_positions[3][5][0], y=13.5)
+#
+#
+#    ##### Rx terminal
+#
+    g.abs_move(x = -4, y=-4)
     g.abs_move(**{nozzle:height})
     g.feed(speed)
     if valve is not None:
@@ -745,9 +763,9 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
     g.feed(15)
     g.clip(axis=nozzle, height=2,direction='-x')
 
-
-
-    #### VCC terminal
+#
+#
+#    #### VCC terminal
     
     g.abs_move(x=13.5,y=13.5)
     g.abs_move(**{nozzle:height})
@@ -760,10 +778,25 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
     g.set_valve(num = valve, value = 0)
     g.feed(15)
     g.clip(axis=nozzle, height=2,direction='-x')
-    
-    
-    ##### GND WIRE (LED), PIN 17
-    
+#    
+     
+#    #### RESET terminal
+##    
+    g.abs_move(x = ATMEGA328_pad_positions[3][4][0],y=16)
+    g.abs_move(**{nozzle:height})
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)  
+    g.move(x=-0.75,y=-0.75)
+    g.rect(x=1.5,y=1.5)
+    g.set_valve(num = valve, value = 0)
+    g.feed(15)
+    g.clip(axis=nozzle, height=2,direction='-x')
+
+#    
+#    ##### GND WIRE (LED), PIN 17
+#    
     g.abs_move(x=13.5,y=-4)
     g.abs_move(**{nozzle:height})
     g.feed(speed)

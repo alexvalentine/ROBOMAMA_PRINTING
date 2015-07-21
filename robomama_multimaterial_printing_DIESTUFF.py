@@ -2495,7 +2495,17 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
     g.abs_move(x=startx,y=starty) ####bottom left corner of TPU square
     g.set_home(x=-6.5,y=-6.5)
     
-        
+    
+    for i in range(4):
+        for j in range (8):
+            g.abs_move(x = ATMEGA328_pad_positions[i][j][0], y = ATMEGA328_pad_positions[i][j][1])
+            g.move(x = 0.2, y = 0.2)
+            g.rect(x = 0.4, y = 0.4, start = 'UR')
+
+    
+    
+    
+    
     
     ###### RESET WIRE, PIN 29
     #
