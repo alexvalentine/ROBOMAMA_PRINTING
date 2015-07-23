@@ -3036,6 +3036,25 @@ if 'D' in AXES_USED:
 
 
 #######------------------PRINT ME ARDUINO
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#g.set_home(x=0, y=0)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+#arduino_gen1(valve='1',nozzle='A',height=0.05,speed=4,dwell=0.1,pressure=23,startx=420.766728,starty=108.626399,testline='y')
+##arduino_gen1(valve='1',nozzle='A',height=0.02,speed=9,dwell=0.1,pressure=20,startx=35,testline='y')
+#
+#g.toggle_pressure(pressure_box)
+
+
+
+######------------------PRINT ME ARDUINO
 set_home_in_z()
 g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
 ###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
@@ -3051,6 +3070,8 @@ arduino_gen1(valve='1',nozzle='A',height=0.05,speed=4,dwell=0.1,pressure=23,star
 #arduino_gen1(valve='1',nozzle='A',height=0.02,speed=9,dwell=0.1,pressure=20,startx=35,testline='y')
 
 g.toggle_pressure(pressure_box)
+
+
 
 
 
