@@ -411,6 +411,174 @@ def LED_Harvard(valve,nozzle,height,speed,dwell,pressure):
     g.clip(height=2, direction='+x')
 
 
+def LED_Harvard_connectors(valve,nozzle,height,speed,dwell,pressure,wire):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    
+    
+    if wire == 'first':
+    
+    #####first wire
+        g.abs_move(6, 4)    
+        g.abs_move(**{nozzle:height+3}) 
+        g.feed(speed)
+        g.move(y=33)
+        g.move(x=5)
+        g.move(y=-2.4)
+        
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(y=-1.0,**{nozzle:1})
+        g.move(y=-1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+        g.move(y=-2.8)
+        
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(y=-1.0,**{nozzle:1})
+        g.move(y=-1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+        g.move(y=-2.8)
+    
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(y=-1.0,**{nozzle:1})
+        g.move(y=-1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+        g.move(y=-2.8)
+        
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(y=-1.0,**{nozzle:1})
+        g.move(y=-1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+        g.feed(10)
+        g.clip(height=2, direction='+x')
+
+    elif wire == 'second':
+    
+    #####second wire
+        g.abs_move(6, 4)    
+        g.abs_move(**{nozzle:height+3}) 
+        g.feed(speed)
+        g.move(y=3)
+        g.move(x=5)
+        g.move(y=6.0)
+        
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(y=1.0,**{nozzle:1})
+        g.move(y=1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+    
+        g.move(y=1.0)
+        g.move(x=1.6)
+        g.move(y=8)
+        g.move(x=1.05)
+        
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(x=1.0,**{nozzle:1})
+        g.move(x=1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+    
+        g.move(x=1.0)
+    
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(x=1.0,**{nozzle:1})
+        g.move(x=1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+    
+        g.move(x=1.05)
+        g.move(y=-8.5)
+        g.move(x=1.8)
+        g.move(y=-0.4)
+    
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(y=-1.0,**{nozzle:1})
+        g.move(y=-1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+        g.set_valve(num = valve, value = 0)
+        g.feed(10)
+        g.clip(height=2, direction='+x')
+
+    else:
+
+    ######third wire
+        g.abs_move(6, 4)    
+        g.abs_move(**{nozzle:height+3}) 
+        g.feed(speed)
+        
+        g.move(y=33)
+        g.move(x=15.4)
+        g.move(y=-2.4)
+        
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(y=-1.0,**{nozzle:1})
+        g.move(y=-1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+        g.move(y=-2.8)
+        
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(y=-1.0,**{nozzle:1})
+        g.move(y=-1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+        g.move(y=-2.8)
+    
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(y=-1.0,**{nozzle:1})
+        g.move(y=-1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+        g.move(y=-2.8)
+        
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(y=-1.0,**{nozzle:1})
+        g.move(y=-1.0,**{nozzle:-1})
+        g.set_valve(num = valve, value = 0)
+        g.abs_move(**{nozzle:height+3}) 
+        g.feed(10)
+        g.clip(height=2, direction='+x')
 
 
 def tpu_top_LED_Harvard(valve,nozzle,height,speed,dwell,pressure):
@@ -758,7 +926,7 @@ tpu_bottom(valve='1',nozzle='A',height=0.05,speed=20,dwell=0.2,pressure=1.5)
 g.toggle_pressure(pressure_box)
 
 
-##########------------AGTPU WIRING
+##########------------SOFT AGTPU WIRING
 set_home_in_z()
 g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
 ###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
@@ -774,20 +942,59 @@ LED_Harvard(valve='2',nozzle='B',height=0.05,speed=20,dwell=0.2,pressure=1.5)
 g.toggle_pressure(pressure_box)
 
 
-##########------------TPU TOP
+##########------------STIFF AGTPU CONNECTORS / PICK+PLACE
 set_home_in_z()
 g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
 ###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 
 g.set_home(x=0, y=0)
 
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
-#g.set_home(x=0, y=0)
+g.abs_move(x=0, y=0)
+nozzle_change(nozzles = 'ac')
+g.set_home(x=0, y=0)
 
 g.toggle_pressure(pressure_box)
-tpu_top_LED_Harvard(valve='1',nozzle='A',height=0.05,speed=20,dwell=0.2,pressure=1.5)
+LED_Harvard_connectors(valve='3',nozzle='C',height=0.05,speed=20,dwell=0.2,pressure=1.5,wire='first')
 g.toggle_pressure(pressure_box)
+
+
+g.abs_move(x=0, y=0)
+nozzle_change(nozzles = 'cd')
+g.set_home(x=0, y=0)
+
+
+
+
+
+#g.toggle_pressure(pressure_box)
+#LED_Harvard_connectors(valve='3',nozzle='C',height=0.05,speed=20,dwell=0.2,pressure=1.5,wire='second')
+#g.toggle_pressure(pressure_box)
+
+
+
+#g.toggle_pressure(pressure_box)
+#LED_Harvard_connectors(valve='3',nozzle='C',height=0.05,speed=20,dwell=0.2,pressure=1.5,wire='third')
+#g.toggle_pressure(pressure_box)
+
+g.toggle_pressure(pressure_box)
+
+
+
+
+##########------------TPU TOP
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#g.set_home(x=0, y=0)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+#tpu_top_LED_Harvard(valve='1',nozzle='A',height=0.05,speed=20,dwell=0.2,pressure=1.5)
+#g.toggle_pressure(pressure_box)
 
 
 
@@ -814,22 +1021,22 @@ g.toggle_pressure(pressure_box)
 #g.toggle_pressure(pressure_box)
 
 
-######------------------PRINT ME ARDUINO
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
+#######------------------PRINT ME ARDUINO
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
 #g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)
-arduino_gen1(valve='1',nozzle='A',height=0.05,speed=4,dwell=0.1,pressure=23,startx=420.766728,starty=108.626399,testline='y')
-#arduino_gen1(valve='1',nozzle='A',height=0.02,speed=9,dwell=0.1,pressure=20,startx=35,testline='y')
-
-g.toggle_pressure(pressure_box)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+#arduino_gen1(valve='1',nozzle='A',height=0.05,speed=4,dwell=0.1,pressure=23,startx=420.766728,starty=108.626399,testline='y')
+##arduino_gen1(valve='1',nozzle='A',height=0.02,speed=9,dwell=0.1,pressure=20,startx=35,testline='y')
+#
+#g.toggle_pressure(pressure_box)
 
 
 
