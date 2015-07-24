@@ -92,6 +92,7 @@ zA  = zB = zC = zD =0
 
 pressure_box = 4       # COM port of pressure box    
 
+vacuum = 18                 # value of vacuum, "H20
 
 #### ATMEGA328
 #        outer pin perimeter: 9mm x 9mm
@@ -581,6 +582,59 @@ def LED_Harvard_connectors(valve,nozzle,height,speed,dwell,pressure,wire):
         g.clip(height=2, direction='+x')
 
 
+def pickandplace(valve,nozzle,speed,dwell):
+    g.feed(25) 
+    
+
+    g.abs_move(x = -10, y = 20)
+    g.feed(10) 
+    g.abs_move(**{nozzle:-2})
+    g.toggle_pressure(pressure_box)
+    g.abs_move(**{nozzle:5})
+    g.abs_move(x=6, y=4)    
+    g.abs_move(x=11, y=33.6) 
+    g.abs_move(**{nozzle:1}) 
+    g.toggle_pressure(pressure_box)
+    g.dwell(dwell)
+    g.abs_move(**{nozzle:5})
+    
+    g.abs_move(x = -10, y = 20)
+    g.feed(10) 
+    g.abs_move(**{nozzle:-2})
+    g.toggle_pressure(pressure_box)
+    g.abs_move(**{nozzle:5})
+    g.abs_move(x=6, y=4)    
+    g.abs_move(x=11, y=33.6) 
+    g.abs_move(**{nozzle:1}) 
+    g.toggle_pressure(pressure_box)
+    g.dwell(dwell)
+    g.abs_move(**{nozzle:5})
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+        g.feed(speed)
+        g.move(y=33)
+        g.move(x=5)
+        g.move(y=-2.4)
+        
+        g.abs_move(**{nozzle:height})
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.move(y=-1.0,**{nozzle:1})
+
+
+
+
+
 def tpu_top_LED_Harvard(valve,nozzle,height,speed,dwell,pressure):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
@@ -962,6 +1016,15 @@ g.abs_move(x=0, y=0)
 nozzle_change(nozzles = 'cd')
 g.set_home(x=0, y=0)
 
+valve='4'
+g.set_pressure(pressure_box, 0)
+if valve is not None:
+    g.set_valve(num = valve, value = 1)
+g.set_vac(pressure_box,vacuum)
+g.toggle_pressure(pressure_box)
+
+
+pickandplace(valve='4',nozzle='D',speed=10,dwell=3)
 
 
 
