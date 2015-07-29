@@ -288,20 +288,32 @@ def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR,startx,starty):
     g.move(x=5)
     g.move(y=-2.3)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(y=-1.1,**{nozzle:1})
     g.move(y=-1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
     g.move(y=-2.6)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(y=-1.1,**{nozzle:1})
     g.move(y=-1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
     g.move(y=-2.6)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(y=-1.1,**{nozzle:1})
     g.move(y=-1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
     g.move(y=-2.6)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(y=-1.1,**{nozzle:1})
     g.move(y=-1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
     g.move(y=-0.3)
     g.move(x=0.9)
     g.move(y=8.5)
@@ -331,26 +343,38 @@ def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR,startx,starty):
     g.move(x=4)
     g.move(y=5.9)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(y=1.1,**{nozzle:1})
     g.move(y=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1))
     g.move(y=0.9)
     g.move(x=1.6)
     g.move(y=8)
     g.move(x=0.95)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(x=1.1,**{nozzle:1})
     g.move(x=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
     g.move(x=0.8)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(x=1.1,**{nozzle:1})
     g.move(x=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
     g.move(x=0.95)
     g.move(y=-8.5)
     g.move(x=1.8)
     g.move(y=-0.3)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(y=-1.1,**{nozzle:1})
     g.move(y=-1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
     g.move(y=-0.3)
     g.move(x=2)
     g.abs_move(y=9)
@@ -376,20 +400,32 @@ def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR,startx,starty):
     g.move(x=9.4)
     g.move(y=-2.3)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(y=-1.1,**{nozzle:1})
     g.move(y=-1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
     g.move(y=-2.6)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(y=-1.1,**{nozzle:1})
     g.move(y=-1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
     g.move(y=-2.6)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(y=-1.1,**{nozzle:1})
     g.move(y=-1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
     g.move(y=-2.6)
     g.dwell(dwell)
+    g.set_valve(num = valve, value = 0)
     g.move(y=-1.1,**{nozzle:1})
     g.move(y=-1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
     g.move(y=-0.5)
     g.move(x=2.1)
     g.abs_move(y=9)
@@ -1008,29 +1044,29 @@ if 'D' in AXES_USED:
 
 #
 ############------------STIFF AGTPU CONNECTORS / PICK+PLACE
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-g.abs_move(x=0, y=0)
-nozzle_change(nozzles = 'ac')
-g.set_home(x=0, y=0)
-
-
-startx=9
-starty=9
-
-
-for i in range(len(LED_HARVARD_POSITIONS)):
-        for j in range(len(LED_HARVARD_POSITIONS[i])):
-            LED_HARVARD_POSITIONS[i][j][0]=LED_HARVARD_POSITIONS[i][j][0]+startx
-            LED_HARVARD_POSITIONS[i][j][1]=LED_HARVARD_POSITIONS[i][j][1]+starty
-
-g.toggle_pressure(pressure_box)
-LED_Harvard_connectors(valve='3',nozzle='C',height=0.17,speed=2,dwell=2.5,pressure=46,wire='second',startx=9,starty=9)
-g.toggle_pressure(pressure_box)
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#g.set_home(x=0, y=0)
+#
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ac')
+#g.set_home(x=0, y=0)
+#
+#
+#startx=9
+#starty=9
+#
+#
+#for i in range(len(LED_HARVARD_POSITIONS)):
+#        for j in range(len(LED_HARVARD_POSITIONS[i])):
+#            LED_HARVARD_POSITIONS[i][j][0]=LED_HARVARD_POSITIONS[i][j][0]+startx
+#            LED_HARVARD_POSITIONS[i][j][1]=LED_HARVARD_POSITIONS[i][j][1]+starty
+#
+#g.toggle_pressure(pressure_box)
+#LED_Harvard_connectors(valve='3',nozzle='C',height=0.17,speed=2,dwell=2.5,pressure=46,wire='second',startx=9,starty=9)
+#g.toggle_pressure(pressure_box)
 
 #
 #g.abs_move(x=0, y=0)
