@@ -118,6 +118,11 @@ ATMEGA328_pad_positions = (
 
 
 
+###these coordinats are relative to the starting location of the VCC terminal, which changes print to print
+
+LED_HARVARD_POSITIONS = [[[5,29.6],[5,24.8],[5,20],[5,15.2]],[[5,10],[8.65,20],[11.65,20],[15.5,10.1]],[[15.5,29.6],[15.5,24.8],[15.5,20],[15.5,15.2]],]
+
+
 ############### END OF VARIABLE AND PARAMTER DEFINITIONS ###############
 
 
@@ -246,33 +251,33 @@ def tpu_bottom(valve,nozzle,height,speed,dwell,pressure):
     g.clip(axis=nozzle, height=5, direction='-y')
 
 
-def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR):
+def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR,startx,starty):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
     
-    
-    ##########test line
-    g.abs_move(x=1,y=1)
-    g.abs_move(**{nozzle:height})
-    if valve is not None:
-        g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    g.feed(speed)
-    g.move(y=20)
-    g.move(x=0.2)
-    g.move(y=-20)
-    g.move(x=0.2)
-    g.move(y=20)
-    g.set_valve(num = valve, value = 0)
-    g.feed(20)
-    g.clip(axis=nozzle, height=6, direction='-x')
-    
+    #
+    ###########test line
+    #g.abs_move(x=1,y=1)
+    #g.abs_move(**{nozzle:height-.025})
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)
+    #g.feed(speed)
+    #g.move(y=20)
+    #g.move(x=0.2)
+    #g.move(y=-20)
+    #g.move(x=0.2)
+    #g.move(y=20)
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(20)
+    #g.clip(axis=nozzle, height=6, direction='-x')
+    #
     
     #####first wire
     if LorR == 'L':
-        g.abs_move(6, 8) 
+        g.abs_move(startx, starty) 
     else:
-        g.abs_move(37, 8) 
+        g.abs_move(40, 9) 
 
     g.abs_move(**{nozzle:height}) 
     g.feed(speed)
@@ -303,7 +308,7 @@ def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR):
     g.move(x=8.5)
     g.move(y=-10)
     g.move(x=3.1)
-    g.abs_move(y=8)
+    g.abs_move(y=9)
     g.set_valve(num = valve, value = 0)
     g.feed(10)
     g.clip(axis=nozzle,height=2, direction='+x')
@@ -312,9 +317,9 @@ def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR):
     #
     #####second wire
     if LorR == 'L':
-        g.abs_move(6, 8) 
+        g.abs_move(startx, starty) 
     else:
-        g.abs_move(37, 8)     
+        g.abs_move(40, 9)     
     g.abs_move(**{nozzle:height+0.04}) 
     g.feed(speed)
     if valve is not None:
@@ -348,7 +353,7 @@ def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR):
     g.move(y=-1.1,**{nozzle:-1})
     g.move(y=-0.3)
     g.move(x=2)
-    g.abs_move(y=8)
+    g.abs_move(y=9)
     g.set_valve(num = valve, value = 0)
     g.feed(10)
     g.clip(axis=nozzle,height=2, direction='+x')
@@ -356,9 +361,9 @@ def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR):
 
     ######third wire
     if LorR == 'L':
-        g.abs_move(6, 8) 
+        g.abs_move(startx, starty) 
     else:
-        g.abs_move(37, 8)     
+        g.abs_move(40, 9)     
     g.abs_move(**{nozzle:height+0.05}) 
     g.feed(speed)
     if valve is not None:
@@ -387,7 +392,7 @@ def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR):
     g.move(y=-1.1,**{nozzle:-1})
     g.move(y=-0.5)
     g.move(x=2.1)
-    g.abs_move(y=8)
+    g.abs_move(y=9)
 
 #
     #####anode/cathode
@@ -419,9 +424,9 @@ def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR):
     g.clip(axis=nozzle,height=2, direction='+x')
 
     if LorR == 'L':
-        g.abs_move(6, 8) 
+        g.abs_move(startx, starty) 
     else:
-        g.abs_move(37, 8) 
+        g.abs_move(40, 9) 
     g.abs_move(**{nozzle:height+0.03}) 
     g.feed(speed)
     if valve is not None:
@@ -455,7 +460,7 @@ def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR):
     g.clip(axis=nozzle,height=2, direction='+x')
 
 
-def LED_Harvard_connectors(valve,nozzle,height,speed,dwell,pressure,wire):
+def LED_Harvard_connectors(valve,nozzle,height,speed,dwell,pressure,wire,startx,starty):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
     
@@ -463,184 +468,121 @@ def LED_Harvard_connectors(valve,nozzle,height,speed,dwell,pressure,wire):
     if wire == 'first':
     
     #####first wire
-        g.abs_move(6, 8)    
-        g.abs_move(**{nozzle:height+3}) 
-        g.abs_move(x=21.33,y=38.277)
-        g.dwell(5)
-        g.feed(speed)
-        g.abs_move(**{nozzle:height})
-        if valve is not None:
-            g.set_valve(num = valve, value = 1)
-        g.dwell(dwell)
-        g.feed(0.3)
-        g.move(y=0.5,**{nozzle:-0.15})
-        g.set_valve(num = valve, value = 0)
-        g.feed(5)
-        g.move(**{nozzle:1.0+0.15})
-        g.move(y=-1.45-0.5)
-        g.move(**{nozzle:-1.0})
-        if valve is not None:
-            g.set_valve(num = valve, value = 1)
-        g.feed(0.3)
-        g.dwell(dwell)
-        g.move(y=-0.5,**{nozzle:-0.15})
-        g.set_valve(num = valve, value = 0)
-        g.feed(5)
-        g.abs_move(**{nozzle:height+3}) 
-        g.move(y=-2.8)
+        g.abs_move(startx, starty)
         
-    #    g.abs_move(**{nozzle:height})
-    #    if valve is not None:
-    #        g.set_valve(num = valve, value = 1)
-    #    g.dwell(dwell)
-    #    g.move(y=-1.0,**{nozzle:1})
-    #    g.move(y=-1.0,**{nozzle:-1})
-    #    g.set_valve(num = valve, value = 0)
-    #    g.abs_move(**{nozzle:height+3}) 
-    #    g.move(y=-2.8)
-    #
-    #    g.abs_move(**{nozzle:height})
-    #    if valve is not None:
-    #        g.set_valve(num = valve, value = 1)
-    #    g.dwell(dwell)
-    #    g.move(y=-1.0,**{nozzle:1})
-    #    g.move(y=-1.0,**{nozzle:-1})
-    #    g.set_valve(num = valve, value = 0)
-    #    g.abs_move(**{nozzle:height+3}) 
-    #    g.move(y=-2.8)
-    #    
-    #    g.abs_move(**{nozzle:height})
-    #    if valve is not None:
-    #        g.set_valve(num = valve, value = 1)
-    #    g.dwell(dwell)
-    #    g.move(y=-1.0,**{nozzle:1})
-    #    g.move(y=-1.0,**{nozzle:-1})
-    #    g.set_valve(num = valve, value = 0)
-    #    g.abs_move(**{nozzle:height+3}) 
-    #    g.feed(10)
-    #    g.clip(height=2, direction='+x')
+        for i in [0,1,2,3]:
+            g.abs_move(x = LED_HARVARD_POSITIONS[0][i][0], y = LED_HARVARD_POSITIONS[0][i][1]) 
+            g.move(y=0.8)
+            g.abs_move(**{nozzle:height}) 
+            g.feed(2)
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.set_valve(num = valve, value = 0)
+            g.clip(axis=nozzle, height=1, direction='+y')
+            g.move(y=-1.5)
+            g.abs_move(**{nozzle:height}) 
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.set_valve(num = valve, value = 0)
+            g.clip(axis=nozzle, height=1, direction='-y') 
+            g.feed(25)
+          
+      
 
     elif wire == 'second':
     
     #####second wire
-        g.abs_move(6, 4)    
-        g.abs_move(**{nozzle:height+3}) 
-        g.feed(speed)
-        g.move(y=3)
-        g.move(x=5)
-        g.move(y=6.0)
+        g.abs_move(startx, starty)
         
-        g.abs_move(**{nozzle:height})
-        if valve is not None:
-            g.set_valve(num = valve, value = 1)
-        g.dwell(dwell)
-        g.move(y=1.0,**{nozzle:1})
-        g.move(y=1.0,**{nozzle:-1})
-        g.set_valve(num = valve, value = 0)
-        g.abs_move(**{nozzle:height+3}) 
-    
-        g.move(y=1.0)
-        g.move(x=1.6)
-        g.move(y=8)
-        g.move(x=1.05)
-        
-        g.abs_move(**{nozzle:height})
-        if valve is not None:
-            g.set_valve(num = valve, value = 1)
-        g.dwell(dwell)
-        g.move(x=1.0,**{nozzle:1})
-        g.move(x=1.0,**{nozzle:-1})
-        g.set_valve(num = valve, value = 0)
-        g.abs_move(**{nozzle:height+3}) 
-    
-        g.move(x=1.0)
-    
-        g.abs_move(**{nozzle:height})
-        if valve is not None:
-            g.set_valve(num = valve, value = 1)
-        g.dwell(dwell)
-        g.move(x=1.0,**{nozzle:1})
-        g.move(x=1.0,**{nozzle:-1})
-        g.set_valve(num = valve, value = 0)
-        g.abs_move(**{nozzle:height+3}) 
-    
-        g.move(x=1.05)
-        g.move(y=-8.5)
-        g.move(x=1.8)
-        g.move(y=-0.4)
-    
-        g.abs_move(**{nozzle:height})
-        if valve is not None:
-            g.set_valve(num = valve, value = 1)
-        g.dwell(dwell)
-        g.move(y=-1.0,**{nozzle:1})
-        g.move(y=-1.0,**{nozzle:-1})
-        g.set_valve(num = valve, value = 0)
-        g.abs_move(**{nozzle:height+3}) 
-        g.set_valve(num = valve, value = 0)
-        g.feed(10)
-        g.clip(height=2, direction='+x')
+        for i in [0,1,2,3]:
+            g.abs_move(x = LED_HARVARD_POSITIONS[1][i][0], y = LED_HARVARD_POSITIONS[1][i][1]) 
+            if i==0:
+                g.move(y=0.6)
+                g.abs_move(**{nozzle:height}) 
+                g.feed(2)
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.set_valve(num = valve, value = 0)
+                g.clip(axis=nozzle, height=1, direction='+y')
+                g.move(y=-1.7)
+                g.abs_move(**{nozzle:height}) 
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.clip(axis=nozzle, height=1, direction='-y')
+                g.abs_move(**{nozzle:height+2}) 
+                g.feed(25)
+            elif  i==3:
+                g.move(y=0.8)
+                g.abs_move(**{nozzle:height}) 
+                g.feed(2)
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.set_valve(num = valve, value = 0)
+                g.clip(axis=nozzle, height=1, direction='+y')
+                g.move(y=-1.5)
+                g.abs_move(**{nozzle:height}) 
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.set_valve(num = valve, value = 0)
+                g.clip(axis=nozzle, height=1, direction='-y') 
+                g.feed(25)
+                
+                
+            elif i==1 or i==2:
+                g.move(x=-0.8)
+                g.abs_move(**{nozzle:height}) 
+                g.feed(2)
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.set_valve(num = valve, value = 0)
+                g.clip(axis=nozzle, height=1, direction='+x')
+                g.move(x=1.5)
+                g.abs_move(**{nozzle:height}) 
+                if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+                g.dwell(dwell)
+                g.set_valve(num = valve, value = 0)
+                g.clip(axis=nozzle, height=1, direction='-x') 
+                g.feed(25)
+                
 
     else:
 
     ######third wire
-        g.abs_move(37, 8.1)    
-        g.abs_move(**{nozzle:height+3}) 
-        g.feed(speed)
+       g.abs_move(startx, starty)
         
-        g.move(y=33)
-        g.move(x=15.4)
-        g.move(y=-2.4)
-        
-        g.abs_move(**{nozzle:height})
-        if valve is not None:
-            g.set_valve(num = valve, value = 1)
-        g.dwell(dwell)
-        
-        #g.move(y=-1.0,**{nozzle:1})
-        #g.move(y=-1.0,**{nozzle:-1})
-
-        g.move(**{nozzle:1})
-        g.move(y=-2)
-        g.move(**{nozzle:-1})
-        g.dwell(dwell)
-
-        g.set_valve(num = valve, value = 0)
-        g.abs_move(**{nozzle:height+3}) 
-        g.move(y=-2.8)
-        
-        
-    #    
-    #    g.abs_move(**{nozzle:height})
-    #    if valve is not None:
-    #        g.set_valve(num = valve, value = 1)
-    #    g.dwell(dwell)
-    #    g.move(y=-1.0,**{nozzle:1})
-    #    g.move(y=-1.0,**{nozzle:-1})
-    #    g.set_valve(num = valve, value = 0)
-    #    g.abs_move(**{nozzle:height+3}) 
-    #    g.move(y=-2.8)
-    #
-    #    g.abs_move(**{nozzle:height})
-    #    if valve is not None:
-    #        g.set_valve(num = valve, value = 1)
-    #    g.dwell(dwell)
-    #    g.move(y=-1.0,**{nozzle:1})
-    #    g.move(y=-1.0,**{nozzle:-1})
-    #    g.set_valve(num = valve, value = 0)
-    #    g.abs_move(**{nozzle:height+3}) 
-    #    g.move(y=-2.8)
-    #    
-    #    g.abs_move(**{nozzle:height})
-    #    if valve is not None:
-    #        g.set_valve(num = valve, value = 1)
-    #    g.dwell(dwell)
-    #    g.move(y=-1.0,**{nozzle:1})
-    #    g.move(y=-1.0,**{nozzle:-1})
-    #    g.set_valve(num = valve, value = 0)
-    #    g.abs_move(**{nozzle:height+3}) 
-    #    g.feed(10)
-    #    g.clip(height=2, direction='+x')
+       for i in [0,1,2,3]:
+           g.abs_move(x = LED_HARVARD_POSITIONS[2][i][0], y = LED_HARVARD_POSITIONS[2][i][1]) 
+           g.move(y=0.8)
+           g.abs_move(**{nozzle:height}) 
+           g.feed(2)
+           if valve is not None:
+               g.set_valve(num = valve, value = 1)
+           g.dwell(dwell)
+           g.set_valve(num = valve, value = 0)
+           g.clip(axis=nozzle, height=1, direction='+y')
+           g.move(y=-1.5)
+           g.abs_move(**{nozzle:height}) 
+           if valve is not None:
+               g.set_valve(num = valve, value = 1)
+           g.dwell(dwell)
+           g.set_valve(num = valve, value = 0)
+           g.clip(axis=nozzle, height=1, direction='-y')
+           g.feed(25)
+           
+           
+           
+           
+           
+           
+  
 
 
 def pickandplace(valve,nozzle,speed,dwell):
@@ -1061,7 +1003,7 @@ if 'D' in AXES_USED:
 ##g.set_home(x=0, y=0)
 #
 #g.toggle_pressure(pressure_box)
-#LED_Harvard(valve='1',nozzle='A',height=0.035,speed=5,dwell=0.1,pressure=45,LorR='R')
+#LED_Harvard(valve='1',nozzle='A',height=0.1,speed=5,dwell=0.1,pressure=45,LorR='R',startx=9,starty=9)
 #g.toggle_pressure(pressure_box)
 
 #
@@ -1072,17 +1014,52 @@ g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.subs
 
 g.set_home(x=0, y=0)
 
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ac')
-#g.set_home(x=0, y=0)
-#
-#g.toggle_pressure(pressure_box)
-#LED_Harvard_connectors(valve='1',nozzle='A',height=0.18,speed=2,dwell=3,pressure=21,wire='third')
-#g.toggle_pressure(pressure_box)
+g.abs_move(x=0, y=0)
+nozzle_change(nozzles = 'ac')
+g.set_home(x=0, y=0)
+
+
+startx=9
+starty=9
+
+
+for i in range(len(LED_HARVARD_POSITIONS)):
+        for j in range(len(LED_HARVARD_POSITIONS[i])):
+            LED_HARVARD_POSITIONS[i][j][0]=LED_HARVARD_POSITIONS[i][j][0]+startx
+            LED_HARVARD_POSITIONS[i][j][1]=LED_HARVARD_POSITIONS[i][j][1]+starty
+
+g.toggle_pressure(pressure_box)
+LED_Harvard_connectors(valve='3',nozzle='C',height=0.17,speed=2,dwell=2.5,pressure=46,wire='second',startx=9,starty=9)
+g.toggle_pressure(pressure_box)
 
 #
 #g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'cd')
+#nozzle_change(nozzles = 'bc')
+#g.set_home(x=0, y=0)
+#
+#
+#valve='3'
+#g.set_pressure(pressure_box, 0)
+#if valve is not None:
+#    g.set_valve(num = valve, value = 1)
+#g.set_vac(pressure_box,18)
+#g.toggle_pressure(pressure_box)
+#g.dwell(2)
+#
+#pickandplace(valve='3',nozzle='C',speed=10,dwell=3,startx,starty,wire='first')
+#g.set_vac(pressure_box,0)
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'cb')
+#g.set_home(x=0, y=0)
+
+#g.toggle_pressure(pressure_box)
+#LED_Harvard_connectors(valve='2',nozzle='B',height=0.13,speed=2,dwell=3,pressure=21,wire='second',startx,starty)
+#g.toggle_pressure(pressure_box)
+
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'bc')
 #g.set_home(x=0, y=0)
 #
 
@@ -1095,41 +1072,34 @@ g.set_home(x=0, y=0)
 #g.dwell(2)
 #
 #pickandplace(valve='3',nozzle='C',speed=10,dwell=3)
-##
-##g.toggle_pressure(pressure_box)
-##g.dwell(2)
-##g.toggle_pressure(pressure_box)
-##g.dwell(2)
-##g.toggle_pressure(pressure_box)
-##g.dwell(2)
-##g.toggle_pressure(pressure_box)
-#
-#
-#
-##
+
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'cb')
+#g.set_home(x=0, y=0)
+
+
+
 #g.toggle_pressure(pressure_box)
-#g.set_vac(pressure_box,0)
-##
-#
-#
-#
-
-g.abs_move(x=0, y=0)
-nozzle_change(nozzles = 'ab')
-g.set_home(x=0, y=0)
-
-
-g.toggle_pressure(pressure_box)
-LED_Harvard_connectors(valve='2',nozzle='B',height=0.056,speed=2,dwell=2,pressure=21,wire='first')
-g.toggle_pressure(pressure_box)
-#
-#
-#
-##g.toggle_pressure(pressure_box)
-##LED_Harvard_connectors(valve='3',nozzle='C',height=0.05,speed=20,dwell=0.2,pressure=1.5,wire='third')
-##g.toggle_pressure(pressure_box)
-#
+#LED_Harvard_connectors(valve='2',nozzle='B',height=0.13,speed=2,dwell=3,pressure=21,wire='third',startx,starty)
 #g.toggle_pressure(pressure_box)
+
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'bc')
+#g.set_home(x=0, y=0)
+#
+
+#valve='3'
+#g.set_pressure(pressure_box, 0)
+#if valve is not None:
+#    g.set_valve(num = valve, value = 1)
+#g.set_vac(pressure_box,18)
+#g.toggle_pressure(pressure_box)
+#g.dwell(2)
+#
+#pickandplace(valve='3',nozzle='C',speed=10,dwell=3)
+
 
 
 
