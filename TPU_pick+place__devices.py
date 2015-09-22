@@ -10,7 +10,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\alexs_prin
 AXES_USED = [
             'A',
             'B',
-            'C', 
+            #'C', 
             #'D'
             ]
 
@@ -37,19 +37,19 @@ AXES_DATA = {
 #Defining substrate location and profilometry mesh size
 SUBSTRATES = {
     'slide1': {
-        'origin': (110,110),
+        'origin': (90,110),
         'size': 'auto',
         'profile': True,
-        'profile-spacing': (5,5),
+        'profile-spacing': (10,10),
     },
-    #'slide2': {
-    #    'origin': (144,90),
-    #    'size': 'auto',
-    #    'profile': True,
-    #    'profile-spacing': (10,10),
-    #},
+    'slide2': {
+        'origin': (150,110),
+        'size': 'auto',
+        'profile': True,
+        'profile-spacing': (10,10),
+    },
     #'slide3': {
-    #    'origin': (144,26),
+    #    'origin': (230,110),
     #    'size': 'auto',
     #    'profile': True,
     #    'profile-spacing': (10,10),
@@ -249,6 +249,475 @@ def tpu_bottom(valve,nozzle,height,speed,dwell,pressure):
     g.set_valve(num = valve, value = 0)
     g.feed(10)
     g.clip(axis=nozzle, height=5, direction='-y')
+
+
+
+def tpu_bottom_LED_strain(valve,nozzle,height,speed,dwell,pressure):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    
+########test line
+    #g.abs_move(x=1,y=1)
+    #g.abs_move(**{nozzle:height})
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)
+    #g.feed(speed)
+    #g.move(y=20)
+    #g.move(x=0.2)
+    #g.move(y=-20)
+    #g.move(x=0.2)
+    #g.move(y=20)
+    #g.move(x=0.2)
+    #g.move(y=-20)
+    #g.move(x=0.2)
+    #g.move(y=20)   
+    #
+    #
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(20)
+    #g.clip(axis=nozzle, height=6, direction='-x')
+    #g.set_pressure(pressure_box, pressure)
+    
+#########printing 
+    g.abs_move(4, 4)    
+    g.abs_move(**{nozzle:height}) 
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.meander(x=60,y=10,spacing=0.8,start='LL',orientation='x')
+    #g.rect(x=60,y=10,start='LL')
+    g.set_valve(num = valve, value = 0)
+    g.feed(20)
+    g.clip(axis=nozzle, height=5, direction='-y')
+    
+    g.abs_move(4, 18)    
+    g.abs_move(**{nozzle:height}) 
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.meander(x=60,y=10,spacing=0.8,start='LL',orientation='x')
+    #g.rect(x=60,y=10,start='LL')
+    g.set_valve(num = valve, value = 0)
+    g.feed(20)
+    g.clip(axis=nozzle, height=5, direction='-y')
+
+    g.abs_move(4, 32)    
+    g.abs_move(**{nozzle:height}) 
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.meander(x=60,y=10,spacing=0.8,start='LL',orientation='x')
+    #g.rect(x=60,y=10,start='LL')
+    g.set_valve(num = valve, value = 0)
+    g.feed(20)
+    g.clip(axis=nozzle, height=5, direction='-y')
+
+
+def LED_strain(valve,nozzle,height,speed,dwell,pressure):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    
+    #
+    #########test line
+    #g.abs_move(x=1.5,y=20)
+    #g.abs_move(**{nozzle:height-.72})
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)
+    #g.feed(speed)
+    #g.move(y=8)
+    #g.move(x=0.5)
+    #g.move(y=-8)
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(20)
+    #g.clip(axis=nozzle, height=6, direction='-x')
+    
+    
+#    #####first wire
+#    
+    g.abs_move(x=19, y=9) 
+    g.abs_move(**{nozzle:height}) 
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+
+  
+    ####PAD
+    g.feed(speed*0.8)
+    g.move(x=0.8)  
+    g.arc(x=-1.6,y=0,radius=0.8)
+    g.arc(x=1.6,y=0,radius=0.8)
+    g.move(x=-0.2)
+    g.arc(x=-1.2,y=0,radius=0.6)
+    g.arc(x=1.2,y=0,radius=0.6)
+    g.move(x=-0.2)
+    g.arc(x=-0.8,y=0,radius=0.4)
+    g.arc(x=0.8,y=0,radius=0.4)
+    g.move(x=-0.2)
+    g.arc(x=-0.4,y=0,radius=0.2)
+    g.arc(x=0.4,y=0,radius=0.2)
+    g.move(x=-0.2)
+    g.move(x=1.3)
+    g.move(x=-0.7,y=0.5)
+    g.move(y=-1)
+    g.move(x=0.7,y=0.5)
+    g.move(x=-0.5)
+
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    g.feed(speed)
+    g.move(x=0.5)
+    g.move(x=5.2)
+    g.set_valve(num = valve, value = 0)
+    g.move(x=1.1,**{nozzle:1})
+    g.move(x=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.move(x=5.2)
+    g.set_valve(num = valve, value = 0)
+    g.move(x=1.1,**{nozzle:1})
+    g.move(x=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.move(x=5.2)
+    g.set_valve(num = valve, value = 0)
+    g.move(x=1.1,**{nozzle:1})
+    g.move(x=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.move(x=5.2)
+#    g.set_valve(num = valve, value = 0)
+#    g.feed(10)
+#    g.clip(axis=nozzle,height=2, direction='+x')
+##
+    ####PAD
+    g.feed(speed*0.8)
+    g.move(x=0.5)
+    g.move(x=-0.5)
+    g.move(x=0.7,y=0.5)
+    g.move(y=-1)
+    g.move(x=-0.7,y=0.5)
+    g.move(x=1.3)
+    g.move(x=0.8)  
+    g.arc(x=-1.6,y=0,radius=0.8)
+    g.arc(x=1.6,y=0,radius=0.8)
+    g.move(x=-0.2)
+    g.arc(x=-1.2,y=0,radius=0.6)
+    g.arc(x=1.2,y=0,radius=0.6)
+    g.move(x=-0.2)
+    g.arc(x=-0.8,y=0,radius=0.4)
+    g.arc(x=0.8,y=0,radius=0.4)
+    g.move(x=-0.2)
+    g.arc(x=-0.4,y=0,radius=0.2)
+    g.arc(x=0.4,y=0,radius=0.2)
+    g.move(x=-0.2)
+    g.set_valve(num = valve, value = 0)
+    g.feed(10)
+    g.clip(axis=nozzle,height=2, direction='+x')
+#    
+    
+    
+    g.abs_move(x=19, y=23) 
+    g.abs_move(**{nozzle:height}) 
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    
+    ####PAD
+    g.feed(speed*0.8)
+    g.move(x=0.8)  
+    g.arc(x=-1.6,y=0,radius=0.8)
+    g.arc(x=1.6,y=0,radius=0.8)
+    g.move(x=-0.2)
+    g.arc(x=-1.2,y=0,radius=0.6)
+    g.arc(x=1.2,y=0,radius=0.6)
+    g.move(x=-0.2)
+    g.arc(x=-0.8,y=0,radius=0.4)
+    g.arc(x=0.8,y=0,radius=0.4)
+    g.move(x=-0.2)
+    g.arc(x=-0.4,y=0,radius=0.2)
+    g.arc(x=0.4,y=0,radius=0.2)
+    g.move(x=-0.2)
+    g.move(x=1.3)
+    g.move(x=-0.7,y=0.5)
+    g.move(y=-1)
+    g.move(x=0.7,y=0.5)
+    g.move(x=-0.5)
+    
+
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    g.feed(speed)
+    g.move(x=0.5)
+    g.move(x=5.2)
+    g.set_valve(num = valve, value = 0)
+    g.move(x=1.1,**{nozzle:1})
+    g.move(x=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.move(x=5.2)
+    g.set_valve(num = valve, value = 0)
+    g.move(x=1.1,**{nozzle:1})
+    g.move(x=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.move(x=5.2)
+    g.set_valve(num = valve, value = 0)
+    g.move(x=1.1,**{nozzle:1})
+    g.move(x=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.move(x=5.2)
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(10)
+    #g.clip(axis=nozzle,height=2, direction='+x')
+
+
+    ####PAD
+    g.feed(speed*0.8)
+    g.move(x=0.5)
+    g.move(x=-0.5)
+    g.move(x=0.7,y=0.5)
+    g.move(y=-1)
+    g.move(x=-0.7,y=0.5)
+    g.move(x=1.3)
+    g.move(x=0.8)  
+    g.arc(x=-1.6,y=0,radius=0.8)
+    g.arc(x=1.6,y=0,radius=0.8)
+    g.move(x=-0.2)
+    g.arc(x=-1.2,y=0,radius=0.6)
+    g.arc(x=1.2,y=0,radius=0.6)
+    g.move(x=-0.2)
+    g.arc(x=-0.8,y=0,radius=0.4)
+    g.arc(x=0.8,y=0,radius=0.4)
+    g.move(x=-0.2)
+    g.arc(x=-0.4,y=0,radius=0.2)
+    g.arc(x=0.4,y=0,radius=0.2)
+    g.move(x=-0.2)
+    g.set_valve(num = valve, value = 0)
+    g.feed(10)
+    g.clip(axis=nozzle,height=2, direction='+x')
+    
+#    #
+#    #
+#    #
+    g.abs_move(x=19, y=37) 
+    g.abs_move(**{nozzle:height}) 
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+
+    ####PAD    
+    g.feed(speed*0.8)
+    g.move(x=0.8)  
+    g.arc(x=-1.6,y=0,radius=0.8)
+    g.arc(x=1.6,y=0,radius=0.8)
+    g.move(x=-0.2)
+    g.arc(x=-1.2,y=0,radius=0.6)
+    g.arc(x=1.2,y=0,radius=0.6)
+    g.move(x=-0.2)
+    g.arc(x=-0.8,y=0,radius=0.4)
+    g.arc(x=0.8,y=0,radius=0.4)
+    g.move(x=-0.2)
+    g.arc(x=-0.4,y=0,radius=0.2)
+    g.arc(x=0.4,y=0,radius=0.2)
+    g.move(x=-0.2)
+    g.move(x=1.3)
+    g.move(x=-0.7,y=0.5)
+    g.move(y=-1)
+    g.move(x=0.7,y=0.5)
+    g.move(x=-0.5)
+    
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    g.feed(speed)
+    g.move(x=0.5)
+    g.move(x=5.2)
+    g.set_valve(num = valve, value = 0)
+    g.move(x=1.1,**{nozzle:1})
+    g.move(x=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.move(x=5.2)
+    g.set_valve(num = valve, value = 0)
+    g.move(x=1.1,**{nozzle:1})
+    g.move(x=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.move(x=5.2)
+    g.set_valve(num = valve, value = 0)
+    g.move(x=1.1,**{nozzle:1})
+    g.move(x=1.1,**{nozzle:-1})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.move(x=5.2)
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(10)
+    #g.clip(axis=nozzle,height=2, direction='+x')
+
+
+    ####PAD
+    g.feed(speed*0.8)
+    g.move(x=0.5)
+    g.move(x=-0.5)
+    g.move(x=0.7,y=0.5)
+    g.move(y=-1)
+    g.move(x=-0.7,y=0.5)
+    g.move(x=1.3)
+    g.move(x=0.8)  
+    g.arc(x=-1.6,y=0,radius=0.8)
+    g.arc(x=1.6,y=0,radius=0.8)
+    g.move(x=-0.2)
+    g.arc(x=-1.2,y=0,radius=0.6)
+    g.arc(x=1.2,y=0,radius=0.6)
+    g.move(x=-0.2)
+    g.arc(x=-0.8,y=0,radius=0.4)
+    g.arc(x=0.8,y=0,radius=0.4)
+    g.move(x=-0.2)
+    g.arc(x=-0.4,y=0,radius=0.2)
+    g.arc(x=0.4,y=0,radius=0.2)
+    g.move(x=-0.2)
+    g.set_valve(num = valve, value = 0)
+    g.feed(10)
+    g.clip(axis=nozzle,height=2, direction='+x')
+
+        
+def stiff_TPU_LED_strain(valve,nozzle,height,speed,dwell,pressure):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    
+    #
+    ########test line
+    g.abs_move(x=3.5,y=20)
+    g.abs_move(**{nozzle:height})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.feed(speed)
+    g.move(y=8)
+    g.move(x=0.5)
+    g.move(y=-8)
+    g.set_valve(num = valve, value = 0)
+    g.feed(20)
+    g.clip(axis=nozzle, height=6, direction='-x')
+    
+    
+    #####first wire
+    
+    g.abs_move(x=19, y=9) 
+    g.move(x=-2,y=-2)
+    g.abs_move(**{nozzle:height}) 
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.meander(x=5,y=4,spacing=0.5,orientation='x',start='LL')
+
+    g.move(y=-2)
+    g.move(y=-1)
+    g.meander(x=25,y=2,spacing=0.5,orientation='x',start='LL')
+    g.move(y=1)
+    g.meander(x=5,y=4,spacing=0.5,orientation='x',start='UL')
+    g.set_valve(num = valve, value = 0)
+    g.feed(40)
+    g.clip(axis=nozzle,height=5, direction='+x')
+
+    #####second wire
+    
+    g.abs_move(x=19, y=23) 
+    g.move(x=-2,y=-2)
+    g.abs_move(**{nozzle:height}) 
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.meander(x=5,y=4,spacing=0.5,orientation='x',start='LL')
+
+    g.move(y=-2)
+    g.move(y=-1)
+    g.meander(x=25,y=2,spacing=0.5,orientation='x',start='LL')
+    g.move(y=1)
+    g.meander(x=5,y=4,spacing=0.5,orientation='x',start='UL')
+    g.set_valve(num = valve, value = 0)
+    g.feed(40)
+    g.clip(axis=nozzle,height=5, direction='+x')
+
+    #####third wire
+    
+    g.abs_move(x=19, y=37) 
+    g.move(x=-2,y=-2)
+    g.abs_move(**{nozzle:height}) 
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.meander(x=5,y=4,spacing=0.5,orientation='x',start='LL')
+
+    g.move(y=-2)
+    g.move(y=-1)
+    g.meander(x=25,y=2,spacing=0.5,orientation='x',start='LL')
+    g.move(y=1)
+    g.meander(x=5,y=4,spacing=0.5,orientation='x',start='UL')
+    g.set_valve(num = valve, value = 0)
+    g.feed(40)
+    g.clip(axis=nozzle,height=5, direction='+x')
+
+   
+
+
+
+    
+def TPU_spacing_tests(valve,nozzle,height,speed,dwell,pressure):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    
+    #
+    #######test line
+    g.abs_move(x=2,y=1)
+    g.abs_move(**{nozzle:height})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.feed(speed)
+    g.move(x=20)
+    g.set_valve(num = valve, value = 0)
+    g.feed(20)
+    g.clip(axis=nozzle, height=6, direction='-y')
+    
+    my_space = [0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45]
+    my_xstarts = [3.0, 11.825, 20.65, 29.474999999999998, 38.3, 47.125, 55.949999999999996, 64.77499999999999]
+
+    #####first wire
+    
+        
+    for i in range(8):
+          g.abs_move(x=my_xstarts[i],y=3)
+          g.abs_move(**{nozzle:height}) 
+          g.feed(speed)
+          if valve is not None:
+              g.set_valve(num = valve, value = 1)
+          g.dwell(dwell)
+          g.meander(x=7,y=44,orientation='y',spacing=my_space[i],start='LL')
+          g.set_valve(num = valve, value = 0)
+          g.feed(40)
+          g.clip(axis=nozzle,height=5, direction='+x')
+
 
 
 def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR,startx,starty):
@@ -1279,11 +1748,11 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline,startx,starty
 #################################### PRINTING - ALL FUNCTIONS CALLED HERE ############################
 reference_nozzle = 'A'
 
-active_slide = 'slide1'
-z_ref = -86.571111
+#active_slide = 'slide1'
+#z_ref = -79.434407
 
-#active_slide = 'slide2'
-#z_ref = -88.493860
+active_slide = 'slide2'
+z_ref = -79.4831
 
 #active_slide = 'slide3'
 #z_ref = -88.3824
@@ -1293,9 +1762,9 @@ g.write("POSOFFSET CLEAR X Y U A B C D")
 
   
 
-substrate_dif = 0
+#substrate_dif = 0
 
-#substrate_dif = automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
+substrate_dif = automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
 
 
 #automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
@@ -1319,29 +1788,52 @@ if 'D' in AXES_USED:
 #
 #g.set_home(x=0, y=0)
 #
-##g.abs_move(x=0, y=0)
-##nozzle_change(nozzles = 'ab')
-##g.set_home(x=0, y=0)
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
 #
 #g.toggle_pressure(pressure_box)
-#tpu_bottom(valve='1',nozzle='A',height=0.18,speed=10,dwell=0.2,pressure=55)
+##tpu_bottom(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.3,pressure=10)
+#tpu_bottom_LED_strain(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.2,pressure=10)
 #g.toggle_pressure(pressure_box)
 
 #
-###########------------SOFT AGTPU WIRING
+
+##########------------ TPU LAYER
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 #
 #g.set_home(x=0, y=0)
 #
-##g.abs_move(x=0, y=0)
-##nozzle_change(nozzles = 'ab')
-##g.set_home(x=0, y=0)s
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
 #
 #g.toggle_pressure(pressure_box)
-#LED_Harvard(valve='1',nozzle='A',height=0.16+0.06+0.06+0.06,speed=7,dwell=0.1,pressure=45,LorR='R',startx=8,starty=7)
+##LED_Harvard(valve='1',nozzle='A',height=0.16+0.06+0.06+0.06,speed=7,dwell=0.1,pressure=45,LorR='R',startx=8,starty=7)
+#stiff_TPU_LED_strain(valve='2',nozzle='B',height=0.339+.4,speed=5,dwell=0.4,pressure=30)
+#
 #g.toggle_pressure(pressure_box)
+
+
+###########------------SOFT AGTPU WIRING
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
+
+g.toggle_pressure(pressure_box)
+#LED_Harvard(valve='1',nozzle='A',height=0.16+0.06+0.06+0.06,speed=7,dwell=0.1,pressure=45,LorR='R',startx=8,starty=7)
+LED_strain(valve='1',nozzle='A',height=0.08+.72+.12,speed=2,dwell=0.1,pressure=10)
+
+g.toggle_pressure(pressure_box)
+
 
 #
 
@@ -1379,29 +1871,29 @@ if 'D' in AXES_USED:
 
 
 ############------------STIFF AGTPU CONNECTORS / PICK+PLACE
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
-#g.set_home(x=0, y=0)
-###
-##
-startx=9+31
-starty=7.4
-###
-###
-for i in range(len(LED_HARVARD_POSITIONS)):
-        for j in range(len(LED_HARVARD_POSITIONS[i])):
-            LED_HARVARD_POSITIONS[i][j][0]=LED_HARVARD_POSITIONS[i][j][0]+startx
-            LED_HARVARD_POSITIONS[i][j][1]=LED_HARVARD_POSITIONS[i][j][1]+starty
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 #
-g.toggle_pressure(pressure_box)
-LED_Harvard_connectors(valve='1',nozzle='A',height=0.5,speed=2,dwell=2.8,pressure=70,startx=8,starty=7)
-g.toggle_pressure(pressure_box)
+#g.set_home(x=0, y=0)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+####
+###
+#startx=9+31
+#starty=7.4
+####
+####
+#for i in range(len(LED_HARVARD_POSITIONS)):
+#        for j in range(len(LED_HARVARD_POSITIONS[i])):
+#            LED_HARVARD_POSITIONS[i][j][0]=LED_HARVARD_POSITIONS[i][j][0]+startx
+#            LED_HARVARD_POSITIONS[i][j][1]=LED_HARVARD_POSITIONS[i][j][1]+starty
+##
+#g.toggle_pressure(pressure_box)
+#LED_Harvard_connectors(valve='1',nozzle='A',height=0.5,speed=2,dwell=2.8,pressure=70,startx=8,starty=7)
+#g.toggle_pressure(pressure_box)
 
 ##
 #g.abs_move(x=0, y=0)
@@ -1542,7 +2034,7 @@ g.toggle_pressure(pressure_box)
 
 
 
-#g.view(backend='matplotlib')
+g.view(backend='matplotlib')
 
 ##
 g.teardown()

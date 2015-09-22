@@ -224,9 +224,12 @@ class AerotechAutomator(object):
         y_bottom = self.precise_detect_edge(direction = '-y', large_step = 1, 
                     small_step = 0.2, edge_tolerance = 0.2, find_middle = False)
         x_low = x_left
-        x_high = x_left + 76
+        #x_high = x_left + 50.4  #(use for slide with long side along y axis)
+        x_high = x_left + 76 #(use for slide with long side along x axis)
         y_low = y_bottom
-        y_high = y_low + 50.4
+        #y_high = y_low + 76 #(use for slide with long side along y axis)
+        y_high = y_low + 50.4 #(use for slide with long side along x axis)
+        
         return (x_low, x_high), (y_low, y_high)
       
         
@@ -526,6 +529,36 @@ class AerotechAutomator(object):
         data = {'surface': surface, 'start': (x_start, y_start)}
         self.substrate_profiles[name] = data
         return surface
+    
+    def profile_line_csv_output(self,spacing,dist,speed):
+        """ Starting at a manually determined XY, scan over a distance, dist,
+        at a determined spatial frequency, spacing, and output profile values to csv
+        
+        Written 09/21/2015 by Alex Valentine 
+        
+        Parameters
+        ----------
+        spacing : float
+            Spacing at which measuremnts are taken
+        dist : float
+            Total distance over which measurements are taken
+        
+        """
+        self.go_to_heaven()
+        self.find_profilometer_middle()
+        num = dist/spacing
+        g = self.g
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            myvals[i] = self.kp.read()
+            g.move(y=spacing)
+ 
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\mytest.csv',out,delimiter=',')
+            
+                    
     
     def find_substrate_ref(self, name, position='auto', dwell=1, safe=True):
         """ Find the position of the profilometer axis that will cause the
