@@ -87,15 +87,19 @@ def setup(active_slide, ref, move_to_ref = False):
         g.abs_move(**{ref:(automator.substrate_origins[active_slide][ref][2]+ 1)})
         g.direct_write = False
         
-        
+def profile_line(spacing,dist,speed):        
+    automator.setup()    
+    automator.profile_line_csv_output(spacing=spacing,dist=dist,speed=speed)    
+    automator.teardown()
+
 
 ################### Full Setup Run
-#reference_nozzle = 'A' 
-#active_slide = 'slide1'
+reference_nozzle = 'A' 
+active_slide = 'slide1'
 #active_slide = 'slide2'
 #active_slide = 'slide3'
 
-#setup(active_slide, ref = reference_nozzle, move_to_ref = True)
+setup(active_slide, ref = reference_nozzle, move_to_ref = True)
 ##
 
 
@@ -132,10 +136,9 @@ def setup(active_slide, ref, move_to_ref = False):
         
 
 
-
-
-automator.setup()
-automator.profile_line_csv_output(spacing=0.5,dist=20,speed=2)
+########### PROFILING DOGBONES
+#
+#profile_line(spacing=0.5,dist=70,speed=4)
 
 
 

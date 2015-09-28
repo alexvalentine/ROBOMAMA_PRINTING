@@ -532,9 +532,13 @@ class AerotechAutomator(object):
     
     def profile_line_csv_output(self,spacing,dist,speed):
         """ Starting at a manually determined XY, scan over a distance, dist,
-        at a determined spatial frequency, spacing, and output profile values to csv
+        at a determined spatial frequency, spacing, and output profile values to cs
         
         Written 09/21/2015 by Alex Valentine 
+        
+        **Revised 09/22/2015 by Alex Valentine** - Revised to work specifically 
+        with AgTPU dogbone specimen - collects 3 profiles, one for each dogbone 
+        on a slide.
         
         Parameters
         ----------
@@ -542,21 +546,56 @@ class AerotechAutomator(object):
             Spacing at which measuremnts are taken
         dist : float
             Total distance over which measurements are taken
+        speed : float
+            Feed rate
         
         """
+        g = self.g
+        g.feed(20)
         self.go_to_heaven()
         self.find_profilometer_middle()
         num = dist/spacing
-        g = self.g
         g.feed(speed)
         myvals = np.zeros(num)
         for i in range(int(num)):
+            g.dwell(0.5)
             myvals[i] = self.kp.read()
-            g.move(y=spacing)
- 
+            g.move(x=spacing)
         out = [myvals]
         out=zip(*out)
-        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\mytest.csv',out,delimiter=',')
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\myprofs_1.csv',out,delimiter=',')
+        
+        g.feed(40)
+        g.move(x=-70)
+        g.move(y=15.27)
+        
+        self.find_profilometer_middle()
+        num = dist/spacing
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(x=spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\myprofs_2.csv',out,delimiter=',')
+
+        g.feed(40)
+        g.move(x=-70)
+        g.move(y=15.27)
+        
+        self.find_profilometer_middle()
+        num = dist/spacing
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(x=spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\myprofs_3.csv',out,delimiter=',')
             
                     
     
