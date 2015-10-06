@@ -9,7 +9,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\alexs_prin
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = [
             'A',
-            'B',
+            #'B',
             #'C', 
             #'D'
             ]
@@ -689,18 +689,18 @@ def TPU_spacing_tests(valve,nozzle,height,speed,dwell,pressure):
     
     #
     #######test line
-    g.abs_move(x=2,y=1)
+    g.abs_move(x=2,y=1.)
     g.abs_move(**{nozzle:height})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
     g.feed(speed)
-    g.move(x=20)
+    g.move(x=50)
     g.set_valve(num = valve, value = 0)
     g.feed(20)
     g.clip(axis=nozzle, height=6, direction='-y')
     
-    my_space = [0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45]
+    my_space = [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]
     my_xstarts = [3.0, 11.825, 20.65, 29.474999999999998, 38.3, 47.125, 55.949999999999996, 64.77499999999999]
 
     #####first wire
@@ -713,7 +713,7 @@ def TPU_spacing_tests(valve,nozzle,height,speed,dwell,pressure):
           if valve is not None:
               g.set_valve(num = valve, value = 1)
           g.dwell(dwell)
-          g.meander(x=7,y=44,orientation='y',spacing=my_space[i],start='LL')
+          g.meander(x=7,y=43,orientation='y',spacing=my_space[i],start='LL')
           g.set_valve(num = valve, value = 0)
           g.feed(40)
           g.clip(axis=nozzle,height=5, direction='+x')
@@ -1750,21 +1750,21 @@ reference_nozzle = 'A'
 
 #active_slide = 'slide1'
 #z_ref = -79.434407
+###
+#active_slide = 'slide2'
+#z_ref = -79.4831
 
-active_slide = 'slide2'
-z_ref = -79.4831
-
-#active_slide = 'slide3'
-#z_ref = -88.3824
+active_slide = 'slide3'
+z_ref = -88.3824
 
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
 
   
 
-#substrate_dif = 0
+substrate_dif = 0
 
-substrate_dif = automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
+#substrate_dif = automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
 
 
 #automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
@@ -1782,20 +1782,21 @@ if 'D' in AXES_USED:
 
 
 ##########------------TPU BOTTOM
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-#
-#g.set_home(x=0, y=0)
-#
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
 #g.abs_move(x=0, y=0)
 #nozzle_change(nozzles = 'ab')
 #g.set_home(x=0, y=0)
-#
-#g.toggle_pressure(pressure_box)
-##tpu_bottom(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.3,pressure=10)
+
+g.toggle_pressure(pressure_box)
+#tpu_bottom(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.3,pressure=10)
 #tpu_bottom_LED_strain(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.2,pressure=10)
-#g.toggle_pressure(pressure_box)
+TPU_spacing_tests(valve='1',nozzle='A',height=0.4,speed=20,dwell=0.2,pressure=18)
+g.toggle_pressure(pressure_box)
 
 #
 
@@ -1818,21 +1819,21 @@ if 'D' in AXES_USED:
 
 
 ###########------------SOFT AGTPU WIRING
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
 #g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)
-#LED_Harvard(valve='1',nozzle='A',height=0.16+0.06+0.06+0.06,speed=7,dwell=0.1,pressure=45,LorR='R',startx=8,starty=7)
-LED_strain(valve='1',nozzle='A',height=0.08+.72+.12,speed=2,dwell=0.1,pressure=10)
-
-g.toggle_pressure(pressure_box)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+##LED_Harvard(valve='1',nozzle='A',height=0.16+0.06+0.06+0.06,speed=7,dwell=0.1,pressure=45,LorR='R',startx=8,starty=7)
+#LED_strain(valve='1',nozzle='A',height=0.08+.72+.12,speed=2,dwell=0.1,pressure=10)
+#
+#g.toggle_pressure(pressure_box)
 
 
 #

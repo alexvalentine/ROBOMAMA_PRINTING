@@ -597,6 +597,118 @@ class AerotechAutomator(object):
         out=zip(*out)
         np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\myprofs_3.csv',out,delimiter=',')
             
+    
+    def profile_cross_section_csv_output(self,spacing,speed):
+        """ Starting at half the slide distance scan vertically over printed 
+        filaments, translating fast between filaments and slow over areas of 
+        printed ink. All distances standardized from print routine
+        
+        Written 09/29/2015 by Alex Valentine 
+        
+      
+        Parameters
+        ----------
+        spacing : float
+            Spacing at which fine measurments are taken
+        dist : float
+            Total distance over which measurements are taken
+        speed : float
+            Feed rate of measurements
+        
+        """
+        g = self.g
+        g.feed(20)
+        self.go_to_heaven()
+        g.abs_move(x=62.134597,y=124.554818)
+        self.find_profilometer_middle()
+        num = 40./spacing
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(y=-spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\myprofs_11.csv',out,delimiter=',')
+        
+        g.feed(20)
+        g.abs_move(x=148.6345,y=124.554818)
+        self.find_profilometer_middle()
+        num = 40./spacing
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(y=-spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\myprofs_10.csv',out,delimiter=',')
+
+        g.feed(20)
+        g.abs_move(x=233.314597,y=124.554818)
+        self.find_profilometer_middle()
+        num = 40./spacing
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(y=-spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\myprofs_9.csv',out,delimiter=',')      
+
+
+
+        g = self.g
+        g.feed(20)
+        self.go_to_heaven()
+        g.abs_move(x=62.134597,y=64.394819)
+        self.find_profilometer_middle()
+        num = 40./spacing
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(y=-spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\myprofs_8.csv',out,delimiter=',')
+        
+        g.feed(20)
+        g.abs_move(x=148.6345,y=64.394819)
+        self.find_profilometer_middle()
+        num = 40./spacing
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(y=-spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\myprofs_7.csv',out,delimiter=',')
+#
+        g.feed(20)
+        g.abs_move(x=233.314597,y=64.394819)
+        self.find_profilometer_middle()
+        num = 40./spacing
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(y=-spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Tests\myprofs_6.csv',out,delimiter=',')   
+
+
+
+
                     
     
     def find_substrate_ref(self, name, position='auto', dwell=1, safe=True):
@@ -864,7 +976,7 @@ class AerotechAutomator(object):
             self.write_master_cal_file()
             self.g.feed(30)
             self.g.abs_move(x= 100, y=self.substrate_origins['slide1']['A'][1]-5)
-            #self.g.set_cal_file(self.calfile_path)
+            self.g.set_cal_file(self.calfile_path)
         self.g.feed(25)
         self.go_to_heaven()
     

@@ -9,7 +9,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = [
             'A',
-             'B',
+             #'B',
             #'C', 
          #   'D'
             ]
@@ -37,23 +37,23 @@ AXES_DATA = {
 #Defining substrate location and profilometry mesh size
 SUBSTRATES = {
     'slide1': {
-        'origin': (85,115),
+        'origin': (60,110),
         'size': 'auto',
         'profile': True,
         'profile-spacing': (40,40),
     },
     'slide2': {
-        'origin': (125,115),
+        'origin': (120,110),
         'size': 'auto',
         'profile': True,
-        'profile-spacing': (47,47),
+        'profile-spacing': (40,40),
     },
-    #'slide3': {
-    #    'origin': (230,110),
-    #    'size': 'auto',
-    #    'profile': True,
-    #    'profile-spacing': (10,10),
-    #}
+    'slide3': {
+        'origin': (205,112),
+        'size': 'auto',
+        'profile': True,
+        'profile-spacing': (40,40),
+    }
 }
 #Defining profilometry parameters
 automator = AerotechAutomator(
@@ -91,6 +91,15 @@ def profile_line(spacing,dist,speed):
     automator.setup()    
     automator.profile_line_csv_output(spacing=spacing,dist=dist,speed=speed)    
     automator.teardown()
+
+
+def profile_cross_section(spacing,speed):        
+    automator.setup()    
+    automator.profile_cross_section_csv_output(spacing=spacing,speed=speed)    
+    automator.teardown()
+
+
+
 
 
 ################### Full Setup Run
@@ -139,7 +148,7 @@ setup(active_slide, ref = reference_nozzle, move_to_ref = True)
 ########### PROFILING DOGBONES
 #
 #profile_line(spacing=0.5,dist=70,speed=4)
-
+#profile_cross_section(spacing=0.05,speed=4)
 
 
 
