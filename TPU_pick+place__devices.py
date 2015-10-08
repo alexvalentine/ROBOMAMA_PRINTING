@@ -720,6 +720,104 @@ def TPU_spacing_tests(valve,nozzle,height,speed,dwell,pressure):
 
 
 
+def AgTPU_strain_speciman(valve,nozzle,height,speed,dwell,pressure):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    
+    #
+    #######test line
+    g.abs_move(x=2,y=1.)
+    g.abs_move(**{nozzle:height})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.feed(speed)
+    g.move(x=10)
+    g.set_valve(num = valve, value = 0)
+    g.feed(20)
+    g.clip(axis=nozzle, height=6, direction='-y')
+    
+    my_xstarts = [3.0, 11.825, 20.65, 29.474999999999998, 38.3, 47.125, 55.949999999999996, 64.77499999999999]
+
+    ############BOTTOM LAYER
+            
+    for i in range(3):
+          g.abs_move(x=my_xstarts[i]+3.5,y=3+9)
+          g.abs_move(**{nozzle:height}) 
+          g.feed(speed)
+          if valve is not None:
+              g.set_valve(num = valve, value = 1)
+          g.dwell(dwell)
+
+          
+          g.move(x=0.8)  
+          g.arc(x=-1.6,y=0,radius=0.8)
+          g.arc(x=1.6,y=0,radius=0.8)
+          g.move(x=-0.4)
+          g.arc(x=-0.8,y=0,radius=0.4)
+          g.arc(x=0.8,y=0,radius=0.4)
+          g.move(x=-0.4)
+          g.move(y=1.3)
+          g.move(x=-0.5,y=-0.7)
+          g.move(x=1)
+          g.move(x=-0.5,y=0.7)
+          g.move(y=-0.5)
+          
+          g.move(y=23)
+          
+          g.move(y=-0.5)
+          g.move(x=-0.5,y=0.7)
+          g.move(x=1)
+          g.move(x=-0.5,y=-0.7)
+          g.move(y=1.3)
+          g.move(x=-0.4)          
+          g.arc(x=0.8,y=0,radius=0.4)
+          g.arc(x=-0.8,y=0,radius=0.4)
+          g.move(x=-0.4)
+          g.arc(x=1.6,y=0,radius=0.8)          
+          g.arc(x=-1.6,y=0,radius=0.8)
+          g.set_valve(num = valve, value = 0)
+          g.feed(40)
+          g.clip(axis=nozzle,height=5, direction='+x')
+        
+    ############2nd LAYER     
+                
+    for i in range(3):
+          g.abs_move(x=my_xstarts[i]+3.5,y=3+9)
+          g.abs_move(**{nozzle:height+0.04}) 
+          g.feed(speed)
+          if valve is not None:
+              g.set_valve(num = valve, value = 1)
+          g.dwell(dwell)
+
+          g.move(y=1.6)  
+          g.move(y=23)
+          
+          
+          g.set_valve(num = valve, value = 0)
+          g.feed(40)
+          g.clip(axis=nozzle,height=5, direction='+y')
+    
+    
+    ############3rd LAYER
+
+    for i in range(3):
+          g.abs_move(x=my_xstarts[i]+3.5,y=3+9)
+          g.abs_move(**{nozzle:height+0.08}) 
+          g.feed(speed)
+          if valve is not None:
+              g.set_valve(num = valve, value = 1)
+          g.dwell(dwell)
+
+          g.move(y=1.6)  
+          g.move(y=23)
+           
+          
+          g.set_valve(num = valve, value = 0)
+          g.feed(40)
+          g.clip(axis=nozzle,height=5, direction='+y')
+
+
 def LED_Harvard(valve,nozzle,height,speed,dwell,pressure,LorR,startx,starty):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
@@ -1782,21 +1880,21 @@ if 'D' in AXES_USED:
 
 
 ##########------------TPU BOTTOM
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
 #g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)
-#tpu_bottom(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.3,pressure=10)
-#tpu_bottom_LED_strain(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.2,pressure=10)
-TPU_spacing_tests(valve='1',nozzle='A',height=0.4,speed=20,dwell=0.2,pressure=18)
-g.toggle_pressure(pressure_box)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+##tpu_bottom(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.3,pressure=10)
+##tpu_bottom_LED_strain(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.2,pressure=10)
+#TPU_spacing_tests(valve='1',nozzle='A',height=0.4,speed=20,dwell=0.2,pressure=18)
+#g.toggle_pressure(pressure_box)
 
 #
 
@@ -1819,21 +1917,22 @@ g.toggle_pressure(pressure_box)
 
 
 ###########------------SOFT AGTPU WIRING
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-#
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
 #g.set_home(x=0, y=0)
-#
-##g.abs_move(x=0, y=0)
-##nozzle_change(nozzles = 'ab')
-##g.set_home(x=0, y=0)
-#
-#g.toggle_pressure(pressure_box)
-##LED_Harvard(valve='1',nozzle='A',height=0.16+0.06+0.06+0.06,speed=7,dwell=0.1,pressure=45,LorR='R',startx=8,starty=7)
+
+g.toggle_pressure(pressure_box)
+#LED_Harvard(valve='1',nozzle='A',height=0.16+0.06+0.06+0.06,speed=7,dwell=0.1,pressure=45,LorR='R',startx=8,starty=7)
 #LED_strain(valve='1',nozzle='A',height=0.08+.72+.12,speed=2,dwell=0.1,pressure=10)
-#
-#g.toggle_pressure(pressure_box)
+AgTPU_strain_speciman(valve='1',nozzle='z',height=0.0,speed=2,dwell=0.1,pressure=10)
+
+g.toggle_pressure(pressure_box)
 
 
 #
