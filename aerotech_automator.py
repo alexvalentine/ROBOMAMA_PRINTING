@@ -999,7 +999,7 @@ class AerotechAutomator(object):
             self.save_state(path = alignment_path)   
         if cal_file is not False:
             self.write_master_cal_file()
-            self.g.abs_move(y=self.substrate_origins['slide1']['A'][1]-5)
+            self.g.abs_move(x=self.substrate_origins['slide1']['A'][1]-30,y=self.substrate_origins['slide1']['A'][1]-30)
             self.g.set_cal_file(self.calfile_path)
                 
             
