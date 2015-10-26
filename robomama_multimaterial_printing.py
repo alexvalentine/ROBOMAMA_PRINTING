@@ -2350,6 +2350,42 @@ def silver_meander(valve,nozzle,height,speed,dwell,pressure,xstart,ystart,meandx
     g.abs_move(**{nozzle:5}) 
 
 
+def arduino_gen1_wiring(valve,nozzle,height,speed,dwell,pressure):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+
+
+
+
+    #########test line
+    g.abs_move(x=2,y=2.5)
+    pressure_purge(delay = 2)
+    g.abs_move(**{nozzle:height})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.feed(speed)
+    g.move(x=5)
+    g.set_valve(num = valve, value = 0)
+    g.feed(20)
+    g.clip(axis=nozzle, height=5, direction='-x')
+
+
+    
+
+
+    g.abs_move(**{nozzle:height})
+    g.dwell(dwell)
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    
+    
+    g.set_valve(num = valve, value = 0)
+
+
+
+
 #################################### END OF FUNCTION DEFINITIONS #######################################
 
 
@@ -2658,6 +2694,27 @@ g.toggle_pressure(pressure_box)
 #silver_meander(valve='1',nozzle='A',height=0.015,speed=25,dwell=1,pressure=3,xstart=45,ystart=8,meandx=5,meandy=5,nozzleID=0.2)#
 
 #g.toggle_pressure(pressure_box)
+
+
+
+#------------------PRINT ME ARDUINO
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins['slide1']['A'][0], y=automator.substrate_origins['slide1']['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
+
+g.toggle_pressure(pressure_box)
+
+
+g.toggle_pressure(pressure_box)
+
+
+
 
 
 #g.view(backend='matplotlib')
