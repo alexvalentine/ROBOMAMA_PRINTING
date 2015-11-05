@@ -10,7 +10,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 AXES_USED = [
             'A',
              'B',
-            'C', 
+            #'C', 
          #   'D'
             ]
 
@@ -40,20 +40,20 @@ SUBSTRATES = {
         'origin': (61.69,84.399),
         'size': 'auto',
         'profile': True,
-        'profile-spacing': (40,40),
+        'profile-spacing': (40,50),
     },
-    'slide2': {
-        'origin': (147.69,84.399),
-        'size': 'auto',
-        'profile': True,
-        'profile-spacing': (40,40),
-    },
-    'slide3': {
-        'origin': (224.84,84.399),
-        'size': 'auto',
-        'profile': True,
-        'profile-spacing': (40,40),
-    }
+    #'slide2': {
+    #    'origin': (147.69,84.399),
+    #    'size': 'auto',
+    #    'profile': True,
+    #    'profile-spacing': (40,40),
+    #},
+    #'slide3': {
+    #    'origin': (224.84,84.399),
+    #    'size': 'auto',
+    #    'profile': True,
+    #    'profile-spacing': (40,40),
+    #}
 }
 #Defining profilometry parameters
 automator = AerotechAutomator(
@@ -98,8 +98,10 @@ def profile_cross_section(spacing,speed):
     automator.profile_cross_section_csv_output(spacing=spacing,speed=speed)    
     automator.teardown()
 
-
-
+def profile_mech_specimen(spacing,speed):
+    automator.setup()    
+    automator.profile_cross_section_csv_output_vertical(spacing=spacing,speed=speed)    
+    automator.teardown()
 
 
 ################### Full Setup Run
@@ -108,7 +110,7 @@ active_slide = 'slide1'
 #active_slide = 'slide2'
 #active_slide = 'slide3'
 
-setup(active_slide, ref = reference_nozzle, move_to_ref = True)
+#setup(active_slide, ref = reference_nozzle, move_to_ref = True)
 ##
 
 
@@ -149,7 +151,7 @@ setup(active_slide, ref = reference_nozzle, move_to_ref = True)
 #
 #profile_line(spacing=0.5,dist=70,speed=4)
 #profile_cross_section(spacing=0.05,speed=4)
-
+#profile_mech_specimen(spacing=0.03,speed=4)
 
 
 

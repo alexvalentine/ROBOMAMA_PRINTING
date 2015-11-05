@@ -708,8 +708,83 @@ class AerotechAutomator(object):
 
 
 
+    def profile_cross_section_csv_output_vertical(self,spacing,speed):
+        """ Starting at the right side of the slide, halfway up vertically, 
+        scan horizontally over 4 printed mechanical specimen, translating 
+        at "speed" between spacings, but dwelling before taking a reading. 
+        All distances standardized from print routine
+        
+        Written 10/27/2015 by Alex Valentine 
+        
+      
+        Parameters
+        ----------
+        spacing : float
+            Spacing at which fine measurments are taken
+        dist : float
+            Total distance over which measurements are taken
+        speed : float
+            Feed rate of profilometer translation between readings
+        
+        """
+        g = self.g
+        g.feed(40)
+        self.go_to_heaven()
+        g.abs_move(x=97.957,y=110.035)    ###right side of slide, in the middle vertically
+        self.find_profilometer_middle()
+        num = 35./spacing    ####moving in negative x direction, crossing over 4 specimen
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(x=-spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Mech Specimen\myprofs_6.csv',out,delimiter=',')
+        
+        g.feed(40)
+        g.abs_move(x=183.377,y=110.035)
+        self.find_profilometer_middle()
+        num = 35./spacing    ####moving in negative x direction, crossing over 4 specimen
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(x=-spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Mech Specimen\myprofs_7.csv',out,delimiter=',')
 
-                    
+        g.feed(40)
+        g.abs_move(x=268.797,y=110.035)
+        self.find_profilometer_middle()
+        num = 35./spacing    ####moving in negative x direction, crossing over 4 specimen
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(x=-spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Mech Specimen\myprofs_8.csv',out,delimiter=',')      
+
+        g.feed(40)
+        g.abs_move(x=268.797,y=50.495)
+        self.find_profilometer_middle()
+        num = 35./spacing    ####moving in negative x direction, crossing over 4 specimen
+        g.feed(speed)
+        myvals = np.zeros(num)
+        for i in range(int(num)):
+            g.dwell(0.5)
+            myvals[i] = self.kp.read()
+            g.move(x=-spacing)
+        out = [myvals]
+        out=zip(*out)
+        np.savetxt(r'C:\Users\Lewis Group\Desktop\Alex Profiling Mech Specimen\myprofs_9.csv',out,delimiter=',')
+        
     
     def find_substrate_ref(self, name, position='auto', dwell=1, safe=True):
         """ Find the position of the profilometer axis that will cause the
