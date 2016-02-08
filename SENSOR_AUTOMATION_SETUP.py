@@ -10,7 +10,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 AXES_USED = [
             'A',
              'B',
-            #'C', 
+            'C', 
          #   'D'
             ]
 
@@ -40,13 +40,13 @@ SUBSTRATES = {
         'origin': (61.69,84.399),
         'size': 'auto',
         'profile': True,
-        'profile-spacing': (40,50),
+        'profile-spacing': (30,30),
     },
     #'slide2': {
     #    'origin': (147.69,84.399),
     #    'size': 'auto',
     #    'profile': True,
-    #    'profile-spacing': (40,40),
+    #    'profile-spacing': (30,30),
     #},
     #'slide3': {
     #    'origin': (224.84,84.399),
@@ -122,10 +122,10 @@ active_slide = 'slide1'
 
 ##################Rezero some nozzles but use the rest of the old info ###
 ###
-#automator.setup()
-#automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
-#automator.rezero_nozzles(['A','B','C'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
-###########
+automator.setup()
+automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
+automator.rezero_nozzles(['A'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
+########
 #######
 ############ COMMANDS TO MOVE REF NOZZLE TO SUBSTRATE ORIGIN (0,5)
 ##########
