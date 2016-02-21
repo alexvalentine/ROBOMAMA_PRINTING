@@ -9,8 +9,8 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = [
             'A',
-             'B',
-            'C', 
+             #'B',
+            #'C', 
          #   'D'
             ]
 
@@ -110,7 +110,7 @@ active_slide = 'slide1'
 #active_slide = 'slide2'
 #active_slide = 'slide3'
 
-#setup(active_slide, ref = reference_nozzle, move_to_ref = True)
+setup(active_slide, ref = reference_nozzle, move_to_ref = True)
 ##
 
 
