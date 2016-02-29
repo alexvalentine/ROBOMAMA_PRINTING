@@ -117,7 +117,13 @@ ATMEGA328_pad_positions = (
 )
 
 
+pdms_pillar_lid_locations = (                                  #(0,0) is center of bottom left well (C4), order proceed L to R across rows, down colums (A4-A3-A2-A1-B4-B3, etc)
 
+((0.0,52.0),(26.0,52.0),(52.0,52.0),(78.0,52.0)),
+((0.0,26.0),(26.0,26.0),(52.0,26.0),(78.0,26.0)),
+((0.0,0.0),(26.0,0.0),(52.0,0.0),(78.0,0.0)),
+
+)
 ###these coordinats are relative to the starting location of the VCC terminal, which changes print to print
 
 LED_HARVARD_POSITIONS = [[[5,29.6],[5,24.8],[5,20],[5,15.2]],[[5,10],[8.65,20],[11.65,20],[15.5,10.1]],[[15.4,29.6],[15.4,24.8],[15.4,20],[15.4,15.2]],]
@@ -660,17 +666,17 @@ def TPU_spacing_tests(valve,nozzle,height,speed,dwell,pressure):
     g.set_pressure(pressure_box, pressure)
     
     
-    ######test line
-    g.abs_move(x=2,y=1.)
-    g.abs_move(**{nozzle:height})
-    if valve is not None:
-        g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    g.feed(speed)
-    g.move(x=50)
-    g.set_valve(num = valve, value = 0)
-    g.feed(20)
-    g.clip(axis=nozzle, height=6, direction='+y')
+    #######test line
+    #g.abs_move(x=2,y=1.)
+    #g.abs_move(**{nozzle:height})
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)
+    #g.feed(speed)
+    #g.move(x=50)
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(20)
+    #g.clip(axis=nozzle, height=6, direction='+y')
     
     my_space = [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]
     my_xstarts = [3.0, 11.825, 20.65, 29.474999999999998, 38.3, 47.125, 55.949999999999996, 64.77499999999999]
@@ -697,74 +703,74 @@ def AgTPU_strain_speciman(valve,nozzle,height,speed,dwell,pressure):
     g.set_pressure(pressure_box, pressure)
     
     #
-    ####test line
-    g.abs_move(x=2,y=0)
-    g.abs_move(**{nozzle:height-.2})
-    if valve is not None:
-        g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    g.feed(speed)
-    g.move(x=10)
-    g.set_valve(num = valve, value = 0)
-    g.feed(20)
-    g.clip(axis=nozzle, height=6, direction='+y')
+    #####test line
+    #g.abs_move(x=2,y=0)
+    #g.abs_move(**{nozzle:height-.2})
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)
+    #g.feed(speed)
+    #g.move(x=10)
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(20)
+    #g.clip(axis=nozzle, height=6, direction='+y')
     
     my_xstarts = [3.0, 11.825, 20.65, 29.474999999999998, 38.3, 47.125, 55.949999999999996, 64.77499999999999]
 ##
-#    ############BOTTOM LAYER
+    ############BOTTOM LAYER
 #            
-    for i in [0,1,2,3,4,5,6,7]:
-          g.abs_move(x=my_xstarts[i]+1,y=3+2+3)
-          g.abs_move(**{nozzle:height}) 
-          g.feed(speed)
-          if valve is not None:
-              g.set_valve(num = valve, value = 1)
-          g.dwell(dwell)
-
-          g.meander(x=5,y=4,spacing=0.32,orientation='y')
-          g.move(x=-2.5)
-          g.move(y=1.5)
-          g.move(x=-0.8,y=-1.3)
-          g.move(x=1.6)
-          g.move(x=-0.8,y=1.3)
-          
-          
-          g.move(y=21)
-          
-          
-          g.move(x=-0.8,y=1.3)
-          g.move(x=1.6)
-          g.move(x=-0.8,y=-1.3)
-          g.move(y=1.5)
-          g.move(x=-2.5)
-          g.meander(x=5,y=4,spacing=0.32,orientation='y')
-          g.set_valve(num = valve, value = 0)
-          g.feed(40)
-          g.clip(axis=nozzle,height=5, direction='+x')
-        
-    ###########2nd LAYER     
-    #g.dwell(20)            
-    for i in [0,1,2,3,4,5,6,7]:
-          g.abs_move(x=my_xstarts[i]+1+2.5,y=3+2+7)
-          g.abs_move(**{nozzle:height+0.1}) 
-          g.feed(speed)
-          if valve is not None:
-              g.set_valve(num = valve, value = 1)
-          g.dwell(dwell)
-
-          g.move(y=24)  
-
-
-          g.set_valve(num = valve, value = 0)
-          g.feed(40)
-          g.clip(axis=nozzle,height=5, direction='+y')
-    
+#    for i in [0,1,2,3,4,5,6,7]:
+#          g.abs_move(x=my_xstarts[i]+1,y=3+2+3)
+#          g.abs_move(**{nozzle:height}) 
+#          g.feed(speed)
+#          if valve is not None:
+#              g.set_valve(num = valve, value = 1)
+#          g.dwell(dwell)
+#
+#          g.meander(x=5,y=4,spacing=0.32,orientation='y')
+#          g.move(x=-2.5)
+#          g.move(y=1.5)
+#          g.move(x=-0.8,y=-1.3)
+#          g.move(x=1.6)
+#          g.move(x=-0.8,y=1.3)
+#          
+#          
+#          g.move(y=21)
+#          
+#          
+#          g.move(x=-0.8,y=1.3)
+#          g.move(x=1.6)
+#          g.move(x=-0.8,y=-1.3)
+#          g.move(y=1.5)
+#          g.move(x=-2.5)
+#          g.meander(x=5,y=4,spacing=0.32,orientation='y')
+#          g.set_valve(num = valve, value = 0)
+#          g.feed(40)
+#          g.clip(axis=nozzle,height=5, direction='+x')
+#        
+#    ###########2nd LAYER     
+#    #g.dwell(20)            
+#    for i in [0,1,2,3,4,5,6,7]:
+#          g.abs_move(x=my_xstarts[i]+1+2.5,y=3+2+7)
+#          g.abs_move(**{nozzle:height+0.15}) 
+#          g.feed(speed)
+#          if valve is not None:
+#              g.set_valve(num = valve, value = 1)
+#          g.dwell(dwell)
+#
+#          g.move(y=24)  
+#
+#
+#          g.set_valve(num = valve, value = 0)
+#          g.feed(40)
+#          g.clip(axis=nozzle,height=5, direction='+y')
+##    
     
 #    ############3rd LAYER
     #g.dwell(20)
     for i in [0,1,2,3,4,5,6,7]:
           g.abs_move(x=my_xstarts[i]+1+2.5,y=3+2+7)
-          g.abs_move(**{nozzle:height+0.2}) 
+          g.abs_move(**{nozzle:height+0.4}) 
           g.feed(speed)
           if valve is not None:
               g.set_valve(num = valve, value = 1)
@@ -1608,138 +1614,164 @@ def pdms_pillars(valve,nozzle,height,speed,dwell,pressure,layers):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
     
-    ########test line
-    g.abs_move(x=1+2,y=1)
-    g.abs_move(**{nozzle:height})
-    if valve is not None:
-        g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    g.feed(speed)
-    g.move(y=20)
-    g.set_valve(num = valve, value = 0)
-    g.feed(20)
-    g.clip(axis=nozzle, height=6, direction='-x')
-   
+   # ########test line
+   # g.abs_move(x=1+2,y=1)
+   # g.abs_move(**{nozzle:height})
+   # if valve is not None:
+   #     g.set_valve(num = valve, value = 1)
+   # g.dwell(dwell)
+   # g.feed(speed)
+   # g.move(y=20)
+   # g.set_valve(num = valve, value = 0)
+   # g.feed(20)
+   # g.clip(axis=nozzle, height=6, direction='-x')
+   #
+    
+    layerheight = 0.25
+    thickness = 2
+    length = 8
+    pillar_height = 17.
+    layers = pillar_height/layerheight/2
+    ramp_length = 5
+    ramp_angle = np.tan(ramp_length/pillar_height)
+
+    g.abs_move(x=111.217,y=-21.17)
+    g.set_home(x=0,y=0)
     layers=np.zeros(layers)
 
-    g.abs_move(x=24.5,y=4.6)  # move to the silver pattern's corner, outside for cover
-    g.abs_move(**{nozzle:height}) 
-    g.feed(speed)
-    if valve is not None:
-            g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    for i in layers/2:
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='LL')
-        g.move(**{nozzle:0.25})
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='UR')
-        g.move(**{nozzle:0.25})
-    g.set_valve(num = valve, value = 0)
-    g.clip(axis=nozzle, height=2, direction='+y')
+    for i in [0]:
+        for j in [3]:
+            g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
+            g.move(x=-length/2-1.5,y=-5-thickness)
+            g.abs_move(**{nozzle:height}) 
+            g.feed(speed)
+            if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            for k in range(30):
+                current_height = k*layerheight
+                extra_ramp = (pillar_height-current_height)*np.tan(ramp_angle)
+                print k
+                print extra_ramp
+                g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='LL')
+                g.move(**{nozzle:layerheight})
+                g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='UR')
+                g.move(**{nozzle:layerheight})
+            g.set_valve(num = valve, value = 0)
+            g.clip(axis=nozzle, height=2, direction='+y')
+            
+            
+            g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
+            g.move(x=-length/2-1.5,y=5)
+            g.abs_move(**{nozzle:height}) 
+            g.feed(speed)
+            if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            for k in range(30):
+                current_height = k*layerheight
+                extra_ramp = (pillar_height-current_height)*np.tan(ramp_angle)
+                print k
+                print extra_ramp
+                g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='LL')
+                g.move(**{nozzle:layerheight})
+                g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='UR')
+                g.move(**{nozzle:layerheight})
+            g.set_valve(num = valve, value = 0)
+            g.clip(axis=nozzle, height=2, direction='+y')
 
-    g.abs_move(x=24.5,y=4.6+10)  # move to the silver pattern's corner, outside for cover
-    g.abs_move(**{nozzle:height}) 
-    g.feed(speed)
-    if valve is not None:
-            g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    for i in layers/2:
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='LL')
-        g.move(**{nozzle:0.25})
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='UR')
-        g.move(**{nozzle:0.25})
-    g.set_valve(num = valve, value = 0)
-    g.clip(axis=nozzle, height=2, direction='+y')
+
+
+def agtpu_pillars(valve,nozzle,height,speed,dwell,pressure,layers):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
     
-
-    g.abs_move(x=24.5,y=4.6+25)  # move to the silver pattern's corner, outside for cover
-    g.abs_move(**{nozzle:height}) 
-    g.feed(speed)
-    if valve is not None:
-            g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    for i in layers/2:
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='LL')
-        g.move(**{nozzle:0.25})
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='UR')
-        g.move(**{nozzle:0.25})
-    g.set_valve(num = valve, value = 0)
-    g.clip(axis=nozzle, height=2, direction='+y')
-
-    g.abs_move(x=24.5,y=4.6+35)  # move to the silver pattern's corner, outside for cover
-    g.abs_move(**{nozzle:height}) 
-    g.feed(speed)
-    if valve is not None:
-            g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    for i in layers/2:
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='LL')
-        g.move(**{nozzle:0.25})
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='UR')
-        g.move(**{nozzle:0.25})
-    g.set_valve(num = valve, value = 0)
-    g.clip(axis=nozzle, height=2, direction='+y')
-
-
-
-    g.abs_move(x=24.5+25,y=4.6)  # move to the silver pattern's corner, outside for cover
-    g.abs_move(**{nozzle:height}) 
-    g.feed(speed)
-    if valve is not None:
-            g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    for i in layers/2:
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='LL')
-        g.move(**{nozzle:0.25})
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='UR')
-        g.move(**{nozzle:0.25})
-    g.set_valve(num = valve, value = 0)
-    g.clip(axis=nozzle, height=2, direction='+y')
-
-    g.abs_move(x=24.5+25,y=4.6+10)  # move to the silver pattern's corner, outside for cover
-    g.abs_move(**{nozzle:height}) 
-    g.feed(speed)
-    if valve is not None:
-            g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    for i in layers/2:
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='LL')
-        g.move(**{nozzle:0.25})
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='UR')
-        g.move(**{nozzle:0.25})
-    g.set_valve(num = valve, value = 0)
-    g.clip(axis=nozzle, height=2, direction='+y')
+   # ########test line
+   # g.abs_move(x=1+2,y=1)
+   # g.abs_move(**{nozzle:height})
+   # if valve is not None:
+   #     g.set_valve(num = valve, value = 1)
+   # g.dwell(dwell)
+   # g.feed(speed)
+   # g.move(y=20)
+   # g.set_valve(num = valve, value = 0)
+   # g.feed(20)
+   # g.clip(axis=nozzle, height=6, direction='-x')
+   #
     
+    layerheight = 0.25
+    thickness = 2
+    length = 8
+    pillar_height = 17.
+    layers = pillar_height/layerheight/2
+    ramp_length = 5
+    ramp_angle = np.tan(ramp_length/pillar_height)
 
-    g.abs_move(x=24.5+25,y=4.6+25)  # move to the silver pattern's corner, outside for cover
-    g.abs_move(**{nozzle:height}) 
-    g.feed(speed)
-    if valve is not None:
-            g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    for i in layers/2:
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='LL')
-        g.move(**{nozzle:0.25})
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='UR')
-        g.move(**{nozzle:0.25})
-    g.set_valve(num = valve, value = 0)
-    g.clip(axis=nozzle, height=2, direction='+y')
+    g.abs_move(x=111.217,y=-21.17)
+    g.set_home(x=0,y=0)
+    layers=np.zeros(layers)
 
-    g.abs_move(x=24.5+25,y=4.6+35)  # move to the silver pattern's corner, outside for cover
-    g.abs_move(**{nozzle:height}) 
-    g.feed(speed)
-    if valve is not None:
-            g.set_valve(num = valve, value = 1)
-    g.dwell(dwell)
-    for i in layers/2:
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='LL')
-        g.move(**{nozzle:0.25})
-        g.meander(x=7,y=2,orientation='x',spacing=0.5,start='UR')
-        g.move(**{nozzle:0.25})
-    g.set_valve(num = valve, value = 0)
-    g.clip(axis=nozzle, height=2, direction='+y')
-
-
-
+    for i in [0]:
+        for j in [3]:
+            g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
+            g.abs_move(x=74.34,y=58.11)
+            g.abs_move(**{nozzle:15.5+height}) 
+            g.feed(speed)
+            if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.move(x=9)
+            g.abs_move(x=86.43,**{nozzle:0.9})
+            g.dwell(4)
+            g.set_valve(num = valve, value = 0)
+            g.abs_move(**{nozzle:15.4+5})
+        
+    for i in [0]:
+        for j in [3]:
+            g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
+            g.abs_move(x=73.89,y=46.13)
+            g.abs_move(**{nozzle:15.5+height}) 
+            g.feed(speed)
+            if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.move(x=9.7)
+            g.abs_move(x=86.43,**{nozzle:0.87})
+            g.dwell(4)
+            g.set_valve(num = valve, value = 0)
+            g.abs_move(**{nozzle:15.4+5})
+            
+            #for k in range(30):
+            #    current_height = k*layerheight
+            #    extra_ramp = (pillar_height-current_height)*np.tan(ramp_angle)
+            #    print k
+            #    print extra_ramp
+            #    g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='LL')
+            #    g.move(**{nozzle:layerheight})
+            #    g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='UR')
+            #    g.move(**{nozzle:layerheight})
+            #g.set_valve(num = valve, value = 0)
+            #g.clip(axis=nozzle, height=2, direction='+y')
+            #
+            #
+            #g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
+            #g.move(x=-length/2-1.5,y=5)
+            #g.abs_move(**{nozzle:height}) 
+            #g.feed(speed)
+            #if valve is not None:
+            #        g.set_valve(num = valve, value = 1)
+            #g.dwell(dwell)
+            #for k in range(30):
+            #    current_height = k*layerheight
+            #    extra_ramp = (pillar_height-current_height)*np.tan(ramp_angle)
+            #    print k
+            #    print extra_ramp
+            #    g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='LL')
+            #    g.move(**{nozzle:layerheight})
+            #    g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='UR')
+            #    g.move(**{nozzle:layerheight})
+            #g.set_valve(num = valve, value = 0)
+            #g.clip(axis=nozzle, height=2, direction='+y')
 
 def pickandplace_magnets(valve,nozzle,speed,dwell):
     g.feed(25) 
@@ -2164,25 +2196,25 @@ if 'D' in AXES_USED:
 ###############################------------------ TPU HARVARD LED ARRAY DEVICE-------------------###############################
 
 #
-#####------------SOFT TPU BOTTOM
+####------------SOFT TPU BOTTOM
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 #
 #g.set_home(x=0, y=0)
 #
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
-#g.set_home(x=0, y=0)
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
 #
 #g.toggle_pressure(pressure_box)
-#tpu_Harvard_bottom(valve='2',nozzle='B',height=0.5,speed=8.4,dwell=0.2,pressure=6)
+##tpu_Harvard_bottom(valve='2',nozzle='B',height=0.5,speed=8.4,dwell=0.2,pressure=6)
 #
 #
 ##tpu_bottom_LED_strain(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.2,pressure=10)
-##TPU_spacing_tests(valve='1',nozzle='A',height=0.4,speed=10.5,dwell=0.2,pressure=6)
+#TPU_spacing_tests(valve='1',nozzle='A',height=0.4,speed=10.5,dwell=0.2,pressure=6)
 ##TPU_lapshear_tests(valve='1',nozzle='A',height=0.4,speed=10.5,dwell=0.2,pressure=6)
-#
+##
 #g.toggle_pressure(pressure_box)
 
 
@@ -2212,23 +2244,23 @@ if 'D' in AXES_USED:
 #
 #g.set_home(x=0, y=0)
 #
-##g.abs_move(x=0, y=0)
-##nozzle_change(nozzles = 'ab')
-##g.set_home(x=0, y=0)
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
+#g.set_home(x=0, y=0)
 #
 #g.toggle_pressure(pressure_box)
 ##LED_Harvard_agtpu(valve='3',nozzle='C',height=1.0,speed=4,dwell=0.1,pressure=18,LorR='L',startx=5+3,starty=5)
 ##LED_Harvard_agtpu(valve='1',nozzle='A',height=.25+0.12+.08+.08,speed=8,dwell=0.3,pressure=13,LorR='L',startx=5+3,starty=5)
-#connectors_agtpu(valve='1',nozzle='A',height=.25+0.12+.2,speed=8,dwell=4,pressure=13,LorR='L',startx=5+3,starty=5)
+##connectors_agtpu(valve='1',nozzle='A',height=.25+0.12+.2,speed=8,dwell=4,pressure=13,LorR='L',startx=5+3,starty=5)
 #
 ##LED_strain(valve='1',nozzle='A',height=0.08+.72+.12,speed=2,dwell=0.1,pressure=10)
 #
-##AgTPU_strain_speciman(valve='2',nozzle='B',height=0.65,speed=4,dwell=0.1,pressure=18) #soft
+#AgTPU_strain_speciman(valve='2',nozzle='B',height=0.32+0.12,speed=4,dwell=0.1,pressure=18) #soft
 ##AgTPU_strain_speciman(valve='2',nozzle='B',height=0.185+0.12,speed=4,dwell=0.1,pressure=13) #stiff
 ##AgTPU_lapshear_tests(valve='2',nozzle='B',height=0.08+0.2,speed=2,dwell=0.2,pressure=20)
 #
 #g.toggle_pressure(pressure_box)
-#####
+####
 ####
 #####
 #
@@ -2390,7 +2422,25 @@ if 'D' in AXES_USED:
 #g.toggle_pressure(pressure_box)
 
 
-#######------------------PRINT ME PDMS PILLARS
+#########------------------PRINT ME PDMS PILLARS
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#g.set_home(x=0, y=0)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+#pdms_pillars(valve='1',nozzle='A',height=0.4+0.25,speed=5,dwell=0.2,pressure=22,layers=30)
+#
+#g.toggle_pressure(pressure_box)
+
+
+
+########------------------PRINT ME AGTPU PILLAR SENSORS
 set_home_in_z()
 g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
 ###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
@@ -2402,11 +2452,9 @@ g.set_home(x=0, y=0)
 #g.set_home(x=0, y=0)
 
 g.toggle_pressure(pressure_box)
-pdms_pillars(valve='1',nozzle='A',height=3.6+0.3,speed=5,dwell=0.2,pressure=22,layers=30)
+agtpu_pillars(valve='1',nozzle='A',height=0.3,speed=2,dwell=0.2,pressure=22,layers=30)
 
 g.toggle_pressure(pressure_box)
-
-
 
 
 
