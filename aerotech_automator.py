@@ -904,6 +904,7 @@ class AerotechAutomator(object):
         This method also stores the returned dictionary on self.substrate_origins
         
         """
+        print "entered calculate substrate origins"
         if self.home_positions == {}:
             raise RuntimeError('No home positions found, call zero_nozzles() first')
         if self.groove_crosshair is None:
@@ -1042,16 +1043,18 @@ class AerotechAutomator(object):
         """ Zero every nozzle and profile every substrate.
         """
         self.go_to_heaven()
+        print "Just went to Heaven"
         if self.substrates != {}:
             self.profile_all_substrates()
         self.find_alignment_grooves()    
         self.find_z_ref()
         self.zero_all_nozzles()
-        if self.substrates != {}:
+        if self.substrates != {}: #uncommented this line and the three below it because I think it was stopping substrate_origins from being written
+            print "entered substrates section of automate"
             self.write_master_cal_file()
             self.g.feed(30)
-            self.g.abs_move(x= 100, y=self.substrate_origins['slide1']['A'][1]-5)
-            self.g.set_cal_file(self.calfile_path)
+            #self.g.abs_move(x= 100, y=self.substrate_origins['slide1']['A'][1]-5)
+            #self.g.set_cal_file(self.calfile_path)
         self.g.feed(25)
         self.go_to_heaven()
     

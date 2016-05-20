@@ -10,7 +10,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\alexs_prin
 AXES_USED = [
             'A',
             #'B',
-            #'C', 
+            'C', 
             #'D'
             ]
 
@@ -128,6 +128,50 @@ pdms_pillar_lid_locations = (                                  #(0,0) is center 
 
 LED_HARVARD_POSITIONS = [[[5,29.6],[5,24.8],[5,20],[5,15.2]],[[5,10],[8.65,20],[11.65,20],[15.5,10.1]],[[15.4,29.6],[15.4,24.8],[15.4,20],[15.4,15.2]],]
 
+#### stock positions are absolute coordinates relative to 0,0 of the slide, after nozzle switches to 'C'
+#### linear list of LED positions starting at bottom left corner, across the row in (+) x direction, then restart to original x and up one row in (+) y direction, acorss the row again in the (+) direction, etc 
+
+LED_STOCK_POSITIONS_TOP = [
+
+[18.371,58.66],[21.371,58.66],[24.371,58.66],[27.371,58.66],[30.371,58.66],[33.371,58.66],[36.371,58.66],[39.371,58.66],[42.371,58.66],[45.371,58.66],
+[18.371,61.66],[21.371,61.66],[24.371,61.66],[27.371,61.66],[30.371,61.66],[33.371,61.66],[36.371,61.66],[39.371,61.66],[42.371,61.66],[45.371,61.66],
+[18.371,64.66],[21.371,64.66],[24.371,64.66],[27.371,64.66],[30.371,64.66],[33.371,64.66],[36.371,64.66],[39.371,64.66],[42.371,64.66],[45.371,64.66],
+
+]
+LED_STOCK_POSITIONS_SIDE = [
+
+#### linear list of LED positions starting at bottom left corner, up the column in [+] y direction, then restart to original y and over one column in [+] x direction, acorss the row again in the [+] direction, etc 
+
+[-16.983,6.521],[-16.983,9.521],[-16.983,12.521],[-16.983,15.521],[-16.983,18.521],[-16.983,21.521],[-16.983,24.521],[-16.983,27.521],[-16.983,30.521],[-16.983,33.521],
+[-13.983,6.521],[-13.983,9.521],[-13.983,12.521],[-13.983,15.521],[-13.983,18.521],[-13.983,21.521],[-13.983,24.521],[-13.983,27.521],[-13.983,30.521],[-13.983,33.521],
+[-10.983,6.521],[-10.983,9.521],[-10.983,12.521],[-10.983,15.521],[-10.983,18.521],[-10.983,21.521],[-10.983,24.521],[-10.983,27.521],[-10.983,30.521],[-10.983,33.521],
+
+]
+
+
+
+#### all LED_WYSS_POSITIONS are relative to a (0,0) in the bottom left corner of the design, NOT relative to 0,0 of the slide
+LED_WYSS_POSITIONS_W = (
+(0,11.7),(1.0,9.36),(2.0,7.02),(3.0,4.68),(4.0,2.34),(5.0,0.00),
+(6.0,2.34),(7.0,4.68),(8.0,7.02),(9.0,9.36),(10.0,11.7),
+(11.0,9.36),(12.0,7.02),(13.0,4.68),(14.0,2.34),(15.0,0.00),
+(16.0,2.34),(17.0,4.68),(18.0,7.02),(19.0,9.36),(20.0,11.7),
+)
+                            
+LED_WYSS_POSITIONS_Y = (
+(15.4+7,11.7),(16.6+7+0.2,9.36),(17.8+7+0.2,7.02),(19+7+0.2,4.68),(19+7+0.2,2.34),(19+7+0.2,0.00),
+(20.2+7+0.2,7.02),(21.4+7+0.2,9.36),(22.6+7+0.2,11.7),
+)
+
+LED_WYSS_POSITIONS_S_1 = (
+(30.72+7,10.53),(27.72+7,11.7),(25.22+7,10.53),(24.22+7,8.5025),(25.22+7,6.475),(27.22+7,5.85),
+(29.47+7,5.125),(30.72+7,2.925),(29.47+7,1.17),(27.22+7,0.00),(24.22+7,1.17),
+)
+
+LED_WYSS_POSITIONS_S_2 = (
+(30.72+8.5+7,10.53),(27.72+8.5+7,11.7),(25.22+8.5+7,10.53),(24.22+8.5+7,8.5025),(25.22+8.5+7,6.475),(27.22+8.5+7,5.85),
+(29.47+8.5+7,5.125),(30.72+8.5+7,2.925),(29.47+8.5+7,1.17),(27.22+8.5+7,0.00),(24.22+8.5+7,1.17),
+)
 
 ############### END OF VARIABLE AND PARAMTER DEFINITIONS ###############
 
@@ -854,8 +898,8 @@ def stiffTPU_strain_speciman(valve,nozzle,height,speed,dwell,pressure):
 ##
 ##    ############BOTTOM LAYER
 ##            
-    for i in [1,2,3,4,5,6,7]:
-          g.abs_move(x=my_xstarts[i]+1,y=3+2+3)
+    for i in [0,1,2,3,4,5,6,7]:
+          g.abs_move(x=my_xstarts[i]+1,y=3+2+1)
           g.abs_move(**{nozzle:height}) 
           g.feed(speed)
           if valve is not None:
@@ -1328,7 +1372,7 @@ def LED_Harvard_adhesive(valve,nozzle,height,speed,dwell,pressure,startx,starty,
 
 
 
-def pickandplace(valve,nozzle,speed,dwell):
+def pickandplace_HARVARD(valve,nozzle,speed,dwell):
     g.feed(25) 
     if valve is not None:
         g.set_valve(num = valve, value = 1)
@@ -1609,47 +1653,462 @@ def pickandplace(valve,nozzle,speed,dwell):
     g.feed(10)
     g.abs_move(**{nozzle:9})
 
+def pickandplace_WYSS(valve,nozzle,speed,dwell):
+    g.feed(25) 
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+
+
+    x_zero = 7.58          ####position (relative to 0,0 of slide) of bottom left corner of design
+    y_zero = 15.4
+
+
+    g.abs_move(x=x_zero,y=y_zero)  
+    g.set_home(x=0,y=0)
+    g.rect(x=46.22,y=11.7,start='LL')
+
+
+    for i in range(len(LED_STOCK_POSITIONS_TOP)):
+        LED_STOCK_POSITIONS_TOP[i][0]=LED_STOCK_POSITIONS_TOP[i][0]-x_zero
+        LED_STOCK_POSITIONS_TOP[i][1]=LED_STOCK_POSITIONS_TOP[i][1]-y_zero
+    
+    for i in range(len(LED_STOCK_POSITIONS_SIDE)):
+        LED_STOCK_POSITIONS_SIDE[i][0]=LED_STOCK_POSITIONS_SIDE[i][0]-x_zero
+        LED_STOCK_POSITIONS_SIDE[i][1]=LED_STOCK_POSITIONS_SIDE[i][1]-y_zero
+
+    ###z=2.169
+
+
+    ### W ###
+#    
+    for i in range(len(LED_WYSS_POSITIONS_W)):
+         g.feed(20)
+         g.abs_move(x=LED_STOCK_POSITIONS_SIDE[i][0],y=LED_STOCK_POSITIONS_SIDE[i][1])
+         g.feed(10) 
+         g.abs_move(**{nozzle:1.92+1})
+         g.feed(0.4)
+         g.abs_move(**{nozzle:1.92})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.move(**{nozzle:5})
+         g.feed(20)
+         g.abs_move(x=LED_WYSS_POSITIONS_W[i][0],y=LED_WYSS_POSITIONS_W[i][1])
+         g.feed(10)
+         g.move(x=-0.3)
+         g.arc(x=0.6,y=0,direction='CW')
+         g.arc(x=-0.6,y=0,direction='CW')
+         g.move(x=0.3)
+         g.abs_move(**{nozzle:0.53+1})
+         g.feed(0.4) 
+         g.abs_move(**{nozzle:0.53})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.abs_move(**{nozzle:3})
+         g.feed(10)
+         g.abs_move(**{nozzle:6})
+    
+    for i in range(len(LED_WYSS_POSITIONS_Y)):
+        
+         g.feed(20)
+         g.abs_move(x=LED_STOCK_POSITIONS_SIDE[i+21][0],y=LED_STOCK_POSITIONS_SIDE[i+21][1])
+         g.feed(10) 
+         g.abs_move(**{nozzle:1.92+1})
+         g.feed(0.4)
+         g.abs_move(**{nozzle:1.92})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.move(**{nozzle:5})
+         g.feed(20)
+         g.abs_move(x=LED_WYSS_POSITIONS_Y[i][0],y=LED_WYSS_POSITIONS_Y[i][1])
+         g.feed(10)
+         g.move(x=-0.3)
+         g.arc(x=0.6,y=0,direction='CW')
+         g.arc(x=-0.6,y=0,direction='CW')
+         g.move(x=0.3)
+         g.abs_move(**{nozzle:0.53+1})
+         g.feed(0.4) 
+         g.abs_move(**{nozzle:0.53})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.abs_move(**{nozzle:3})
+         g.feed(10)
+         g.abs_move(**{nozzle:6})
+        
+
+    for i in range(len(LED_WYSS_POSITIONS_S_1)):
+         g.feed(20)
+         g.abs_move(x=LED_STOCK_POSITIONS_TOP[i][0],y=LED_STOCK_POSITIONS_TOP[i][1])
+         g.feed(10) 
+         g.abs_move(**{nozzle:1.98+1})
+         g.feed(0.4)
+         g.abs_move(**{nozzle:1.98})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.move(**{nozzle:5})
+         g.feed(20)
+         g.abs_move(x=LED_WYSS_POSITIONS_S_1[i][0],y=LED_WYSS_POSITIONS_S_1[i][1])
+         g.feed(10)
+         g.move(x=-0.3)
+         g.arc(x=0.6,y=0,direction='CW')
+         g.arc(x=-0.6,y=0,direction='CW')
+         g.move(x=0.3)
+         g.abs_move(**{nozzle:0.53+1})
+         g.feed(0.4) 
+         g.abs_move(**{nozzle:0.53})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.abs_move(**{nozzle:3})
+         g.feed(10)
+         g.abs_move(**{nozzle:6})
+
+    for i in range(len(LED_WYSS_POSITIONS_S_2)):
+         g.feed(20)
+         g.abs_move(x=LED_STOCK_POSITIONS_TOP[i+11][0],y=LED_STOCK_POSITIONS_TOP[i+11][1])
+         g.feed(10) 
+         g.abs_move(**{nozzle:1.98+1})
+         g.feed(0.4)
+         g.abs_move(**{nozzle:1.98})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.move(**{nozzle:5})
+         g.feed(20)
+         g.abs_move(x=LED_WYSS_POSITIONS_S_2[i][0],y=LED_WYSS_POSITIONS_S_2[i][1])
+         g.feed(10)
+         g.move(x=-0.3)
+         g.arc(x=0.6,y=0,direction='CW')
+         g.arc(x=-0.6,y=0,direction='CW')
+         g.move(x=0.3)
+         g.abs_move(**{nozzle:0.53+1})
+         g.feed(0.4) 
+         g.abs_move(**{nozzle:0.53})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.abs_move(**{nozzle:3})
+         g.feed(10)
+         g.abs_move(**{nozzle:6})
+
+#    ##LED 1
+#    g.abs_move(x = 18.9, y = 64.365)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[0][0][0], y = LED_HARVARD_POSITIONS[0][0][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.7})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
+##
+#    ##LED 2
+#    g.abs_move(x = 18.90, y = 64.365-3)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[0][1][0], y = LED_HARVARD_POSITIONS[0][1][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.65})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
+#
+#    #LED 3
+#    g.abs_move(x = 18.90, y = 64.365-3-3)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[0][2][0], y = LED_HARVARD_POSITIONS[0][2][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.65})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
+#
+#    
+#    ##LED 4
+#    g.abs_move(x = 18.90+3, y = 64.365)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[0][3][0], y = LED_HARVARD_POSITIONS[0][3][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.65})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
+#    
+#
+#    
+##elif wire == 'second':
+#    
+#    ##LED 5
+#    g.abs_move(x = 18.90+3+3+3, y = 64.365-3-3)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[1][0][0], y = LED_HARVARD_POSITIONS[1][0][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.65})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
+#
+#    ##LED 6
+#    g.abs_move(x = 18.90-3-3, y = 64.365-3-3)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[1][1][0], y = LED_HARVARD_POSITIONS[1][1][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.65})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
+#
+#    
+#    ##LED 7
+#    g.abs_move(x = 18.90-3, y = 64.365-3-3)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[1][2][0], y = LED_HARVARD_POSITIONS[1][2][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.65})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
+#    
+#    ##LED 8
+#    g.abs_move(x = 18.90+3, y = 64.365-3)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[1][3][0], y = LED_HARVARD_POSITIONS[1][3][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.65})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
+##
+#
+##else:
+#    
+#    ##LED 9
+#    g.abs_move(x = 18.90+3, y = 64.365-3-3)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[2][0][0], y = LED_HARVARD_POSITIONS[2][0][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.65})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
+#
+#    ##LED 10
+#    g.abs_move(x = 18.90+3+3, y = 64.365)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[2][1][0], y = LED_HARVARD_POSITIONS[2][1][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.65})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
+#
+#    
+#    ##LED 11
+#    g.abs_move(x = 18.90+3+3, y = 64.365-3)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[2][2][0], y = LED_HARVARD_POSITIONS[2][2][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.65})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
+#    
+#    ##LED 12
+#    g.abs_move(x = 18.90+3, y = 64.365-3-3)
+#    g.feed(10) 
+#    g.abs_move(**{nozzle:2.4+1})
+#    g.feed(0.08)
+#    g.abs_move(**{nozzle:2.4})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.move(**{nozzle:5})
+#    g.feed(10)
+#    g.abs_move(x = LED_HARVARD_POSITIONS[2][3][0], y = LED_HARVARD_POSITIONS[2][3][1]) 
+#    g.abs_move(**{nozzle:0.7+1})
+#    g.feed(0.08) 
+#    g.abs_move(**{nozzle:0.65})
+#    #g.toggle_pressure(pressure_box)
+#    g.dwell(dwell)
+#    g.feed(1)
+#    g.abs_move(**{nozzle:3})
+#    g.feed(10)
+#    g.abs_move(**{nozzle:9})
 
 def pdms_pillars(valve,nozzle,height,speed,dwell,pressure,layers):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
     
-   # ########test line
-   # g.abs_move(x=1+2,y=1)
-   # g.abs_move(**{nozzle:height})
-   # if valve is not None:
-   #     g.set_valve(num = valve, value = 1)
-   # g.dwell(dwell)
-   # g.feed(speed)
-   # g.move(y=20)
-   # g.set_valve(num = valve, value = 0)
-   # g.feed(20)
-   # g.clip(axis=nozzle, height=6, direction='-x')
-   #
-    
-    layerheight = 0.25
+    ########test line
+    #g.abs_move(x=1+2,y=1)
+    #g.abs_move(**{nozzle:height})
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)
+    #g.feed(speed)
+    #g.move(y=20)
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(20)
+    #g.clip(axis=nozzle, height=6, direction='-x')
+   ##
+   # 
+    layerheight = 0.35
     thickness = 2
     length = 8
-    pillar_height = 17.
+    pillar_height = 15.
     layers = pillar_height/layerheight/2
     ramp_length = 5
     ramp_angle = np.tan(ramp_length/pillar_height)
 
-    g.abs_move(x=111.217,y=-21.17)
+    g.abs_move(x=14.31,y=6.72)
     g.set_home(x=0,y=0)
     layers=np.zeros(layers)
 
     for i in [0]:
-        for j in [3]:
+        for j in [0,1,2,3]:
             g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
-            g.move(x=-length/2-1.5,y=-5-thickness)
+            g.move(x=-length/2,y=-5-thickness)
             g.abs_move(**{nozzle:height}) 
             g.feed(speed)
             if valve is not None:
                     g.set_valve(num = valve, value = 1)
             g.dwell(dwell)
-            for k in range(30):
-                current_height = k*layerheight
+            for k in range(len(layers)):
+                current_height = k*layerheight*2
                 extra_ramp = (pillar_height-current_height)*np.tan(ramp_angle)
                 print k
                 print extra_ramp
@@ -1659,119 +2118,213 @@ def pdms_pillars(valve,nozzle,height,speed,dwell,pressure,layers):
                 g.move(**{nozzle:layerheight})
             g.set_valve(num = valve, value = 0)
             g.clip(axis=nozzle, height=2, direction='+y')
-            
-            
-            g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
-            g.move(x=-length/2-1.5,y=5)
-            g.abs_move(**{nozzle:height}) 
-            g.feed(speed)
-            if valve is not None:
-                    g.set_valve(num = valve, value = 1)
-            g.dwell(dwell)
-            for k in range(30):
-                current_height = k*layerheight
-                extra_ramp = (pillar_height-current_height)*np.tan(ramp_angle)
-                print k
-                print extra_ramp
-                g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='LL')
-                g.move(**{nozzle:layerheight})
-                g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='UR')
-                g.move(**{nozzle:layerheight})
-            g.set_valve(num = valve, value = 0)
-            g.clip(axis=nozzle, height=2, direction='+y')
+            #
 
+            g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
+            g.move(x=-length/2,y=5)
+            g.abs_move(**{nozzle:height}) 
+            g.feed(speed)
+            if valve is not None:
+                    g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            for k in range(len(layers)):
+                current_height = k*layerheight*2
+                extra_ramp = (pillar_height-current_height)*np.tan(ramp_angle)
+                print k
+                print extra_ramp
+                g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='LL')
+                g.move(**{nozzle:layerheight})
+                g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='UR')
+                g.move(**{nozzle:layerheight})
+            g.set_valve(num = valve, value = 0)
+            g.clip(axis=nozzle, height=2, direction='+y')            
+
+        
 
 
 def agtpu_pillars(valve,nozzle,height,speed,dwell,pressure,layers):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
     
-   # ########test line
-   # g.abs_move(x=1+2,y=1)
-   # g.abs_move(**{nozzle:height})
-   # if valve is not None:
-   #     g.set_valve(num = valve, value = 1)
-   # g.dwell(dwell)
-   # g.feed(speed)
-   # g.move(y=20)
-   # g.set_valve(num = valve, value = 0)
-   # g.feed(20)
-   # g.clip(axis=nozzle, height=6, direction='-x')
-   #
-    
-    layerheight = 0.25
+    #########test line
+    #g.abs_move(x=1+2,y=1)
+    #g.abs_move(**{nozzle:height})
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)
+    #g.feed(speed)
+    #g.move(y=20)
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(20)
+    #g.clip(axis=nozzle, height=6, direction='-x')
+    #g.abs_move(**{nozzle:25})
+    #
+    layerheight = 0.35
     thickness = 2
     length = 8
-    pillar_height = 17.
+    pillar_height = 15.
     layers = pillar_height/layerheight/2
     ramp_length = 5
     ramp_angle = np.tan(ramp_length/pillar_height)
 
-    g.abs_move(x=111.217,y=-21.17)
+    g.abs_move(x=14.31,y=6.72)
     g.set_home(x=0,y=0)
     layers=np.zeros(layers)
 
+
     for i in [0]:
-        for j in [3]:
+        for j in [0,1,2,3]:
             g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
-            g.abs_move(x=74.34,y=58.11)
-            g.abs_move(**{nozzle:15.5+height}) 
+            g.move(x=(length/2+ramp_length)+1,y=-5-thickness/2)
+            g.abs_move(C=-38.989,**{nozzle:height+1}) 
             g.feed(speed)
             if valve is not None:
                     g.set_valve(num = valve, value = 1)
             g.dwell(dwell)
-            g.move(x=9)
-            g.abs_move(x=86.43,**{nozzle:0.9})
-            g.dwell(4)
+            g.move(x=-ramp_length-0.5,C=pillar_height,**{nozzle:pillar_height-0.5})
+            g.feed(speed*1.5)
+            g.move(x=-1)
+            g.move(y=-0.4)
+            g.move(x=-length+1)
+            g.move(y=0.8)
+            g.move(x=length-1)
+            g.move(**{nozzle:height*0.5})
+            g.move(x=-length+1)
+            g.move(y=-0.8)
+            g.move(x=length-1)
+            g.move(**{nozzle:height*0.5})
+            g.move(x=-length+1)
+            g.move(y=0.8)
+            g.move(x=length-1)
+            g.move(**{nozzle:height*0.5})
+            g.move(x=-length+1)
+            g.move(y=-0.8)
+            g.move(x=length-1)
+            g.move(**{nozzle:height*0.5})
+            g.move(x=-length+1)
+            g.move(y=0.8)
+            g.move(x=length-1)
+            g.move(**{nozzle:height*0.5})
+            g.move(x=-length+1)
+            g.move(y=-0.8)
+            g.move(x=length-1)
+            g.move(**{nozzle:height*0.5})
+            g.move(x=-length+1)
+            g.move(y=0.8)
+            g.move(x=length-1)
+            g.move(**{nozzle:height*0.5})
+            g.move(x=-length+1)
+            g.move(y=-0.8)
+            g.move(x=length-1)
+
             g.set_valve(num = valve, value = 0)
-            g.abs_move(**{nozzle:15.4+5})
+            g.clip(axis=nozzle, height=2, direction='+y')
+
+
+#
+#            g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
+#            g.move(x=(length/2+ramp_length)+1,y=5+thickness/2)
+#            g.abs_move(C=-38.989,**{nozzle:height+1}) 
+#            g.feed(speed)
+#            if valve is not None:
+#                    g.set_valve(num = valve, value = 1)
+#            g.dwell(dwell)
+#            g.move(x=-ramp_length-0.5,C=pillar_height,**{nozzle:pillar_height-1.0})
+#            g.feed(speed*1.5)
+#            g.move(x=-1)
+#            g.move(y=-0.4)
+#            g.move(x=-length+1)
+#            g.move(y=0.8)
+#            g.move(x=length-1)
+#            g.move(**{nozzle:height*0.5})
+#            g.move(x=-length+1)
+#            g.move(y=-0.8)
+#            g.move(x=length-1)
+#            g.move(**{nozzle:height*0.5})
+#            g.move(x=-length+1)
+#            g.move(y=0.8)
+#            g.move(x=length-1)
+#            g.move(**{nozzle:height*0.5})
+#            g.move(x=-length+1)
+#            g.move(y=-0.8)
+#            g.move(x=length-1)
+#            g.move(**{nozzle:height*0.5})
+#            g.move(x=-length+1)
+#            g.move(y=0.8)
+#            g.move(x=length-1)
+#            g.move(**{nozzle:height*0.5})
+#            g.move(x=-length+1)
+#            g.move(y=-0.8)
+#            g.move(x=length-1)
+#            g.move(**{nozzle:height*0.5})
+#            g.move(x=-length+1)
+#            g.move(y=0.8)
+#            g.move(x=length-1)
+#            g.move(**{nozzle:height*0.5})
+#            g.move(x=-length+1)
+#            g.move(y=-0.8)
+#            g.move(x=length-1)
+#            g.set_valve(num = valve, value = 0)
+#            g.clip(axis=nozzle, height=2, direction='+y')
         
-    for i in [0]:
-        for j in [3]:
-            g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
-            g.abs_move(x=73.89,y=46.13)
-            g.abs_move(**{nozzle:15.5+height}) 
-            g.feed(speed)
-            if valve is not None:
-                    g.set_valve(num = valve, value = 1)
-            g.dwell(dwell)
-            g.move(x=9.7)
-            g.abs_move(x=86.43,**{nozzle:0.87})
-            g.dwell(4)
-            g.set_valve(num = valve, value = 0)
-            g.abs_move(**{nozzle:15.4+5})
-            
-            #for k in range(30):
-            #    current_height = k*layerheight
-            #    extra_ramp = (pillar_height-current_height)*np.tan(ramp_angle)
-            #    print k
-            #    print extra_ramp
-            #    g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='LL')
-            #    g.move(**{nozzle:layerheight})
-            #    g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='UR')
-            #    g.move(**{nozzle:layerheight})
-            #g.set_valve(num = valve, value = 0)
-            #g.clip(axis=nozzle, height=2, direction='+y')
-            #
-            #
-            #g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
-            #g.move(x=-length/2-1.5,y=5)
-            #g.abs_move(**{nozzle:height}) 
-            #g.feed(speed)
-            #if valve is not None:
-            #        g.set_valve(num = valve, value = 1)
-            #g.dwell(dwell)
-            #for k in range(30):
-            #    current_height = k*layerheight
-            #    extra_ramp = (pillar_height-current_height)*np.tan(ramp_angle)
-            #    print k
-            #    print extra_ramp
-            #    g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='LL')
-            #    g.move(**{nozzle:layerheight})
-            #    g.meander(x=length+extra_ramp,y=thickness,orientation='x',spacing=0.5,start='UR')
-            #    g.move(**{nozzle:layerheight})
-            #g.set_valve(num = valve, value = 0)
-            #g.clip(axis=nozzle, height=2, direction='+y')
+    #for i in [0]:
+    #    for j in [0,1,2,3]:
+    #        g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
+    #        g.move(x=(length/2+ramp_length)+1,y=-5-thickness/2)
+    #        g.abs_move(C=-38.989,**{nozzle:height}) 
+    #        g.feed(speed)
+    #        if valve is not None:
+    #                g.set_valve(num = valve, value = 1)
+    #        g.dwell(dwell)
+    #        g.move(y=-4)
+    #        g.set_valve(num = valve, value = 0)
+    #        g.feed(20)
+    #        g.clip(axis=nozzle, height=2, direction='+x')
+    #        g.move(C=22,**{nozzle:20}) 
+
+        #    g.abs_move(x=pdms_pillar_lid_locations[i][j][0],y=pdms_pillar_lid_locations[i][j][1])
+        #    g.move(x=(length/2+ramp_length)+1,y=5+thickness/2)
+        #    g.abs_move(C=-38.989,**{nozzle:height}) 
+        #    g.feed(speed)
+        #    if valve is not None:
+        #            g.set_valve(num = valve, value = 1)
+        #    g.dwell(dwell)
+        #    g.move(y=4)
+        #    g.set_valve(num = valve, value = 0)
+        #    g.feed(20)
+        #    g.clip(axis=nozzle, height=2, direction='+x')
+        #    g.move(C=22,**{nozzle:20}) 
+        #
+    #g.abs_move(x=pdms_pillar_lid_locations[0][3][0],y=pdms_pillar_lid_locations[0][3][1])
+    #g.move(x=(length/2+ramp_length)+1,y=5+thickness/2)
+    #g.move(y=4)
+    #g.abs_move(C=-38.989,**{nozzle:height}) 
+    #g.feed(speed)
+    #if valve is not None:
+    #    g.set_valve(num = valve, value = 1)
+    #g.dwell(dwell)
+    #g.abs_move(x=pdms_pillar_lid_locations[2][0][0]-17)
+    #g.abs_move(y=pdms_pillar_lid_locations[1][0][1]+13)
+    #g.set_valve(num = valve, value = 0)
+    #g.feed(20)
+    #g.clip(axis=nozzle, height=2, direction='+x')
+    #g.move(C=22,**{nozzle:20}) 
+
+#    g.abs_move(x=pdms_pillar_lid_locations[0][3][0],y=pdms_pillar_lid_locations[0][3][1])
+#    g.move(x=(length/2+ramp_length)+1,y=-5-thickness/2)
+#    g.move(y=-4)
+#    g.abs_move(C=-38.989,**{nozzle:height}) 
+#    g.feed(speed)
+#    if valve is not None:
+#        g.set_valve(num = valve, value = 1)
+#    g.dwell(dwell)
+#    g.abs_move(x=pdms_pillar_lid_locations[2][0][0]-15)
+#    g.abs_move(y=pdms_pillar_lid_locations[2][0][1]+13)
+#    g.set_valve(num = valve, value = 0)
+#    g.feed(20)
+#    g.clip(axis=nozzle, height=2, direction='+x')
+#    g.move(C=22,**{nozzle:20}) 
+#
 
 def pickandplace_magnets(valve,nozzle,speed,dwell):
     g.feed(25) 
@@ -1844,6 +2397,186 @@ def tpu_top_LED_Harvard(valve,nozzle,height,speed,dwell,pressure):
 
 
 
+def bacteria_electrodes(valve,nozzle,height,speed,dwell,pressure,spacing):#
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+
+    
+    
+    
+    g.abs_move(x=25,y=15)
+    g.set_home(x=0, y=0)
+    #g.abs_move(C=-35.09,**{nozzle:height+0.05}) 
+    #g.rect(x=21,y=21,start='LL')
+    
+    ####OUTLINE OF SLIDE FOR ALIGNING PURPOSES
+    #g.abs_move(x=-25,y=-15)
+    #g.move(x=72.4)
+    #g.move(y=50.8)
+    #g.move(x=-72.4)
+    #g.move(y=-50.8)
+    #####OUTLINE OF SLIDE FOR ALIGNING PURPOSES
+    
+    
+##########test line
+#    g.abs_move(x=-2.25,y=2)
+#    pressure_purge(delay = 2)
+#    g.abs_move(C=-34.4,**{nozzle:height})
+#    if valve is not None:
+#        g.set_valve(num = valve, value = 1)
+#    g.dwell(dwell)
+#    g.feed(speed)
+#    g.move(y=20)
+#    g.feed(20)
+#    g.set_valve(num = valve, value = 0)
+#    g.clip(axis=nozzle, height=2, direction='-x')
+#    g.set_pressure(pressure_box, pressure)
+#
+    g.abs_move(x=0,y=0)
+    g.move(x=2)   #starts first electrode farther up to avoid short circuit
+    #g.move(x=14.4)
+    #Print start
+    g.dwell(0.1)
+    if spacing=='400':    
+#        top_electrode_connection=20.4
+#        bottom_electrode_connection=0
+#        for i in range(25):
+#            g.abs_move(C=-34.4,**{nozzle:height}) 
+#            g.feed(speed)
+#            if valve is not None:
+#                g.set_valve(num = valve, value = 1)
+#            #g.dwell(dwell)
+#            g.abs_move(x=top_electrode_connection)
+#            g.set_valve(num = valve, value = 0)
+#            g.clip(axis=nozzle, height=0.8, direction='+x')
+#            g.move(x=2)
+#            g.move(x=-4)
+#            g.move(x=2)
+#            g.move(y=0.4,x=-0.4)
+#            g.abs_move(C=-34.4,**{nozzle:height})
+#            if valve is not None:
+#                g.set_valve(num = valve, value = 1)
+#            #g.dwell(dwell)
+#            g.abs_move(x=bottom_electrode_connection)
+#            g.set_valve(num = valve, value = 0)
+#            g.clip(axis=nozzle, height=0.8, direction='-x')
+#            g.move(x=-2)
+#            g.move(x=4)
+#            g.move(x=-2)
+#            if i<24:
+#                g.move(y=0.4,x=0.4)
+#        #
+#
+#        g.abs_move(x=0,y=0)
+#        #g.abs_move(**{nozzle:10}) 
+#        g.dwell(1)
+#        g.abs_move(C=-34.4,**{nozzle:height}) 
+#        if valve is not None:
+#            g.set_valve(num = valve, value = 1)
+#        g.dwell(dwell)
+#        g.feed(speed*0.4)
+#        g.abs_move(y=19.8,x=0)
+#        g.move(x=3,y=3)
+#        g.abs_move(**{nozzle:height+0.05})
+#        g.set_pressure(pressure_box, pressure+3)
+#        g.feed(speed*0.4)
+#        g.arc(x=0,y=1.4,radius=0.7)
+#        g.arc(x=0,y=-1.4,radius=0.7)
+#        g.move(y=0.2)
+#        g.arc(x=0,y=1.,radius=0.5)
+#        g.arc(x=0,y=-1.,radius=0.5)
+#        g.move(y=0.2)
+#        g.arc(x=0,y=0.6,radius=0.3)
+#        g.arc(x=0,y=-0.6,radius=0.3)
+#        g.feed(10)
+#        g.set_valve(num = valve, value = 0)
+#        g.clip(axis=nozzle, height=1, direction='+y')
+
+        g.feed(15)
+        g.set_pressure(pressure_box, pressure)
+        g.abs_move(y=0,x=20.4)
+        g.dwell(1)
+        g.abs_move(C=-34.4,**{nozzle:height}) 
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.feed(speed*0.4)
+        g.abs_move(y=19.8)
+        g.move(x=-3,y=3)
+        g.abs_move(**{nozzle:height+0.05})
+        g.set_pressure(pressure_box, pressure+3)
+        g.feed(speed*0.4)
+        g.arc(x=0,y=1.4,radius=0.7)
+        g.arc(x=0,y=-1.4,radius=0.7)
+        g.move(y=0.2)
+        g.arc(x=0,y=1.,radius=0.5)
+        g.arc(x=0,y=-1.,radius=0.5)
+        g.move(y=0.2)
+        g.arc(x=0,y=0.6,radius=0.3)
+        g.arc(x=0,y=-0.6,radius=0.3)
+        g.set_valve(num = valve, value = 0)
+        g.feed(10)
+        g.clip(axis=nozzle, height=1, direction='+y')
+        #
+    elif spacing=='200':
+        top_electrode_connection=20.4
+        bottom_electrode_connection=0
+        for i in range(50):
+            g.abs_move(**{nozzle:height}) 
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.abs_move(y=top_electrode_connection)
+            g.set_valve(num = valve, value = 0)
+            g.clip(axis=nozzle, height=2, direction='+y')
+            g.move(x=0.2,y=-0.4)
+            g.abs_move(**{nozzle:height})
+            if valve is not None:
+                g.set_valve(num = valve, value = 1)
+            g.dwell(dwell)
+            g.abs_move(y=bottom_electrode_connection)
+            if i<49:
+                g.move(x=0.2,y=0.4)
+            g.set_valve(num = valve, value = 0)
+            g.clip(axis=nozzle, height=2, direction='-y')        
+        g.abs_move(x=0,y=0)
+        g.abs_move(**{nozzle:height}) 
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell)
+        g.feed(speed*0.4)
+        g.abs_move(x=22.4)
+        g.feed(speed*0.2)
+        g.arc(x=1.,y=0,radius=0.5)
+        g.arc(x=-1.,y=0,radius=0.5)
+        g.move(x=0.2)
+        g.arc(x=0.6,y=0,radius=0.3)
+        g.arc(x=-0.6,y=0,radius=0.3)
+        g.move(x=0.2)
+        g.arc(x=0.2,y=0,radius=0.1)
+        g.arc(x=-0.2,y=0,radius=0.1)
+        g.set_valve(num = valve, value = 0)
+        g.clip(axis=nozzle, height=2, direction='-y')
+
+        g.feed(speed)
+        g.abs_move(x=0,y=20.4)
+        g.abs_move(**{nozzle:height}) 
+        if valve is not None:
+            g.set_valve(num = valve, value = 1)
+        g.dwell(dwell*0.4)
+        g.feed(speed)
+        g.abs_move(x=22.4)
+        g.feed(speed*0.2)
+        g.arc(x=1.,y=0,radius=0.5)
+        g.arc(x=-1.,y=0,radius=0.5)
+        g.move(x=0.2)
+        g.arc(x=0.6,y=0,radius=0.3)
+        g.arc(x=-0.6,y=0,radius=0.3)
+        g.move(x=0.2)
+        g.arc(x=0.2,y=0,radius=0.1)
+        g.arc(x=-0.2,y=0,radius=0.1)
+        g.set_valve(num = valve, value = 0)
+        g.clip(axis=nozzle, height=2, direction='-y')
+    
 
 
 
@@ -2162,7 +2895,7 @@ def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline):
 reference_nozzle = 'A'
 
 active_slide = 'slide1'
-z_ref = -79.77875
+z_ref = -71.244
 
 ####
 #active_slide = 'slide2'
@@ -2173,14 +2906,16 @@ z_ref = -79.77875
 #z_ref = -79.12
 
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
+
+#automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
 g.write("POSOFFSET CLEAR X Y U A B C D")
 
   
 
-substrate_dif = 0
-
-#substrate_dif = automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
+#substrate_dif = 0
+substrate_dif = automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
 #
+
 
 #automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
 
@@ -2219,20 +2954,20 @@ if 'D' in AXES_USED:
 
 
 
-#########------------ STIFF TPU LAYER
+########------------ STIFF TPU LAYER
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 #
 #g.set_home(x=0, y=0)
-#
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ac')
-#g.set_home(x=0, y=0)
+##
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ac')
+##g.set_home(x=0, y=0)
 #
 #g.toggle_pressure(pressure_box)
 ##LED_Harvard(valve='1',nozzle='A',height=0.16+0.06+0.06+0.06,speed=7,dwell=0.1,pressure=45,LorR='R',startx=8,starty=7)
-#stiffTPU_strain_speciman(valve='3',nozzle='C',height=0.16+0.25+.1,speed=3,dwell=0.4,pressure=10)
+#stiffTPU_strain_speciman(valve='1',nozzle='A',height=0.26+0.6,speed=3,dwell=0.4,pressure=10)
 #
 #g.toggle_pressure(pressure_box)
 
@@ -2319,8 +3054,8 @@ if 'D' in AXES_USED:
 
 
 
-##
-#############------------PICK+PLACE
+#
+#############------------PICK+PLACE HARVARD
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
 ####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
@@ -2348,10 +3083,47 @@ if 'D' in AXES_USED:
 #    g.set_valve(num = valve, value = 1)
 #g.set_vac(pressure_box,18)
 #g.dwell(2)
-##pickandplace(valve='3',nozzle='C',speed=10,dwell=10)
+##pickandplace_HARVARD(valve='3',nozzle='C',speed=10,dwell=10)
 #pickandplace_magnets(valve='3',nozzle='z',speed=10,dwell=10)
 #g.set_vac(pressure_box,0)
+##
+
+
+############------------PICK+PLACE WYSS
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+g.abs_move(x=0, y=0)
+nozzle_change(nozzles = 'ac')
+g.set_home(x=0, y=0)
+
+
+startx=8
+starty=5
 #
+for i in range(len(LED_HARVARD_POSITIONS)):
+        for j in range(len(LED_HARVARD_POSITIONS[i])):
+            LED_HARVARD_POSITIONS[i][j][0]=LED_HARVARD_POSITIONS[i][j][0]+startx
+            LED_HARVARD_POSITIONS[i][j][1]=LED_HARVARD_POSITIONS[i][j][1]+starty
+
+#g.dwell(60)
+
+valve='3'
+g.set_pressure(pressure_box, 0.2)
+if valve is not None:
+    g.set_valve(num = valve, value = 1)
+g.set_vac(pressure_box,18)
+g.dwell(2)
+g.toggle_pressure(pressure_box)
+pickandplace_WYSS(valve='3',nozzle='C',speed=10,dwell=4)
+#pickandplace_magnets(valve='3',nozzle='z',speed=10,dwell=10)
+g.set_vac(pressure_box,0)
+#
+
+
 
 ###########------------STIFF AGTPU CONNECTORS 
 #set_home_in_z()
@@ -2421,7 +3193,7 @@ if 'D' in AXES_USED:
 #
 #g.toggle_pressure(pressure_box)
 
-
+##
 #########------------------PRINT ME PDMS PILLARS
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
@@ -2434,30 +3206,47 @@ if 'D' in AXES_USED:
 ##g.set_home(x=0, y=0)
 #
 #g.toggle_pressure(pressure_box)
-#pdms_pillars(valve='1',nozzle='A',height=0.4+0.25,speed=5,dwell=0.2,pressure=22,layers=30)
+#pdms_pillars(valve='1',nozzle='A',height=0.6,speed=10,dwell=0.8,pressure=26,layers=30)
+##pdms_pillars(valve='1',nozzle='A',height=0.3,speed=10,dwell=0.5,pressure=28,layers=30)
+#
 #
 #g.toggle_pressure(pressure_box)
 
+ 
 
-
-########------------------PRINT ME AGTPU PILLAR SENSORS
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
+##########------------------PRINT ME AGTPU PILLAR SENSORS
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#g.set_home(x=0, y=0)
+#
 #g.abs_move(x=0, y=0)
 #nozzle_change(nozzles = 'ab')
 #g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+##agtpu_pillars(valve='2',nozzle='B',height=0.2,speed=2,dwell=0.2,pressure=23,layers=30)
+#agtpu_pillars(valve='2',nozzle='B',height=0.6,speed=5,dwell=1,pressure=10,layers=30)
+#g.toggle_pressure(pressure_box)
 
-g.toggle_pressure(pressure_box)
-agtpu_pillars(valve='1',nozzle='A',height=0.3,speed=2,dwell=0.2,pressure=22,layers=30)
 
-g.toggle_pressure(pressure_box)
-
-
-
+##------------------PRINT ME BACTERIA ELECTRODES
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+#
+#g.set_home(x=0, y=0)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=-24, y=-4)
+#
+#g.toggle_pressure(pressure_box)
+#bacteria_electrodes(valve='1',nozzle='A',height=0.06,speed=6.5,dwell=0.1,pressure=4,spacing='400')
+#
+#g.toggle_pressure(pressure_box)
+#
 
 
 g.view(backend='matplotlib')

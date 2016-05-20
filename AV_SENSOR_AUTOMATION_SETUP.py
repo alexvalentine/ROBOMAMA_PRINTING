@@ -9,8 +9,8 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = [
             'A',
-             'B',
-            'C' 
+             #'B',
+            'C', 
          #   'D'
             ]
 
@@ -37,23 +37,23 @@ AXES_DATA = {
 #Defining substrate location and profilometry mesh size
 SUBSTRATES = {
     'slide1': {
-        'origin': (61.69,84.399),
+        'origin': (89.83,82.2),
         'size': 'auto',
-        'profile': False,
-        'profile-spacing': (20,18),
+        'profile': True,
+        'profile-spacing': (50,50),
     },
-    'slide2': {
-        'origin': (147.69,84.399),
-        'size': 'auto',
-        'profile': False,
-        'profile-spacing': (7,7),
-    },
-    'slide3': {
-        'origin': (224.84,84.399),
-        'size': 'auto',
-        'profile': False,
-        'profile-spacing': (7,7),
-    }
+#    'slide2': {
+#        'origin': (147.69,84.399),
+#        'size': 'auto',
+#        'profile': False,
+#        'profile-spacing': (7,7),
+#    },
+#    'slide3': {
+#        'origin': (224.84,84.399),
+#        'size': 'auto',
+#        'profile': False,
+#        'profile-spacing': (7,7),
+#    }
 }
 #Defining profilometry parameters
 automator = AerotechAutomator(
@@ -78,14 +78,14 @@ def setup(active_slide, ref, move_to_ref = False):
     automator.automate()
     automator.save_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
     automator.teardown()
-    g.direct_write = True
-    g.set_cal_file(r'C:\Users\Lewis Group\Desktop\Calibration\CAL_output.cal')
-    g.direct_write = False
-    if move_to_ref is True:
-        g.direct_write = True
-        g.abs_move(x=automator.substrate_origins[active_slide][ref][0], y=automator.substrate_origins[active_slide][ref][1] + 5)
-        g.abs_move(**{ref:(automator.substrate_origins[active_slide][ref][2]+ 1)})
-        g.direct_write = False
+    #g.direct_write = True
+    ##g.set_cal_file(r'C:\Users\Lewis Group\Desktop\Calibration\CAL_output.cal') 
+    #g.direct_write = False
+    #if move_to_ref is True:
+    #    g.direct_write = True
+    #    g.abs_move(x=automator.substrate_origins[active_slide][ref][0], y=automator.substrate_origins[active_slide][ref][1] + 5)
+    #    g.abs_move(**{ref:(automator.substrate_origins[active_slide][ref][2]+ 1)})
+    #    g.direct_write = False
         
 def profile_line(spacing,dist,speed):        
     automator.setup()    
@@ -105,12 +105,12 @@ def profile_mech_specimen(spacing,speed):
 
 
 ################### Full Setup Run
-reference_nozzle = 'A' 
+reference_nozzle = 'C' 
 active_slide = 'slide1'
 #active_slide = 'slide2'
 #active_slide = 'slide3'
 
-#setup(active_slide, ref = reference_nozzle, move_to_ref = True)
+setup(active_slide, ref = reference_nozzle, move_to_ref = True)
 ##
 
 
@@ -120,21 +120,21 @@ active_slide = 'slide1'
 
 
 
-################Rezero some nozzles but use the rest of the old info ###
+#################Rezero some nozzles but use the rest of the old info ###
 ##
-automator.setup()
-automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
-automator.rezero_nozzles(['A','C'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
-#######
+#automator.setup()
+#automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
+#automator.rezero_nozzles(['A','C'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
+#########
 #######
 ############ COMMANDS TO MOVE REF NOZZLE TO SUBSTRATE ORIGIN (0,5)
 ##########
-#
 #automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
+#
 #g.direct_write = True
 #g.feed(20)
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1] + 5)
-#g.abs_move(**{'A':(automator.substrate_origins[active_slide]['A'][2]+ 2)})
+#g.abs_move(x=automator.substrate_origins[active_slide]['C'][0], y=automator.substrate_origins[active_slide]['C'][1] + 5)
+#g.abs_move(**{'C':(automator.substrate_origins[active_slide]['C'][2]+ 2)})
 #g.dirct_write = False
 
 #####Reset zeros ############
