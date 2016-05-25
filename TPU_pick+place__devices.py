@@ -152,26 +152,39 @@ LED_STOCK_POSITIONS_SIDE = [
 
 #### all LED_WYSS_POSITIONS are relative to a (0,0) in the bottom left corner of the design, NOT relative to 0,0 of the slide
 LED_WYSS_POSITIONS_W = (
-(0,11.7),(1.0,9.36),(2.0,7.02),(3.0,4.68),(4.0,2.34),(5.0,0.00),
-(6.0,2.34),(7.0,4.68),(8.0,7.02),(9.0,9.36),(10.0,11.7),
-(11.0,9.36),(12.0,7.02),(13.0,4.68),(14.0,2.34),(15.0,0.00),
-(16.0,2.34),(17.0,4.68),(18.0,7.02),(19.0,9.36),(20.0,11.7),
+(0,11.7),(0.8,9.36),(1.6,7.02),(2.4,4.68),(3.2,2.34),(4.0,0.00),
+(4.8,2.34),(5.6,4.68),(6.4,7.02),(7.2,9.36),(8.0,11.7),
+(8.8,9.36),(9.6,7.02),(10.4,4.68),(11.2,2.34),(12.0,0.00),
+(12.8,2.34),(13.6,4.68),(14.4,7.02),(15.2,9.36),(16.0,11.7),
 )
                             
 LED_WYSS_POSITIONS_Y = (
-(15.4+7,11.7),(16.6+7+0.2,9.36),(17.8+7+0.2,7.02),(19+7+0.2,4.68),(19+7+0.2,2.34),(19+7+0.2,0.00),
-(20.2+7+0.2,7.02),(21.4+7+0.2,9.36),(22.6+7+0.2,11.7),
+(15.4+4,11.7),(16.6+4+0.2,9.36),(17.8+4+0.2,7.02),(19+4+0.2,4.68),(19+4+0.2,2.34),(19+4+0.2,0.00),
+(20.2+4+0.2,7.02),(21.4+4+0.2,9.36),(22.6+4+0.2,11.7),
 )
 
 LED_WYSS_POSITIONS_S_1 = (
-(30.72+7,10.53),(27.72+7,11.7),(25.22+7,10.53),(24.22+7,8.5025),(25.22+7,6.475),(27.22+7,5.85),
-(29.47+7,5.125),(30.72+7,2.925),(29.47+7,1.17),(27.22+7,0.00),(24.22+7,1.17),
+(30.72+5.5,10.53),(27.72+5.5,11.7),(25.22+5.5,10.53),(24.22+5.5,8.5025),(25.22+5.5,6.475),(27.22+5.5,5.85),
+(29.47+5.5,5.125),(30.72+5.5,2.925),(29.47+5.5,1.17),(27.22+5.5,0.00),(24.22+5.5,1.17),
 )
 
 LED_WYSS_POSITIONS_S_2 = (
-(30.72+8.5+7,10.53),(27.72+8.5+7,11.7),(25.22+8.5+7,10.53),(24.22+8.5+7,8.5025),(25.22+8.5+7,6.475),(27.22+8.5+7,5.85),
-(29.47+8.5+7,5.125),(30.72+8.5+7,2.925),(29.47+8.5+7,1.17),(27.22+8.5+7,0.00),(24.22+8.5+7,1.17),
+(30.72+8.5+6.5,10.53),(27.72+8.5+6.5,11.7),(25.22+8.5+6.5,10.53),(24.22+8.5+6.5,8.5025),(25.22+8.5+6.5,6.475),(27.22+8.5+6.5,5.85),
+(29.47+8.5+6.5,5.125),(30.72+8.5+6.5,2.925),(29.47+8.5+6.5,1.17),(27.22+8.5+6.5,0.00),(24.22+8.5+6.5,1.17),
 )
+
+
+
+
+LED_GRID_POSITIONS = [
+[0.0,0.0],[0.0,2.41],[0.0,4.82],[0.0,7.23],[0.0,9.64],
+[2.41,0.0],[2.41,2.41],[2.41,4.82],[2.41,7.23],[2.41,9.64],
+[4.82,0.0],[4.82,2.41],[4.82,4.82],[4.82,7.23],[4.82,9.64],
+[7.23,0.0],[7.23,2.41],[7.23,4.82],[7.23,7.23],[7.23,9.64],
+[9.64,0.0],[9.64,2.41],[9.64,4.82],[9.64,7.23],[9.64,9.64],
+]
+
+
 
 ############### END OF VARIABLE AND PARAMTER DEFINITIONS ###############
 
@@ -1659,416 +1672,221 @@ def pickandplace_WYSS(valve,nozzle,speed,dwell):
         g.set_valve(num = valve, value = 1)
 
 
-    x_zero = 7.58          ####position (relative to 0,0 of slide) of bottom left corner of design
-    y_zero = 15.4
+    x_zero = 7.58+5+2          ####position (relative to 0,0 of slide) of bottom left corner of design
+    y_zero = 15.4+3
 
 
     g.abs_move(x=x_zero,y=y_zero)  
     g.set_home(x=0,y=0)
-    g.rect(x=46.22,y=11.7,start='LL')
-
+    #g.abs_move(**{nozzle:1})
+    #g.rect(x=44.47,y=11.7,start='LL')
+    #g.abs_move(**{nozzle:15})
 
     for i in range(len(LED_STOCK_POSITIONS_TOP)):
-        LED_STOCK_POSITIONS_TOP[i][0]=LED_STOCK_POSITIONS_TOP[i][0]-x_zero
-        LED_STOCK_POSITIONS_TOP[i][1]=LED_STOCK_POSITIONS_TOP[i][1]-y_zero
+        LED_STOCK_POSITIONS_TOP[i][0]=LED_STOCK_POSITIONS_TOP[i][0]-x_zero+0.063
+        LED_STOCK_POSITIONS_TOP[i][1]=LED_STOCK_POSITIONS_TOP[i][1]-y_zero+.15-0.07
     
     for i in range(len(LED_STOCK_POSITIONS_SIDE)):
-        LED_STOCK_POSITIONS_SIDE[i][0]=LED_STOCK_POSITIONS_SIDE[i][0]-x_zero
-        LED_STOCK_POSITIONS_SIDE[i][1]=LED_STOCK_POSITIONS_SIDE[i][1]-y_zero
+        LED_STOCK_POSITIONS_SIDE[i][0]=LED_STOCK_POSITIONS_SIDE[i][0]-x_zero+0.05
+        LED_STOCK_POSITIONS_SIDE[i][1]=LED_STOCK_POSITIONS_SIDE[i][1]-y_zero-0.05
 
     ###z=2.169
 
 
-    ### W ###
-#    
+    ## W ###
+    
     for i in range(len(LED_WYSS_POSITIONS_W)):
-         g.feed(20)
-         g.abs_move(x=LED_STOCK_POSITIONS_SIDE[i][0],y=LED_STOCK_POSITIONS_SIDE[i][1])
-         g.feed(10) 
-         g.abs_move(**{nozzle:1.92+1})
+    #for i in [20]:
+         g.feed(25)
+         g.abs_move(x=LED_STOCK_POSITIONS_TOP[i][0],y=LED_STOCK_POSITIONS_TOP[i][1])
+         g.feed(25) 
+         g.abs_move(**{nozzle:1.95+1})
          g.feed(0.4)
-         g.abs_move(**{nozzle:1.92})
+         g.abs_move(**{nozzle:1.95})
          g.toggle_pressure(pressure_box)
          g.dwell(dwell)
          g.feed(1)
          g.move(**{nozzle:5})
          g.feed(20)
          g.abs_move(x=LED_WYSS_POSITIONS_W[i][0],y=LED_WYSS_POSITIONS_W[i][1])
-         g.feed(10)
-         g.move(x=-0.3)
-         g.arc(x=0.6,y=0,direction='CW')
-         g.arc(x=-0.6,y=0,direction='CW')
-         g.move(x=0.3)
-         g.abs_move(**{nozzle:0.53+1})
+         g.feed(25)
+         #g.move(x=-0.3)
+         #g.arc(x=0.6,y=0,direction='CW')
+         #g.arc(x=-0.6,y=0,direction='CW')
+         #g.move(x=0.3)
+         g.abs_move(**{nozzle:0.54+1})
          g.feed(0.4) 
-         g.abs_move(**{nozzle:0.53})
+         g.abs_move(**{nozzle:0.54})
          g.toggle_pressure(pressure_box)
          g.dwell(dwell)
          g.feed(1)
          g.abs_move(**{nozzle:3})
-         g.feed(10)
+         g.feed(25)
          g.abs_move(**{nozzle:6})
     
     for i in range(len(LED_WYSS_POSITIONS_Y)):
+    #for i in [2, 3, 4, 5, 6, 7, 8]:
         
-         g.feed(20)
-         g.abs_move(x=LED_STOCK_POSITIONS_SIDE[i+21][0],y=LED_STOCK_POSITIONS_SIDE[i+21][1])
-         g.feed(10) 
-         g.abs_move(**{nozzle:1.92+1})
+         g.feed(25)
+         g.abs_move(x=LED_STOCK_POSITIONS_TOP[i+21][0],y=LED_STOCK_POSITIONS_TOP[i+21][1])
+         g.feed(20) 
+         g.abs_move(**{nozzle:1.95+1})
          g.feed(0.4)
-         g.abs_move(**{nozzle:1.92})
+         g.abs_move(**{nozzle:1.95})
          g.toggle_pressure(pressure_box)
          g.dwell(dwell)
          g.feed(1)
          g.move(**{nozzle:5})
-         g.feed(20)
+         g.feed(25)
          g.abs_move(x=LED_WYSS_POSITIONS_Y[i][0],y=LED_WYSS_POSITIONS_Y[i][1])
-         g.feed(10)
-         g.move(x=-0.3)
-         g.arc(x=0.6,y=0,direction='CW')
-         g.arc(x=-0.6,y=0,direction='CW')
-         g.move(x=0.3)
-         g.abs_move(**{nozzle:0.53+1})
+         g.feed(20)
+         #g.move(x=-0.3)
+         #g.arc(x=0.6,y=0,direction='CW')
+         #g.arc(x=-0.6,y=0,direction='CW')
+         #g.move(x=0.3)
+         g.abs_move(**{nozzle:0.54+1})
          g.feed(0.4) 
-         g.abs_move(**{nozzle:0.53})
+         g.abs_move(**{nozzle:0.54})
          g.toggle_pressure(pressure_box)
          g.dwell(dwell)
          g.feed(1)
          g.abs_move(**{nozzle:3})
-         g.feed(10)
+         g.feed(25)
          g.abs_move(**{nozzle:6})
-        
+    #    
 
     for i in range(len(LED_WYSS_POSITIONS_S_1)):
-         g.feed(20)
-         g.abs_move(x=LED_STOCK_POSITIONS_TOP[i][0],y=LED_STOCK_POSITIONS_TOP[i][1])
-         g.feed(10) 
-         g.abs_move(**{nozzle:1.98+1})
+         g.feed(25)
+         g.abs_move(x=LED_STOCK_POSITIONS_SIDE[i][0],y=LED_STOCK_POSITIONS_SIDE[i][1])
+         g.feed(20) 
+         g.abs_move(**{nozzle:1.916+1})
          g.feed(0.4)
-         g.abs_move(**{nozzle:1.98})
+         g.abs_move(**{nozzle:1.916})
          g.toggle_pressure(pressure_box)
          g.dwell(dwell)
          g.feed(1)
          g.move(**{nozzle:5})
-         g.feed(20)
+         g.feed(25)
          g.abs_move(x=LED_WYSS_POSITIONS_S_1[i][0],y=LED_WYSS_POSITIONS_S_1[i][1])
-         g.feed(10)
-         g.move(x=-0.3)
-         g.arc(x=0.6,y=0,direction='CW')
-         g.arc(x=-0.6,y=0,direction='CW')
-         g.move(x=0.3)
-         g.abs_move(**{nozzle:0.53+1})
+         g.feed(20)
+         #g.move(x=-0.3)
+         #g.arc(x=0.6,y=0,direction='CW')
+         #g.arc(x=-0.6,y=0,direction='CW')
+         #g.move(x=0.3)
+         g.abs_move(**{nozzle:0.54+1})
          g.feed(0.4) 
-         g.abs_move(**{nozzle:0.53})
+         g.abs_move(**{nozzle:0.54})
          g.toggle_pressure(pressure_box)
          g.dwell(dwell)
          g.feed(1)
          g.abs_move(**{nozzle:3})
-         g.feed(10)
+         g.feed(20)
          g.abs_move(**{nozzle:6})
 
     for i in range(len(LED_WYSS_POSITIONS_S_2)):
-         g.feed(20)
-         g.abs_move(x=LED_STOCK_POSITIONS_TOP[i+11][0],y=LED_STOCK_POSITIONS_TOP[i+11][1])
-         g.feed(10) 
-         g.abs_move(**{nozzle:1.98+1})
+         g.feed(25)
+         g.abs_move(x=LED_STOCK_POSITIONS_SIDE[i+11][0],y=LED_STOCK_POSITIONS_SIDE[i+11][1])
+         g.feed(20) 
+         g.abs_move(**{nozzle:1.916+1})
          g.feed(0.4)
-         g.abs_move(**{nozzle:1.98})
+         g.abs_move(**{nozzle:1.916})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.move(**{nozzle:5})
+         g.feed(25)
+         g.abs_move(x=LED_WYSS_POSITIONS_S_2[i][0],y=LED_WYSS_POSITIONS_S_2[i][1])
+         g.feed(20)
+         #g.move(x=-0.3)
+         #g.arc(x=0.6,y=0,direction='CW')
+         #g.arc(x=-0.6,y=0,direction='CW')
+         #g.move(x=0.3)
+         g.abs_move(**{nozzle:0.54+1})
+         g.feed(0.4) 
+         g.abs_move(**{nozzle:0.54})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.abs_move(**{nozzle:3})
+         g.feed(20)
+         g.abs_move(**{nozzle:6})
+
+def pickandplace_GRID(valve,nozzle,speed,dwell):
+    g.feed(25) 
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+
+    x_zero = 7.58+5+2          ####position (relative to 0,0 of slide) of bottom left corner of design
+    y_zero = 15.4+3
+
+
+    g.abs_move(x=x_zero,y=y_zero)  
+    g.set_home(x=0,y=0)
+    #g.abs_move(**{nozzle:1})
+    #g.rect(x=44.47,y=11.7,start='LL')
+    #g.abs_move(**{nozzle:15})
+
+    for i in range(len(LED_STOCK_POSITIONS_TOP)):
+        LED_STOCK_POSITIONS_TOP[i][0]=LED_STOCK_POSITIONS_TOP[i][0]-x_zero+0.063
+        LED_STOCK_POSITIONS_TOP[i][1]=LED_STOCK_POSITIONS_TOP[i][1]-y_zero+.15-0.07
+    
+    for i in range(len(LED_STOCK_POSITIONS_SIDE)):
+        LED_STOCK_POSITIONS_SIDE[i][0]=LED_STOCK_POSITIONS_SIDE[i][0]-x_zero+0.05
+        LED_STOCK_POSITIONS_SIDE[i][1]=LED_STOCK_POSITIONS_SIDE[i][1]-y_zero-0.05
+
+    ###z=2.169
+
+#    x_offset = 8.5
+#    y_offset = 0.523
+#
+#
+#    for i in [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]:
+#        LED_GRID_POSITIONS[i][0]=LED_GRID_POSITIONS[i][0]+x_offset
+#        LED_GRID_POSITIONS[i][1]=LED_GRID_POSITIONS[i][1]+y_offset
+
+
+    x_offset = 30.91
+    y_offset = 0.647
+
+
+    for i in range(len(LED_GRID_POSITIONS)):
+        LED_GRID_POSITIONS[i][0]=LED_GRID_POSITIONS[i][0]+x_offset
+        LED_GRID_POSITIONS[i][1]=LED_GRID_POSITIONS[i][1]+y_offset
+
+
+#x interval 2.41
+
+    ## W ###
+    
+    #for i in [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]:
+    for i in range(len(LED_GRID_POSITIONS)):
+         g.feed(25)
+         g.abs_move(x=LED_STOCK_POSITIONS_TOP[i][0],y=LED_STOCK_POSITIONS_TOP[i][1])
+         g.feed(25) 
+         g.abs_move(**{nozzle:1.95+1})
+         g.feed(0.4)
+         g.abs_move(**{nozzle:1.95})
          g.toggle_pressure(pressure_box)
          g.dwell(dwell)
          g.feed(1)
          g.move(**{nozzle:5})
          g.feed(20)
-         g.abs_move(x=LED_WYSS_POSITIONS_S_2[i][0],y=LED_WYSS_POSITIONS_S_2[i][1])
-         g.feed(10)
-         g.move(x=-0.3)
-         g.arc(x=0.6,y=0,direction='CW')
-         g.arc(x=-0.6,y=0,direction='CW')
-         g.move(x=0.3)
-         g.abs_move(**{nozzle:0.53+1})
+         g.abs_move(x=LED_GRID_POSITIONS[i][0],y=LED_GRID_POSITIONS[i][1])
+         g.feed(25)
+         #g.move(x=-0.3)
+         #g.arc(x=0.6,y=0,direction='CW')
+         #g.arc(x=-0.6,y=0,direction='CW')
+         #g.move(x=0.3)
+         g.abs_move(**{nozzle:0.61+1})
          g.feed(0.4) 
-         g.abs_move(**{nozzle:0.53})
+         g.abs_move(**{nozzle:0.61})
          g.toggle_pressure(pressure_box)
          g.dwell(dwell)
          g.feed(1)
          g.abs_move(**{nozzle:3})
-         g.feed(10)
+         g.feed(25)
          g.abs_move(**{nozzle:6})
-
-#    ##LED 1
-#    g.abs_move(x = 18.9, y = 64.365)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[0][0][0], y = LED_HARVARD_POSITIONS[0][0][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.7})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-##
-#    ##LED 2
-#    g.abs_move(x = 18.90, y = 64.365-3)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[0][1][0], y = LED_HARVARD_POSITIONS[0][1][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.65})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-#
-#    #LED 3
-#    g.abs_move(x = 18.90, y = 64.365-3-3)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[0][2][0], y = LED_HARVARD_POSITIONS[0][2][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.65})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-#
-#    
-#    ##LED 4
-#    g.abs_move(x = 18.90+3, y = 64.365)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[0][3][0], y = LED_HARVARD_POSITIONS[0][3][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.65})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-#    
-#
-#    
-##elif wire == 'second':
-#    
-#    ##LED 5
-#    g.abs_move(x = 18.90+3+3+3, y = 64.365-3-3)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[1][0][0], y = LED_HARVARD_POSITIONS[1][0][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.65})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-#
-#    ##LED 6
-#    g.abs_move(x = 18.90-3-3, y = 64.365-3-3)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[1][1][0], y = LED_HARVARD_POSITIONS[1][1][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.65})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-#
-#    
-#    ##LED 7
-#    g.abs_move(x = 18.90-3, y = 64.365-3-3)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[1][2][0], y = LED_HARVARD_POSITIONS[1][2][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.65})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-#    
-#    ##LED 8
-#    g.abs_move(x = 18.90+3, y = 64.365-3)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[1][3][0], y = LED_HARVARD_POSITIONS[1][3][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.65})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-##
-#
-##else:
-#    
-#    ##LED 9
-#    g.abs_move(x = 18.90+3, y = 64.365-3-3)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[2][0][0], y = LED_HARVARD_POSITIONS[2][0][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.65})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-#
-#    ##LED 10
-#    g.abs_move(x = 18.90+3+3, y = 64.365)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[2][1][0], y = LED_HARVARD_POSITIONS[2][1][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.65})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-#
-#    
-#    ##LED 11
-#    g.abs_move(x = 18.90+3+3, y = 64.365-3)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[2][2][0], y = LED_HARVARD_POSITIONS[2][2][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.65})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-#    
-#    ##LED 12
-#    g.abs_move(x = 18.90+3, y = 64.365-3-3)
-#    g.feed(10) 
-#    g.abs_move(**{nozzle:2.4+1})
-#    g.feed(0.08)
-#    g.abs_move(**{nozzle:2.4})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.move(**{nozzle:5})
-#    g.feed(10)
-#    g.abs_move(x = LED_HARVARD_POSITIONS[2][3][0], y = LED_HARVARD_POSITIONS[2][3][1]) 
-#    g.abs_move(**{nozzle:0.7+1})
-#    g.feed(0.08) 
-#    g.abs_move(**{nozzle:0.65})
-#    #g.toggle_pressure(pressure_box)
-#    g.dwell(dwell)
-#    g.feed(1)
-#    g.abs_move(**{nozzle:3})
-#    g.feed(10)
-#    g.abs_move(**{nozzle:9})
-
+    
 def pdms_pillars(valve,nozzle,height,speed,dwell,pressure,layers):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
@@ -3118,8 +2936,8 @@ if valve is not None:
 g.set_vac(pressure_box,18)
 g.dwell(2)
 g.toggle_pressure(pressure_box)
-pickandplace_WYSS(valve='3',nozzle='C',speed=10,dwell=4)
-#pickandplace_magnets(valve='3',nozzle='z',speed=10,dwell=10)
+#pickandplace_WYSS(valve='3',nozzle='C',speed=10,dwell=4)
+pickandplace_GRID(valve='3',nozzle='C',speed=10,dwell=4)
 g.set_vac(pressure_box,0)
 #
 

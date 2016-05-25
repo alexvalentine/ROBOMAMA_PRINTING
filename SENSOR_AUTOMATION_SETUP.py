@@ -9,8 +9,8 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\cell_print
 #List of axes used for printing - comment out the axes not being used
 AXES_USED = [
             'A',
-             'B',
-            'C' 
+             #'B',
+            #'C' 
          #   'D'
             ]
 
@@ -124,7 +124,7 @@ active_slide = 'slide1'
 ##
 automator.setup()
 automator.load_state(r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt")
-automator.rezero_nozzles(['A','C'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
+automator.rezero_nozzles(['C'], alignment_path=r"C:\Users\Lewis Group\Desktop\Calibration\alignment_data.txt", cal_file=True)
 #######
 #######
 ############ COMMANDS TO MOVE REF NOZZLE TO SUBSTRATE ORIGIN (0,5)
