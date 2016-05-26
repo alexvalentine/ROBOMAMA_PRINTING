@@ -164,13 +164,13 @@ LED_WYSS_POSITIONS_Y = (
 )
 
 LED_WYSS_POSITIONS_S_1 = (
-(30.72+5.5,10.53),(27.72+5.5,11.7),(25.22+5.5,10.53),(24.22+5.5,8.5025),(25.22+5.5,6.475),(27.22+5.5,5.85),
-(29.47+5.5,5.125),(30.72+5.5,2.925),(29.47+5.5,1.17),(27.22+5.5,0.00),(24.22+5.5,1.17),
+(30.72+5.,10.53),(27.72+5.5,11.7),(25.22+5.5,10.53),(24.22+5.75,8.5025),(25.22+5.5,6.475+0.2),(27.72+5.5,5.85),
+(29.47+5.5,5.125-.2),(30.72+5.,2.925),(29.47+5.5,1.17),(27.22+5.5,0.00),(24.22+6.0,1.17),
 )
 
 LED_WYSS_POSITIONS_S_2 = (
-(30.72+8.5+6.5,10.53),(27.72+8.5+6.5,11.7),(25.22+8.5+6.5,10.53),(24.22+8.5+6.5,8.5025),(25.22+8.5+6.5,6.475),(27.22+8.5+6.5,5.85),
-(29.47+8.5+6.5,5.125),(30.72+8.5+6.5,2.925),(29.47+8.5+6.5,1.17),(27.22+8.5+6.5,0.00),(24.22+8.5+6.5,1.17),
+(30.72+8.+6.5,10.53),(27.72+8.5+6.5,11.7),(25.22+8.5+6.5,10.53),(24.22+8.5+6.75,8.5025),(25.22+8.5+6.5,6.475+.2),(27.72+8.5+6.5,5.85),
+(29.47+8.5+6.5,5.125-.2),(30.72+8.5+6.,2.925),(29.47+8.5+6.5,1.17),(27.22+8.5+6.5,0.00),(24.22+8.5+7.0,1.17),
 )
 
 
@@ -1753,8 +1753,9 @@ def pickandplace_WYSS(valve,nozzle,speed,dwell):
          g.abs_move(**{nozzle:3})
          g.feed(25)
          g.abs_move(**{nozzle:6})
-    #    
+        
 
+    #for i in [5]:
     for i in range(len(LED_WYSS_POSITIONS_S_1)):
          g.feed(25)
          g.abs_move(x=LED_STOCK_POSITIONS_SIDE[i][0],y=LED_STOCK_POSITIONS_SIDE[i][1])
@@ -1769,10 +1770,10 @@ def pickandplace_WYSS(valve,nozzle,speed,dwell):
          g.feed(25)
          g.abs_move(x=LED_WYSS_POSITIONS_S_1[i][0],y=LED_WYSS_POSITIONS_S_1[i][1])
          g.feed(20)
-         #g.move(x=-0.3)
-         #g.arc(x=0.6,y=0,direction='CW')
-         #g.arc(x=-0.6,y=0,direction='CW')
-         #g.move(x=0.3)
+         g.move(x=-0.3)
+         g.arc(x=0.6,y=0,direction='CW')
+         g.arc(x=-0.6,y=0,direction='CW')
+         g.move(x=0.3)
          g.abs_move(**{nozzle:0.54+1})
          g.feed(0.4) 
          g.abs_move(**{nozzle:0.54})
@@ -1783,6 +1784,7 @@ def pickandplace_WYSS(valve,nozzle,speed,dwell):
          g.feed(20)
          g.abs_move(**{nozzle:6})
 
+    #for i in [5]:
     for i in range(len(LED_WYSS_POSITIONS_S_2)):
          g.feed(25)
          g.abs_move(x=LED_STOCK_POSITIONS_SIDE[i+11][0],y=LED_STOCK_POSITIONS_SIDE[i+11][1])
@@ -1797,10 +1799,10 @@ def pickandplace_WYSS(valve,nozzle,speed,dwell):
          g.feed(25)
          g.abs_move(x=LED_WYSS_POSITIONS_S_2[i][0],y=LED_WYSS_POSITIONS_S_2[i][1])
          g.feed(20)
-         #g.move(x=-0.3)
-         #g.arc(x=0.6,y=0,direction='CW')
-         #g.arc(x=-0.6,y=0,direction='CW')
-         #g.move(x=0.3)
+         g.move(x=-0.3)
+         g.arc(x=0.6,y=0,direction='CW')
+         g.arc(x=-0.6,y=0,direction='CW')
+         g.move(x=0.3)
          g.abs_move(**{nozzle:0.54+1})
          g.feed(0.4) 
          g.abs_move(**{nozzle:0.54})
@@ -1811,7 +1813,7 @@ def pickandplace_WYSS(valve,nozzle,speed,dwell):
          g.feed(20)
          g.abs_move(**{nozzle:6})
 
-def pickandplace_GRID(valve,nozzle,speed,dwell):
+def pickandplace_GRID_R(valve,nozzle,speed,dwell):
     g.feed(25) 
     if valve is not None:
         g.set_valve(num = valve, value = 1)
@@ -1886,7 +1888,84 @@ def pickandplace_GRID(valve,nozzle,speed,dwell):
          g.abs_move(**{nozzle:3})
          g.feed(25)
          g.abs_move(**{nozzle:6})
+
+def pickandplace_GRID_L(valve,nozzle,speed,dwell):
+    g.feed(25) 
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+
+    x_zero = 7.58+5+2          ####position (relative to 0,0 of slide) of bottom left corner of design
+    y_zero = 15.4+3
+
+
+    g.abs_move(x=x_zero,y=y_zero)  
+    g.set_home(x=0,y=0)
+    #g.abs_move(**{nozzle:1})
+    #g.rect(x=44.47,y=11.7,start='LL')
+    #g.abs_move(**{nozzle:15})
+
+    for i in range(len(LED_STOCK_POSITIONS_TOP)):
+        LED_STOCK_POSITIONS_TOP[i][0]=LED_STOCK_POSITIONS_TOP[i][0]-x_zero+0.063
+        LED_STOCK_POSITIONS_TOP[i][1]=LED_STOCK_POSITIONS_TOP[i][1]-y_zero+.15-0.07
     
+    for i in range(len(LED_STOCK_POSITIONS_SIDE)):
+        LED_STOCK_POSITIONS_SIDE[i][0]=LED_STOCK_POSITIONS_SIDE[i][0]-x_zero+0.05
+        LED_STOCK_POSITIONS_SIDE[i][1]=LED_STOCK_POSITIONS_SIDE[i][1]-y_zero-0.05
+
+    ###z=2.169
+
+    x_offset = 3.328
+    y_offset = -0.858
+
+
+    for i in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]:
+        LED_GRID_POSITIONS[i][0]=LED_GRID_POSITIONS[i][0]+x_offset
+        LED_GRID_POSITIONS[i][1]=LED_GRID_POSITIONS[i][1]+y_offset
+
+
+#    x_offset = 30.91
+#    y_offset = 0.647
+#
+#
+#    for i in range(len(LED_GRID_POSITIONS)):
+#        LED_GRID_POSITIONS[i][0]=LED_GRID_POSITIONS[i][0]+x_offset
+#        LED_GRID_POSITIONS[i][1]=LED_GRID_POSITIONS[i][1]+y_offset
+
+
+#x interval 2.41
+
+    ## W ###
+    
+    #for i in [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]:
+    for i in range(len(LED_GRID_POSITIONS)):
+         g.feed(25)
+         g.abs_move(x=LED_STOCK_POSITIONS_SIDE[i][0],y=LED_STOCK_POSITIONS_SIDE[i][1])
+         g.feed(25) 
+         g.abs_move(**{nozzle:1.95+1})
+         g.feed(0.4)
+         g.abs_move(**{nozzle:1.95})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.move(**{nozzle:5})
+         g.feed(20)
+         g.abs_move(x=LED_GRID_POSITIONS[i][0],y=LED_GRID_POSITIONS[i][1])
+         g.feed(25)
+         #g.move(x=-0.3)
+         #g.arc(x=0.6,y=0,direction='CW')
+         #g.arc(x=-0.6,y=0,direction='CW')
+         #g.move(x=0.3)
+         g.abs_move(**{nozzle:0.61+1})
+         g.feed(0.4) 
+         g.abs_move(**{nozzle:0.61})
+         g.toggle_pressure(pressure_box)
+         g.dwell(dwell)
+         g.feed(1)
+         g.abs_move(**{nozzle:3})
+         g.feed(25)
+         g.abs_move(**{nozzle:6})
+
+
 def pdms_pillars(valve,nozzle,height,speed,dwell,pressure,layers):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
@@ -2936,9 +3015,11 @@ if valve is not None:
 g.set_vac(pressure_box,18)
 g.dwell(2)
 g.toggle_pressure(pressure_box)
-#pickandplace_WYSS(valve='3',nozzle='C',speed=10,dwell=4)
-pickandplace_GRID(valve='3',nozzle='C',speed=10,dwell=4)
+pickandplace_WYSS(valve='3',nozzle='C',speed=10,dwell=4)
+#pickandplace_GRID_L(valve='3',nozzle='C',speed=10,dwell=4)
+#pickandplace_GRID_R(valve='3',nozzle='C',speed=10,dwell=4)
 g.set_vac(pressure_box,0)
+
 #
 
 
