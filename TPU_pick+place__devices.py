@@ -10,7 +10,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\alexs_prin
 AXES_USED = [
             'A',
             #'B',
-            'C', 
+            #'C', 
             #'D'
             ]
 
@@ -273,21 +273,21 @@ def tpu_Harvard_bottom(valve,nozzle,height,speed,dwell,pressure):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
     
-########test line
-    #g.abs_move(x=2,y=1)
-    #g.abs_move(**{nozzle:height})
-    #if valve is not None:
-    #    g.set_valve(num = valve, value = 1)
-    #g.dwell(dwell)
-    #g.feed(speed)
-    #g.move(y=20)
-    #g.set_valve(num = valve, value = 0)
-    #g.feed(20)
-    #g.clip(axis=nozzle, height=6, direction='-x')
-    #g.set_pressure(pressure_box, pressure)
+#######test line
+    g.abs_move(x=2,y=1)
+    g.abs_move(**{nozzle:height})
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.feed(speed)
+    g.move(y=20)
+    g.set_valve(num = valve, value = 0)
+    g.feed(20)
+    g.clip(axis=nozzle, height=6, direction='-x')
+    g.set_pressure(pressure_box, pressure)
     
 ########printing 
-    g.abs_move(4, 1)    
+    g.abs_move(5, 4)    
     g.abs_move(**{nozzle:height}) 
     g.feed(speed)
     if valve is not None:
@@ -299,6 +299,18 @@ def tpu_Harvard_bottom(valve,nozzle,height,speed,dwell,pressure):
     g.feed(20)
     g.clip(axis=nozzle, height=5, direction='-y')
 
+########printing 
+    g.abs_move(40, 4)    
+    g.abs_move(**{nozzle:height}) 
+    g.feed(speed)
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.dwell(dwell)
+    g.meander(x=26,y=42,spacing=0.55,start='LL',orientation='y')
+    #g.rect(x=60,y=10,start='LL')
+    g.set_valve(num = valve, value = 0)
+    g.feed(20)
+    g.clip(axis=nozzle, height=5, direction='-y')
 
 
 
@@ -2513,6 +2525,166 @@ def tpu_layered_serpentine(valve,nozzle,height,speed,dwell,pressure):
     g.set_valve(num = valve, value = 0)
     g.clip(axis=nozzle, height=10, direction='-y')
 
+def TPU_serpentine_encaps_pdms(nozzle,valve,pressure,speed,height):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    g.abs_move(x=15,y=6)
+    g.move(x=2)
+    g.abs_move(C=42.472,**{nozzle:height})  
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.feed(speed)
+    
+    for i in np.arange(13):
+        if i%2==0:
+            direc='CW'
+        else:
+            direc='CCW'
+        g.arc(y=0,x=2.5,radius=-1.7,direction=direc)
+    for i in np.arange(4):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=0.8,x=2.5,radius=-1.7,direction=direc)
+    for i in np.arange(2):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=2.5,x=1.5,radius=-1.7,direction=direc)
+    for i in np.arange(2):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=2.5,x=0.8,radius=-1.7,direction=direc)
+    for i in np.arange(2):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=2.5,x=0,radius=-1.7,direction=direc)
+    for i in np.arange(2):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=2.5,x=-0.8,radius=-1.7,direction=direc)
+    for i in np.arange(2):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=2.5,x=-1.5,radius=-1.7,direction=direc)
+    for i in np.arange(4):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=0.8,x=-2.5,radius=-1.7,direction=direc)
+    for i in np.arange(13):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=0,x=-2.5,radius=-1.7,direction=direc)
+    g.set_valve(num = valve, value = 0)
+    g.clip(axis=nozzle, direction='-y', height=10)
+
+def AgTPU_serpentine_encaps_pdms(nozzle,valve,pressure,speed,height):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    g.abs_move(x=13,y=11+1-5)
+    g.abs_move(C=42.472,**{nozzle:height})  
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.feed(speed)
+    g.meander(x=2,y=2,spacing=0.3,orientation='y',start='UL')
+    g.move(y=-1,**{nozzle:0.27})
+    g.move(x=2)
+    for i in np.arange(13):
+        if i%2==0:
+            direc='CW'
+        else:
+            direc='CCW'
+        g.arc(y=0,x=2.5,radius=-1.7,direction=direc)
+    for i in np.arange(4):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=0.8,x=2.5,radius=-1.7,direction=direc)
+    for i in np.arange(2):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=2.5,x=1.5,radius=-1.7,direction=direc)
+    for i in np.arange(2):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=2.5,x=0.8,radius=-1.7,direction=direc)
+    for i in np.arange(2):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=2.5,x=0,radius=-1.7,direction=direc)
+    for i in np.arange(2):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=2.5,x=-0.8,radius=-1.7,direction=direc)
+    for i in np.arange(2):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=2.5,x=-1.5,radius=-1.7,direction=direc)
+    for i in np.arange(4):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=0.8,x=-2.5,radius=-1.7,direction=direc)
+    for i in np.arange(13):
+        if i%2==0:
+            direc='CCW'
+        else:
+            direc='CW'
+        g.arc(y=0,x=-2.5,radius=-1.7,direction=direc)
+    g.move(x=-2)
+    g.move(y=1,**{nozzle:-0.27})
+    g.meander(x=-2,y=2,spacing=0.3,orientation='y',start='UL')
+    g.set_valve(num = valve, value = 0)
+    g.clip(axis=nozzle, direction='-y', height=10)
+
+def AgTPU_serpentine_encaps_pdms_cover(nozzle,valve,pressure,speed,height):
+    g.feed(25)
+    g.set_pressure(pressure_box, pressure)
+    g.abs_move(x=13,y=11+1)
+    g.abs_move(C=42.472,**{nozzle:height+1.8})  
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.feed(speed*0.3)
+    #g.meander(x=2,y=2,spacing=0.3,orientation='y',start='UL')
+    g.rect(x=2,y=2,start='UL')
+    g.set_valve(num = valve, value = 0)
+    g.clip(axis=nozzle, direction='-y', height=2)
+    g.move(y=31.5)
+    g.abs_move(C=42.472,**{nozzle:height+1.8})  
+    if valve is not None:
+        g.set_valve(num = valve, value = 1)
+    g.feed(speed*0.3)
+    #g.meander(x=-2,y=2,spacing=0.3,orientation='y',start='UL')
+    g.rect(x=2,y=2,start='UL')
+    g.set_valve(num = valve, value = 0)
+    g.clip(axis=nozzle, direction='-y', height=2)
+
 def arduino_gen1(valve,nozzle,height,speed,dwell,pressure,testline):
     g.feed(25)
     g.set_pressure(pressure_box, pressure)
@@ -2809,8 +2981,8 @@ g.write("POSOFFSET CLEAR X Y U A B C D")
 
   
 
-#substrate_dif = 0
-substrate_dif = automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
+substrate_dif = 0
+#substrate_dif = automator.substrate_origins[active_slide][reference_nozzle][2] - z_ref
 #
 
 
@@ -2827,29 +2999,54 @@ if 'D' in AXES_USED:
 
 ###############################------------------ TPU HARVARD LED ARRAY DEVICE-------------------###############################
 
-#
-####------------SOFT TPU BOTTOM
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-#
+
+###------------SOFT TPU BOTTOM
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ab')
 #g.set_home(x=0, y=0)
-#
-##g.abs_move(x=0, y=0)
-##nozzle_change(nozzles = 'ab')
-##g.set_home(x=0, y=0)
-#
-#g.toggle_pressure(pressure_box)
-##tpu_Harvard_bottom(valve='2',nozzle='B',height=0.5,speed=8.4,dwell=0.2,pressure=6)
-#
-#
-##tpu_bottom_LED_strain(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.2,pressure=10)
+
+g.toggle_pressure(pressure_box)
+tpu_Harvard_bottom(valve='1',nozzle='A',height=0.4+.2,speed=8,dwell=0.2,pressure=9)
+g.toggle_pressure(pressure_box)
+
+g.toggle_pressure(pressure_box)
+tpu_Harvard_bottom(valve='1',nozzle='A',height=0.65+.2,speed=8,dwell=0.2,pressure=9)
+g.toggle_pressure(pressure_box)
+
+g.toggle_pressure(pressure_box)
+tpu_Harvard_bottom(valve='1',nozzle='A',height=0.9+.2,speed=8,dwell=0.2,pressure=9)
+g.toggle_pressure(pressure_box)
+
+#tpu_bottom_LED_strain(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.2,pressure=10)
 #TPU_spacing_tests(valve='1',nozzle='A',height=0.4,speed=10.5,dwell=0.2,pressure=6)
 ##TPU_lapshear_tests(valve='1',nozzle='A',height=0.4,speed=10.5,dwell=0.2,pressure=6)
-##
-#g.toggle_pressure(pressure_box)
 
 
+#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.4,speed=11,pressure=6)
+#g.dwell(20)
+#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.4,speed=11,pressure=6)
+#g.dwell(20)
+#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.5,speed=11,pressure=6)
+#g.dwell(20)
+#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.5,speed=11,pressure=6)
+
+#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.2,speed=11,pressure=6)
+#g.dwell(20)
+#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.2,speed=11,pressure=6)
+#g.dwell(20)
+#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.3,speed=11,pressure=6)
+#g.dwell(20)
+#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.4,speed=11,pressure=6)
+
+g.toggle_pressure(pressure_box)
+
+#
 
 ########------------ STIFF TPU LAYER
 #set_home_in_z()
@@ -2868,7 +3065,7 @@ if 'D' in AXES_USED:
 #
 #g.toggle_pressure(pressure_box)
 
-
+#
 ###########------------SOFT AGTPU WIRING
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
@@ -2887,15 +3084,16 @@ if 'D' in AXES_USED:
 #
 ##LED_strain(valve='1',nozzle='A',height=0.08+.72+.12,speed=2,dwell=0.1,pressure=10)
 #
-#AgTPU_strain_speciman(valve='2',nozzle='B',height=0.32+0.12,speed=4,dwell=0.1,pressure=18) #soft
+##AgTPU_strain_speciman(valve='2',nozzle='B',height=0.32+0.12,speed=4,dwell=0.1,pressure=18) #soft
 ##AgTPU_strain_speciman(valve='2',nozzle='B',height=0.185+0.12,speed=4,dwell=0.1,pressure=13) #stiff
 ##AgTPU_lapshear_tests(valve='2',nozzle='B',height=0.08+0.2,speed=2,dwell=0.2,pressure=20)
-#
+#AgTPU_serpentine_encaps_pdms(valve='2',nozzle='B',height=0.1,speed=4,pressure=15)
+##AgTPU_serpentine_encaps_pdms_cover(valve='2',nozzle='B',height=0.1+0.15+0.08,speed=4,pressure=15)
 #g.toggle_pressure(pressure_box)
 ####
-####
-#####
-#
+######
+######
+
 
 
 
@@ -2986,39 +3184,39 @@ if 'D' in AXES_USED:
 ##
 
 
-############------------PICK+PLACE WYSS
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-g.abs_move(x=0, y=0)
-nozzle_change(nozzles = 'ac')
-g.set_home(x=0, y=0)
-
-
-startx=8
-starty=5
+#############------------PICK+PLACE WYSS
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 #
-for i in range(len(LED_HARVARD_POSITIONS)):
-        for j in range(len(LED_HARVARD_POSITIONS[i])):
-            LED_HARVARD_POSITIONS[i][j][0]=LED_HARVARD_POSITIONS[i][j][0]+startx
-            LED_HARVARD_POSITIONS[i][j][1]=LED_HARVARD_POSITIONS[i][j][1]+starty
-
-#g.dwell(60)
-
-valve='3'
-g.set_pressure(pressure_box, 0.2)
-if valve is not None:
-    g.set_valve(num = valve, value = 1)
-g.set_vac(pressure_box,18)
-g.dwell(2)
-g.toggle_pressure(pressure_box)
-pickandplace_WYSS(valve='3',nozzle='C',speed=10,dwell=4)
-#pickandplace_GRID_L(valve='3',nozzle='C',speed=10,dwell=4)
-#pickandplace_GRID_R(valve='3',nozzle='C',speed=10,dwell=4)
-g.set_vac(pressure_box,0)
+#g.set_home(x=0, y=0)
+#
+#g.abs_move(x=0, y=0)
+#nozzle_change(nozzles = 'ac')
+#g.set_home(x=0, y=0)
+#
+#
+#startx=8
+#starty=5
+##
+#for i in range(len(LED_HARVARD_POSITIONS)):
+#        for j in range(len(LED_HARVARD_POSITIONS[i])):
+#            LED_HARVARD_POSITIONS[i][j][0]=LED_HARVARD_POSITIONS[i][j][0]+startx
+#            LED_HARVARD_POSITIONS[i][j][1]=LED_HARVARD_POSITIONS[i][j][1]+starty
+#
+##g.dwell(60)
+#
+#valve='3'
+#g.set_pressure(pressure_box, 0.2)
+#if valve is not None:
+#    g.set_valve(num = valve, value = 1)
+#g.set_vac(pressure_box,18)
+#g.dwell(2)
+#g.toggle_pressure(pressure_box)
+#pickandplace_WYSS(valve='3',nozzle='C',speed=10,dwell=4)
+##pickandplace_GRID_L(valve='3',nozzle='C',speed=10,dwell=4)
+##pickandplace_GRID_R(valve='3',nozzle='C',speed=10,dwell=4)
+#g.set_vac(pressure_box,0)
 
 #
 
