@@ -10,7 +10,7 @@ outfile = r"C:\Users\Lewis Group\Documents\GitHub\aerotech_automation\alexs_prin
 AXES_USED = [
             'A',
             #'B',
-            #'C', 
+            'C', 
             #'D'
             ]
 
@@ -126,7 +126,9 @@ pdms_pillar_lid_locations = (                                  #(0,0) is center 
 )
 ###these coordinats are relative to the starting location of the VCC terminal, which changes print to print
 
-LED_HARVARD_POSITIONS = [[[5,29.6],[5,24.8],[5,20],[5,15.2]],[[5,10],[8.65,20],[11.65,20],[15.5,10.1]],[[15.4,29.6],[15.4,24.8],[15.4,20],[15.4,15.2]],]
+LED_HARVARD_POSITIONS = [
+[5,29.6],[5,24.8],[5,20],[5,15.2],[5,10],[8.65,20],[11.65,20],[15.5,10.1],[15.4,29.6],[15.4,24.8],[15.4,20],[15.4,15.2]
+]
 
 #### stock positions are absolute coordinates relative to 0,0 of the slide, after nozzle switches to 'C'
 #### linear list of LED positions starting at bottom left corner, across the row in (+) x direction, then restart to original x and up one row in (+) y direction, acorss the row again in the (+) direction, etc 
@@ -287,7 +289,7 @@ def tpu_Harvard_bottom(valve,nozzle,height,speed,dwell,pressure):
     g.set_pressure(pressure_box, pressure)
     
 ########printing 
-    g.abs_move(5, 4)    
+    g.abs_move(5, 2)    
     g.abs_move(**{nozzle:height}) 
     g.feed(speed)
     if valve is not None:
@@ -300,7 +302,7 @@ def tpu_Harvard_bottom(valve,nozzle,height,speed,dwell,pressure):
     g.clip(axis=nozzle, height=5, direction='-y')
 
 ########printing 
-    g.abs_move(40, 4)    
+    g.abs_move(40, 2)    
     g.abs_move(**{nozzle:height}) 
     g.feed(speed)
     if valve is not None:
@@ -988,18 +990,18 @@ def LED_Harvard_agtpu(valve,nozzle,height,speed,dwell,pressure,LorR,startx,start
     g.set_pressure(pressure_box, pressure)
     
     #
-    #########test line
-    #g.abs_move(x=1,y=1)
-    #g.abs_move(**{nozzle:height-.4})
-    #if valve is not None:
-    #    g.set_valve(num = valve, value = 1)
-    #g.dwell(dwell)
-    #g.feed(speed)
-    #g.move(y=20)
-    #g.set_valve(num = valve, value = 0)
-    #g.feed(20)
-    #g.clip(axis=nozzle, height=6, direction='-x')
-    
+#    ########test line
+#    g.abs_move(x=1.3,y=1)
+#    g.abs_move(C=-75.49,**{nozzle:height})
+#    if valve is not None:
+#        g.set_valve(num = valve, value = 1)
+#    g.dwell(dwell)
+#    g.feed(speed)
+#    g.move(y=20)
+#    g.set_valve(num = valve, value = 0)
+#    g.feed(20)
+#    g.clip(axis=nozzle, height=6, direction='-x')
+#    
     
     #####first wire
     if LorR == 'L':
@@ -1007,7 +1009,7 @@ def LED_Harvard_agtpu(valve,nozzle,height,speed,dwell,pressure,LorR,startx,start
     else:
         g.abs_move(startx+31, starty) 
 
-    g.abs_move(**{nozzle:height}) 
+    g.abs_move(C=-75.49,**{nozzle:height}) 
     g.feed(speed)
     if valve is not None:
         g.set_valve(num = valve, value = 1)
@@ -1016,40 +1018,56 @@ def LED_Harvard_agtpu(valve,nozzle,height,speed,dwell,pressure,LorR,startx,start
     g.move(x=5)
     g.move(y=-2.7)
     g.set_valve(num = valve, value = 0)
-    g.move(y=-0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(y=-0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(y=-0.9,**{nozzle:-1.4})
+    g.move(y=-0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(y=-3.0)
     g.set_valve(num = valve, value = 0)
-    g.move(y=-0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(y=-0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(y=-0.9,**{nozzle:-1.4})
+    g.move(y=-0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(y=-3.0)
     g.set_valve(num = valve, value = 0)
-    g.move(y=-0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(y=-0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(y=-0.9,**{nozzle:-1.4})
+    g.move(y=-0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(y=-3.0)
     g.set_valve(num = valve, value = 0)
-    g.move(y=-0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(y=-0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(y=-0.9,**{nozzle:-1.4})
+    g.move(y=-0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(y=-0.3)
     g.move(x=0.9)
     g.move(y=8.5)
@@ -1068,7 +1086,7 @@ def LED_Harvard_agtpu(valve,nozzle,height,speed,dwell,pressure,LorR,startx,start
         g.abs_move(startx, starty) 
     else:
         g.abs_move(startx+31, starty)     
-    g.abs_move(**{nozzle:height+0.04}) 
+    g.abs_move(C=-75.49,**{nozzle:height+0.04}) 
     g.feed(speed)
     if valve is not None:
         g.set_valve(num = valve, value = 1)
@@ -1079,46 +1097,62 @@ def LED_Harvard_agtpu(valve,nozzle,height,speed,dwell,pressure,LorR,startx,start
     g.move(x=4)
     g.move(y=6.3)
     g.set_valve(num = valve, value = 0)
-    g.move(y=0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(y=0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(y=0.9,**{nozzle:-1.4})
+    g.move(y=0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(y=0.9)
     g.move(x=1.6)
     g.move(y=8)
     g.move(x=1.35)
     g.set_valve(num = valve, value = 0)
-    g.move(x=0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(x=0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(x=0.9,**{nozzle:-1.4})
+    g.move(x=0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(x=1.2)
     g.set_valve(num = valve, value = 0)
-    g.move(x=0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(x=0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(x=0.9,**{nozzle:-1.4})
+    g.move(x=0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(x=0.95)
     g.move(y=-8.5)
     g.move(x=1.8)
     g.move(y=-0.7)
     g.set_valve(num = valve, value = 0)
-    g.move(y=-0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(y=-0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(y=-0.9,**{nozzle:-1.4})
+    g.move(y=-0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(y=-0.3)
     g.move(x=2)
     g.abs_move(y=9)
@@ -1132,7 +1166,7 @@ def LED_Harvard_agtpu(valve,nozzle,height,speed,dwell,pressure,LorR,startx,start
         g.abs_move(startx, starty) 
     else:
         g.abs_move(startx+31, starty)     
-    g.abs_move(**{nozzle:height+0.05}) 
+    g.abs_move(C=-75.49,**{nozzle:height+0.05}) 
     g.feed(speed)
     if valve is not None:
         g.set_valve(num = valve, value = 1)
@@ -1144,40 +1178,56 @@ def LED_Harvard_agtpu(valve,nozzle,height,speed,dwell,pressure,LorR,startx,start
     g.move(x=9.4)
     g.move(y=-2.7)
     g.set_valve(num = valve, value = 0)
-    g.move(y=-0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(y=-0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(y=-0.9,**{nozzle:-1.4})
+    g.move(y=-0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(y=-3.0)
     g.set_valve(num = valve, value = 0)
-    g.move(y=-0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(y=-0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(y=-0.9,**{nozzle:-1.4})
+    g.move(y=-0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(y=-3.0)
     g.set_valve(num = valve, value = 0)
-    g.move(y=-0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(y=-0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(y=-0.9,**{nozzle:-1.4})
+    g.move(y=-0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(y=-3.0)
     g.set_valve(num = valve, value = 0)
-    g.move(y=-0.9,**{nozzle:1.4})
+    g.feed(speed*2)
+    g.move(y=-0.9,**{nozzle:2.0})
+    g.dwell(0.5)
     g.move(**{nozzle:2})
+    g.dwell(0.5)
     g.move(**{nozzle:-2})
-    g.move(y=-0.9,**{nozzle:-1.4})
+    g.move(y=-0.9,**{nozzle:-2.0})
     if valve is not None:
         g.set_valve(num = valve, value = 1)
     g.dwell(dwell)
+    g.feed(speed)
     g.move(y=-0.5)
     g.move(x=2.1)
     g.abs_move(y=starty)
@@ -1402,281 +1452,114 @@ def pickandplace_HARVARD(valve,nozzle,speed,dwell):
     if valve is not None:
         g.set_valve(num = valve, value = 1)
 
-    #if wire == 'first':
+    x_zero = 9          ####position (relative to 0,0 of slide) of bottom left corner of design
+    y_zero = 6
 
-    ##LED 1
-    g.abs_move(x = 18.9, y = 64.365)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[0][0][0], y = LED_HARVARD_POSITIONS[0][0][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.7})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
-#
-    ##LED 2
-    g.abs_move(x = 18.90, y = 64.365-3)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[0][1][0], y = LED_HARVARD_POSITIONS[0][1][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.65})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
 
-    #LED 3
-    g.abs_move(x = 18.90, y = 64.365-3-3)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[0][2][0], y = LED_HARVARD_POSITIONS[0][2][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.65})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
+    g.abs_move(x=x_zero,y=y_zero)  
+    g.set_home(x=0,y=0)
+    #g.abs_move(**{nozzle:1})
+    #g.rect(x=44.47,y=11.7,start='LL')
+    #g.abs_move(**{nozzle:15})
 
+    for i in range(len(LED_STOCK_POSITIONS_TOP)):
+        LED_STOCK_POSITIONS_TOP[i][0]=LED_STOCK_POSITIONS_TOP[i][0]-x_zero+0.063+0.7
+        LED_STOCK_POSITIONS_TOP[i][1]=LED_STOCK_POSITIONS_TOP[i][1]-y_zero+.15-0.07
     
-    ##LED 4
-    g.abs_move(x = 18.90+3, y = 64.365)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[0][3][0], y = LED_HARVARD_POSITIONS[0][3][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.65})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
-    
+    for i in range(len(LED_STOCK_POSITIONS_SIDE)):
+        LED_STOCK_POSITIONS_SIDE[i][0]=LED_STOCK_POSITIONS_SIDE[i][0]-x_zero+0.05+0.75
+        LED_STOCK_POSITIONS_SIDE[i][1]=LED_STOCK_POSITIONS_SIDE[i][1]-y_zero-0.05-14.9
 
-    
-#elif wire == 'second':
-    
-    ##LED 5
-    g.abs_move(x = 18.90+3+3+3, y = 64.365-3-3)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[1][0][0], y = LED_HARVARD_POSITIONS[1][0][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.65})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
 
-    ##LED 6
-    g.abs_move(x = 18.90-3-3, y = 64.365-3-3)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[1][1][0], y = LED_HARVARD_POSITIONS[1][1][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.65})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
+    ####LED 1-5
+    for i in range(5):
+        
+        g.feed(25)
+        g.abs_move(x=LED_STOCK_POSITIONS_TOP[i][0],y=LED_STOCK_POSITIONS_TOP[i][1])
+        g.feed(25) 
+        g.abs_move(**{nozzle:2.06+1})
+        g.feed(0.4)
+        g.abs_move(**{nozzle:2.06})
+        g.toggle_pressure(pressure_box)
+        g.dwell(dwell)
+        g.feed(1)
+        g.move(**{nozzle:5})
+        g.feed(20)
+        g.abs_move(x = LED_HARVARD_POSITIONS[i][0], y = LED_HARVARD_POSITIONS[i][1]) 
+        g.feed(25)
+        #g.move(x=-0.3)
+        #g.arc(x=0.6,y=0,direction='CW')
+        #g.arc(x=-0.6,y=0,direction='CW')
+        #g.move(x=0.3)
+        g.abs_move(**{nozzle:0.7+1})
+        g.feed(0.4) 
+        g.abs_move(**{nozzle:0.7})
+        g.toggle_pressure(pressure_box)
+        g.dwell(dwell)
+        g.feed(1)
+        g.abs_move(**{nozzle:3})
+        g.feed(25)
+        g.abs_move(**{nozzle:6})
 
+    ####LED 6-7
+    for i in [5,6]:
+        g.feed(25)
+        g.abs_move(x=LED_STOCK_POSITIONS_SIDE[i][0],y=LED_STOCK_POSITIONS_SIDE[i][1])
+        g.feed(25) 
+        g.abs_move(**{nozzle:2.06+1})
+        g.feed(0.4)
+        g.abs_move(**{nozzle:2.06})
+        g.toggle_pressure(pressure_box)
+        g.dwell(dwell)
+        g.feed(1)
+        g.move(**{nozzle:5})
+        g.feed(20)
+        g.abs_move(x = LED_HARVARD_POSITIONS[i][0], y = LED_HARVARD_POSITIONS[i][1]) 
+        g.feed(25)
+        #g.move(x=-0.3)
+        #g.arc(x=0.6,y=0,direction='CW')
+        #g.arc(x=-0.6,y=0,direction='CW')
+        #g.move(x=0.3)
+        g.abs_move(**{nozzle:0.7+1})
+        g.feed(0.4) 
+        g.abs_move(**{nozzle:0.7})
+        g.toggle_pressure(pressure_box)
+        g.dwell(dwell)
+        g.feed(1)
+        g.abs_move(**{nozzle:3})
+        g.feed(25)
+        g.abs_move(**{nozzle:6})
     
-    ##LED 7
-    g.abs_move(x = 18.90-3, y = 64.365-3-3)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[1][2][0], y = LED_HARVARD_POSITIONS[1][2][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.65})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
-    
-    ##LED 8
-    g.abs_move(x = 18.90+3, y = 64.365-3)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[1][3][0], y = LED_HARVARD_POSITIONS[1][3][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.65})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
-#
+    ####LED 8-12
+    for i in [7,8,9,10,11]:
+        
+        g.feed(25)
+        g.abs_move(x=LED_STOCK_POSITIONS_TOP[i-2][0],y=LED_STOCK_POSITIONS_TOP[i-2][1])
+        g.feed(25) 
+        g.abs_move(**{nozzle:2.06+1})
+        g.feed(0.4)
+        g.abs_move(**{nozzle:2.06})
+        g.toggle_pressure(pressure_box)
+        g.dwell(dwell)
+        g.feed(1)
+        g.move(**{nozzle:5})
+        g.feed(20)
+        g.abs_move(x = LED_HARVARD_POSITIONS[i][0], y = LED_HARVARD_POSITIONS[i][1]) 
+        g.feed(25)
+        #g.move(x=-0.3)
+        #g.arc(x=0.6,y=0,direction='CW')
+        #g.arc(x=-0.6,y=0,direction='CW')
+        #g.move(x=0.3)
+        g.abs_move(**{nozzle:0.7+1})
+        g.feed(0.4) 
+        g.abs_move(**{nozzle:0.7})
+        g.toggle_pressure(pressure_box)
+        g.dwell(dwell)
+        g.feed(1)
+        g.abs_move(**{nozzle:3})
+        g.feed(25)
+        g.abs_move(**{nozzle:6})
 
-#else:
-    
-    ##LED 9
-    g.abs_move(x = 18.90+3, y = 64.365-3-3)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[2][0][0], y = LED_HARVARD_POSITIONS[2][0][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.65})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
-
-    ##LED 10
-    g.abs_move(x = 18.90+3+3, y = 64.365)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[2][1][0], y = LED_HARVARD_POSITIONS[2][1][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.65})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
-
-    
-    ##LED 11
-    g.abs_move(x = 18.90+3+3, y = 64.365-3)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[2][2][0], y = LED_HARVARD_POSITIONS[2][2][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.65})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
-    
-    ##LED 12
-    g.abs_move(x = 18.90+3, y = 64.365-3-3)
-    g.feed(10) 
-    g.abs_move(**{nozzle:2.4+1})
-    g.feed(0.08)
-    g.abs_move(**{nozzle:2.4})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.move(**{nozzle:5})
-    g.feed(10)
-    g.abs_move(x = LED_HARVARD_POSITIONS[2][3][0], y = LED_HARVARD_POSITIONS[2][3][1]) 
-    g.abs_move(**{nozzle:0.7+1})
-    g.feed(0.08) 
-    g.abs_move(**{nozzle:0.65})
-    #g.toggle_pressure(pressure_box)
-    g.dwell(dwell)
-    g.feed(1)
-    g.abs_move(**{nozzle:3})
-    g.feed(10)
-    g.abs_move(**{nozzle:9})
 
 def pickandplace_WYSS(valve,nozzle,speed,dwell):
     g.feed(25) 
@@ -3000,53 +2883,53 @@ if 'D' in AXES_USED:
 ###############################------------------ TPU HARVARD LED ARRAY DEVICE-------------------###############################
 
 
-###------------SOFT TPU BOTTOM
-set_home_in_z()
-g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
-
-g.set_home(x=0, y=0)
-
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
-#g.set_home(x=0, y=0)
-
-g.toggle_pressure(pressure_box)
-tpu_Harvard_bottom(valve='1',nozzle='A',height=0.4+.2,speed=8,dwell=0.2,pressure=9)
-g.toggle_pressure(pressure_box)
-
-g.toggle_pressure(pressure_box)
-tpu_Harvard_bottom(valve='1',nozzle='A',height=0.65+.2,speed=8,dwell=0.2,pressure=9)
-g.toggle_pressure(pressure_box)
-
-g.toggle_pressure(pressure_box)
-tpu_Harvard_bottom(valve='1',nozzle='A',height=0.9+.2,speed=8,dwell=0.2,pressure=9)
-g.toggle_pressure(pressure_box)
-
-#tpu_bottom_LED_strain(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.2,pressure=10)
-#TPU_spacing_tests(valve='1',nozzle='A',height=0.4,speed=10.5,dwell=0.2,pressure=6)
-##TPU_lapshear_tests(valve='1',nozzle='A',height=0.4,speed=10.5,dwell=0.2,pressure=6)
-
-
-#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.4,speed=11,pressure=6)
-#g.dwell(20)
-#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.4,speed=11,pressure=6)
-#g.dwell(20)
-#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.5,speed=11,pressure=6)
-#g.dwell(20)
-#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.5,speed=11,pressure=6)
-
-#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.2,speed=11,pressure=6)
-#g.dwell(20)
-#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.2,speed=11,pressure=6)
-#g.dwell(20)
-#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.3,speed=11,pressure=6)
-#g.dwell(20)
-#TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.4,speed=11,pressure=6)
-
-g.toggle_pressure(pressure_box)
-
+####------------SOFT TPU BOTTOM
+#set_home_in_z()
+#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
 #
+#g.set_home(x=0, y=0)
+#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+#
+#g.toggle_pressure(pressure_box)
+#tpu_Harvard_bottom(valve='1',nozzle='A',height=0.4,speed=11,dwell=0.2,pressure=8)
+#g.toggle_pressure(pressure_box)
+#
+##g.toggle_pressure(pressure_box)
+##tpu_Harvard_bottom(valve='1',nozzle='A',height=0.65,speed=11,dwell=0.2,pressure=8)
+##g.toggle_pressure(pressure_box)
+##
+##g.toggle_pressure(pressure_box)
+##tpu_Harvard_bottom(valve='1',nozzle='A',height=0.9,speed=11,dwell=0.2,pressure=8)
+##g.toggle_pressure(pressure_box)
+##
+###tpu_bottom_LED_strain(valve='2',nozzle='B',height=0.5,speed=13,dwell=0.2,pressure=10)
+###TPU_spacing_tests(valve='1',nozzle='A',height=0.4,speed=10.5,dwell=0.2,pressure=6)
+####TPU_lapshear_tests(valve='1',nozzle='A',height=0.4,speed=10.5,dwell=0.2,pressure=6)
+##
+##
+###TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.4,speed=11,pressure=6)
+###g.dwell(20)
+###TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.4,speed=11,pressure=6)
+###g.dwell(20)
+###TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.5,speed=11,pressure=6)
+###g.dwell(20)
+###TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=0.5,speed=11,pressure=6)
+##
+###TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.2,speed=11,pressure=6)
+###g.dwell(20)
+###TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.2,speed=11,pressure=6)
+###g.dwell(20)
+###TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.3,speed=11,pressure=6)
+###g.dwell(20)
+###TPU_serpentine_encaps_pdms(valve='1',nozzle='A',height=1.4,speed=11,pressure=6)
+##
+###g.toggle_pressure(pressure_box)
+#
+##
 
 ########------------ STIFF TPU LAYER
 #set_home_in_z()
@@ -3065,7 +2948,7 @@ g.toggle_pressure(pressure_box)
 #
 #g.toggle_pressure(pressure_box)
 
-#
+
 ###########------------SOFT AGTPU WIRING
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
@@ -3073,30 +2956,35 @@ g.toggle_pressure(pressure_box)
 #
 #g.set_home(x=0, y=0)
 #
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ab')
-#g.set_home(x=0, y=0)
-#
+##g.abs_move(x=0, y=0)
+##nozzle_change(nozzles = 'ab')
+##g.set_home(x=0, y=0)
+##
 #g.toggle_pressure(pressure_box)
-##LED_Harvard_agtpu(valve='3',nozzle='C',height=1.0,speed=4,dwell=0.1,pressure=18,LorR='L',startx=5+3,starty=5)
-##LED_Harvard_agtpu(valve='1',nozzle='A',height=.25+0.12+.08+.08,speed=8,dwell=0.3,pressure=13,LorR='L',startx=5+3,starty=5)
-##connectors_agtpu(valve='1',nozzle='A',height=.25+0.12+.2,speed=8,dwell=4,pressure=13,LorR='L',startx=5+3,starty=5)
+#LED_Harvard_agtpu(valve='1',nozzle='A',height=0.22+.12+0.08,speed=5,dwell=0.3,pressure=20,LorR='L',startx=5+4,starty=2+4)
+#g.toggle_pressure(pressure_box)
+#
+##g.toggle_pressure(pressure_box)
+##LED_Harvard_agtpu(valve='1',nozzle='A',height=0.22+.12+0.08,speed=5,dwell=0.3,pressure=20,LorR='L',startx=40+4,starty=2+4)
+##g.toggle_pressure(pressure_box)
+#
 #
 ##LED_strain(valve='1',nozzle='A',height=0.08+.72+.12,speed=2,dwell=0.1,pressure=10)
+##connectors_agtpu(valve='1',nozzle='A',height=.25+0.12+.2,speed=8,dwell=4,pressure=13,LorR='L',startx=5+3,starty=5)
 #
 ##AgTPU_strain_speciman(valve='2',nozzle='B',height=0.32+0.12,speed=4,dwell=0.1,pressure=18) #soft
 ##AgTPU_strain_speciman(valve='2',nozzle='B',height=0.185+0.12,speed=4,dwell=0.1,pressure=13) #stiff
 ##AgTPU_lapshear_tests(valve='2',nozzle='B',height=0.08+0.2,speed=2,dwell=0.2,pressure=20)
-#AgTPU_serpentine_encaps_pdms(valve='2',nozzle='B',height=0.1,speed=4,pressure=15)
+##AgTPU_serpentine_encaps_pdms(valve='2',nozzle='B',height=0.1,speed=4,pressure=15)
 ##AgTPU_serpentine_encaps_pdms_cover(valve='2',nozzle='B',height=0.1+0.15+0.08,speed=4,pressure=15)
-#g.toggle_pressure(pressure_box)
-####
-######
-######
+##g.toggle_pressure(pressure_box)
+#####
+#######
+#####
 
 
 
-
+#
 ######------------------PRINT ME ARDUINO
 #set_home_in_z()
 #g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
@@ -3150,38 +3038,39 @@ g.toggle_pressure(pressure_box)
 
 
 #
-#############------------PICK+PLACE HARVARD
-#set_home_in_z()
-#g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
-####^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+############------------PICK+PLACE HARVARD
+set_home_in_z()
+g.abs_move(x=automator.substrate_origins[active_slide]['A'][0], y=automator.substrate_origins[active_slide]['A'][1])
+###^^^ ONLY RUN THIS LINE IF THIS IS THE FIRST MATERIAL TO BE PRINTED AFTER PROFILING#####
+
+g.set_home(x=0, y=0)
+
+g.abs_move(x=0, y=0)
+nozzle_change(nozzles = 'ac')
+g.set_home(x=0, y=0)
+
+
+startx=35
+starty=0
 #
-#g.set_home(x=0, y=0)
-#
-#g.abs_move(x=0, y=0)
-#nozzle_change(nozzles = 'ac')
-#g.set_home(x=0, y=0)
-#
-#
-#startx=8
-#starty=5
-##
-#for i in range(len(LED_HARVARD_POSITIONS)):
-#        for j in range(len(LED_HARVARD_POSITIONS[i])):
-#            LED_HARVARD_POSITIONS[i][j][0]=LED_HARVARD_POSITIONS[i][j][0]+startx
-#            LED_HARVARD_POSITIONS[i][j][1]=LED_HARVARD_POSITIONS[i][j][1]+starty
-#
-##g.dwell(60)
-#
-#valve='1'
-#g.set_pressure(pressure_box, 0.1)
-#if valve is not None:
-#    g.set_valve(num = valve, value = 1)
-#g.set_vac(pressure_box,18)
-#g.dwell(2)
-##pickandplace_HARVARD(valve='3',nozzle='C',speed=10,dwell=10)
+for i in range(len(LED_HARVARD_POSITIONS)):
+            LED_HARVARD_POSITIONS[i][0]=LED_HARVARD_POSITIONS[i][0]+startx
+            LED_HARVARD_POSITIONS[i][1]=LED_HARVARD_POSITIONS[i][1]+starty
+
+#g.dwell(60)
+
+g.toggle_pressure(pressure_box)
+valve='1'
+g.set_pressure(pressure_box, 0.1)
+if valve is not None:
+    g.set_valve(num = valve, value = 1)
+g.set_vac(pressure_box,18)
+g.dwell(2)
+pickandplace_HARVARD(valve='3',nozzle='C',speed=10,dwell=10)
 #pickandplace_magnets(valve='3',nozzle='z',speed=10,dwell=10)
-#g.set_vac(pressure_box,0)
-##
+g.set_vac(pressure_box,0)
+g.toggle_pressure(pressure_box)
+
 
 
 #############------------PICK+PLACE WYSS
